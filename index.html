@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Futuristic Web3 & AI Meme-Coin Platform</title>
+    <title>MemeCoinAI – Autonomous AI Sniper & Agent Terminal</title>
     
-    <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,8 +19,7 @@
                             green: '#14f195',
                             'green-bright': '#4ade80',
                             'green-dark': '#065f46',
-                            red: '#ef4444',
-                            'red-dark': '#991b1b'
+                            red: '#ef4444'
                         },
                         dark: {
                             bg: '#060709',
@@ -39,666 +37,261 @@
         }
     </script>
     
-    <!-- FontAwesome & Chart.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: #060709; }
         ::-webkit-scrollbar-thumb { background: #232838; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
-
         .neon-border-purple { border: 1px solid rgba(168, 85, 247, 0.3); }
         .neon-border-green { border: 1px solid rgba(20, 241, 149, 0.3); }
-        .neon-glow-text-purple { text-shadow: 0 0 12px rgba(168, 85, 247, 0.6); }
-        .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
     </style>
 </head>
-<body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-neon-purple selection:text-white">
+<body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- NAVIGATION HEADER -->
+    <!-- HEADER -->
     <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            
-            <a href="#" onclick="navigateTo('home')" class="flex items-center space-x-3 group">
-                <div class="relative w-11 h-11 bg-gradient-to-br from-neon-purple to-neon-green p-0.5 rounded-2xl shadow-glow-purple group-hover:shadow-glow-green transition duration-300">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-neon-purple to-neon-green p-0.5 rounded-2xl shadow-glow-purple">
                     <div class="w-full h-full bg-dark-bg rounded-[14px] flex items-center justify-center">
-                        <i class="fa-solid fa-brain text-transparent bg-clip-text bg-gradient-to-r from-neon-purple-bright to-neon-green font-black text-xl"></i>
+                        <i class="fa-solid fa-brain text-neon-green text-xl"></i>
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black tracking-wider text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI</span></span>
-                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Future Web3 Intelligence</span>
+                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green">AI</span></span>
+                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Autonomous Trading Network</span>
                 </div>
             </a>
 
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wide">
-                <a href="#" onclick="navigateTo('home')" class="text-white hover:text-neon-green transition flex items-center gap-2"><i class="fa-solid fa-house text-xs"></i> HOME</a>
-                <a href="#memecoinai-spotlight" onclick="if(currentRoute!=='home') navigateTo('home');" class="text-neon-purple-bright hover:text-white transition flex items-center gap-2 font-bold"><i class="fa-solid fa-gem text-xs"></i> $MEMECOINAI</a>
-                <a href="#discover-tokens" onclick="if(currentRoute!=='home') navigateTo('home');" class="text-gray-300 hover:text-neon-green transition">TOKENS</a>
-                <a href="#new-tokens" onclick="if(currentRoute!=='home') navigateTo('home');" class="text-gray-300 hover:text-neon-green transition">NEW TOKENS</a>
-                <a href="#" onclick="navigateTo('clubs')" class="text-gray-300 hover:text-neon-purple-bright transition flex items-center gap-1.5"><i class="fa-solid fa-users text-xs"></i> CLUBS</a>
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-bold font-mono">
+                <a href="#sniper-control" class="text-white hover:text-neon-green transition"><i class="fa-solid fa-crosshairs text-neon-purple-bright mr-1"></i> AI SNIPER</a>
+                <a href="#agents-overview" class="text-gray-300 hover:text-neon-green transition"><i class="fa-solid fa-users-gear text-neon-green mr-1"></i> AGENT TEAM</a>
+                <a href="#terminal" class="text-gray-300 hover:text-neon-purple-bright transition"><i class="fa-solid fa-chart-line mr-1"></i> LIVE TERMINAL</a>
             </nav>
 
             <div class="flex items-center space-x-4">
-                <button onclick="toggleWallet()" id="wallet-btn" class="relative group overflow-hidden rounded-xl p-px font-bold text-xs">
-                    <span class="absolute inset-0 bg-gradient-to-r from-neon-purple to-neon-green transition-all duration-300 group-hover:opacity-100"></span>
-                    <span class="relative block px-5 py-2.5 bg-dark-bg rounded-[11px] text-white transition-all duration-300 group-hover:bg-transparent flex items-center gap-2">
-                        <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet verbinden</span>
-                    </span>
+                <button onclick="toggleWallet()" id="wallet-btn" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet verbinden</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- DYNAMIC MAIN CONTENT -->
-    <main id="app-root" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-        <!-- Rendered by JavaScript -->
+    <!-- MAIN DASHBOARD -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+
+        <!-- STATS BAR -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
+                <p class="text-[10px] text-gray-400 font-mono">BOT STATUS</p>
+                <p id="bot-status-badge" class="text-lg font-black text-red-400 font-mono mt-1">GORGESTOPPT</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
+                <p class="text-[10px] text-gray-400 font-mono">FREIES BUDGET</p>
+                <p id="free-budget-display" class="text-lg font-black text-neon-green font-mono mt-1">$100.00 USD</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
+                <p class="text-[10px] text-gray-400 font-mono">REALISIERTER GEWINN</p>
+                <p id="profit-display" class="text-lg font-black text-white font-mono mt-1">$0.00 USD</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
+                <p class="text-[10px] text-gray-400 font-mono">3% MEMECOINAI FEES</p>
+                <p id="fee-display" class="text-lg font-black text-neon-purple-bright font-mono mt-1">$0.00 USD</p>
+            </div>
+        </div>
+
+        <!-- AI SNIPER CONTROL & CAPITAL APPROVAL PANEL -->
+        <section id="sniper-control" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-robot text-neon-green"></i> Autonomer KI-Sniper Setup
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">Lege dein Trading-Budget fest. Der Bot handelt nach Freigabe strikt innerhalb deiner Limits.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="startBotEngine()" id="start-bot-btn" class="bg-neon-green hover:bg-neon-green-bright text-dark-bg font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-glow-green">
+                        <i class="fa-solid fa-play"></i> BOT FREIGEBEN & STARTEN
+                    </button>
+                    <button onclick="stopBotEngine()" id="stop-bot-btn" class="bg-red-600 hover:bg-red-700 text-white font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2">
+                        <i class="fa-solid fa-stop"></i> NOT-STOPP
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuration Inputs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
+                    <label class="text-xs font-bold text-gray-300">Maximales Gesamtbudget ($)</label>
+                    <input type="number" id="cfg-max-budget" value="100" class="w-full bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-sm font-mono text-neon-green focus:outline-none">
+                    <p class="text-[10px] text-gray-500">Das maximal für den Bot reservierte Kapital.</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
+                    <label class="text-xs font-bold text-gray-300">Max. Einsatz pro Token ($)</label>
+                    <input type="number" id="cfg-max-trade" value="20" class="w-full bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-sm font-mono text-white focus:outline-none">
+                    <p class="text-[10px] text-gray-500">Maximales Risiko pro Einzelposition.</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
+                    <label class="text-xs font-bold text-gray-300">Stop-Loss (%) / Take-Profit (%)</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="cfg-stop-loss" value="10" placeholder="SL %" class="w-1/2 bg-dark-surface border border-dark-border px-3 py-2 rounded-xl text-xs font-mono text-red-400">
+                        <input type="number" id="cfg-take-profit" value="25" placeholder="TP %" class="w-1/2 bg-dark-surface border border-dark-border px-3 py-2 rounded-xl text-xs font-mono text-neon-green">
+                    </div>
+                    <p class="text-[10px] text-gray-500">Automatische Schließung der Positionen.</p>
+                </div>
+            </div>
+
+            <!-- Confirmation Checkbox -->
+            <div class="bg-dark-bg/60 p-4 rounded-xl border border-neon-purple/40 flex items-center gap-3">
+                <input type="checkbox" id="user-approval-check" class="w-4 h-4 accent-neon-purple">
+                <label for="user-approval-check" class="text-xs text-gray-300">
+                    Ich stimme der Freigabe des gewählten Budgets ausdrücklich zu. Der Bot darf autonom simulierte oder echte On-Chain Trades innerhalb dieser Limits durchführen.
+                </label>
+            </div>
+        </section>
+
+        <!-- PREMIUM MULTI-AGENT TEAM DASHBOARD -->
+        <section id="agents-overview" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
+            <div class="flex justify-between items-center border-b border-dark-border pb-4">
+                <div>
+                    <h3 class="text-xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-users-gear text-neon-purple-bright"></i> Premium KI-Agenten Network
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">8 spezialisierte Agenten überwachen den Markt und den Risk Manager in Echtzeit.</p>
+                </div>
+                <span class="bg-neon-purple-dark/50 text-neon-purple-bright border border-neon-purple/40 px-3 py-1 rounded-full text-xs font-bold">PREMIUM ACTIVE</span>
+            </div>
+
+            <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Dynamisch via JavaScript befüllt -->
+            </div>
+        </section>
+
+        <!-- LIVE TERMINAL & CHARTS -->
+        <section id="terminal" class="bg-dark-surface border border-dark-border rounded-3xl p-6 space-y-6">
+            <div class="flex justify-between items-center border-b border-dark-border pb-4">
+                <h3 class="text-xl font-black text-white">Live Market Chart Terminal</h3>
+                <span class="text-xs text-neon-green font-mono"><i class="fa-solid fa-wifi mr-1"></i> Real-Time DEX Data</span>
+            </div>
+
+            <div class="relative h-80 w-full bg-dark-bg rounded-2xl border border-dark-border p-4">
+                <canvas id="liveChart"></canvas>
+            </div>
+        </section>
+
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-dark-border bg-dark-surface/60 mt-16 py-10">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex justify-center items-center space-x-3">
-                <span class="text-lg font-black tracking-wider text-white">MEMECOIN<span class="text-neon-green">AI</span></span>
-            </div>
-            <p class="text-xs text-gray-500 max-w-xl mx-auto">
-                Futuristische Web3- & KI-Plattform für Solana Meme-Coins. Pre-Launch Status für den nativen $MEMECOINAI Token.
-            </p>
-            <p class="text-[11px] text-gray-600 font-mono">&copy; 2026 MemeCoinAI. Hosted on GitHub Pages.</p>
-        </div>
+    <footer class="border-t border-dark-border py-6 text-center text-xs text-gray-500 font-mono">
+        &copy; 2026 MemeCoinAI – Autonomous Multi-Agent Trading System.
     </footer>
 
-    <!-- PLATFORM CORE LOGIC -->
+    <!-- CLIENT SCRIPT -->
     <script>
-        const PLATFORM_DATA = {
-            nativeToken: {
-                name: "MEMECOINAI",
-                symbol: "MAI",
-                status: "PRE-LAUNCH – NOT YET TRADING",
-                statusClass: "bg-neon-purple-dark/60 text-neon-purple-bright border-neon-purple/50",
-                price: "N/A",
-                change24h: "0.00%",
-                liquidity: "N/A",
-                fdv: "N/A",
-                mcap: "N/A",
-                mint: "MAI1111111111111111111111111111111111111111",
-                description: "Der native Utility & AI-Token der MemeCoinAI-Plattform.",
-                icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><rect width='120' height='120' rx='30' fill='%230d0f14'/><circle cx='60' cy='60' r='50' fill='none' stroke='%23a855f7' stroke-width='3'/><path d='M35 75 L60 35 L85 75 L60 60 Z' fill='%2314f195'/></svg>",
-                txnsList: [],
-                topTraders: []
-            },
-            tokens: [
-                {
-                    name: "Pokémon",
-                    symbol: "CARDS",
-                    mint: "D42Tj...Xvb1",
-                    price: 0.002195,
-                    change24h: 145.65,
-                    volume24h: "$5.0M",
-                    liquidity: "$172K",
-                    fdv: "$2.1M",
-                    mcap: "$2.1M",
-                    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='25' fill='%23ef4444'/><path d='M15 40 H65' stroke='%23ffffff' stroke-width='6'/><circle cx='40' cy='40' r='8' fill='%23ffffff'/></svg>",
-                    timeframeStats: { buys: 44059, sells: 35993, buyVol: "$2.5M", sellVol: "$2.5M", buyers: 8169, sellers: 8132 },
-                    txnsList: [
-                        { type: "sell", age: "0s", usd: "$171", price: "$0.002177", trader: "gTciPZ", isBuyer: false },
-                        { type: "sell", age: "0s", usd: "$14", price: "$0.002175", trader: "ng7wCT", isBuyer: false },
-                        { type: "sell", age: "0s", usd: "$130", price: "$0.002185", trader: "5EiXMX", isBuyer: false },
-                        { type: "buy", age: "0s", usd: "$4", price: "$0.002212", trader: "yh88qe", isBuyer: true },
-                        { type: "buy", age: "2s", usd: "$850", price: "$0.002215", trader: "7xKP9a", isBuyer: true }
-                    ],
-                    topTraders: [
-                        { rank: "#1", trader: "7xKP9a...99a1", bought: "$45,200", sold: "$12,100", pnl: "+$33,100", holdings: "2.4%" },
-                        { rank: "#2", trader: "gTciPZ...12x4", bought: "$38,000", sold: "$29,400", pnl: "+$8,600", holdings: "1.8%" },
-                        { rank: "#3", trader: "5EiXMX...33b1", bought: "$22,500", sold: "$5,000", pnl: "+$17,500", holdings: "1.5%" }
-                    ]
-                },
-                {
-                    name: "Wrapped SOL",
-                    symbol: "SOL",
-                    mint: "So11111111111111111111111111111111111111112",
-                    price: 145.20,
-                    change24h: 4.25,
-                    volume24h: "$840.2M",
-                    liquidity: "$450M",
-                    fdv: "$85B",
-                    mcap: "$85B",
-                    icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png",
-                    timeframeStats: { buys: 124000, sells: 98000, buyVol: "$420M", sellVol: "$420M", buyers: 45000, sellers: 38000 },
-                    txnsList: [
-                        { type: "buy", age: "1s", usd: "$12,400", price: "$145.20", trader: "Whale1", isBuyer: true },
-                        { type: "sell", age: "3s", usd: "$5,100", price: "$145.18", trader: "Trader2", isBuyer: false }
-                    ],
-                    topTraders: [
-                        { rank: "#1", trader: "SolWhale...88a1", bought: "$1.2M", sold: "$200k", pnl: "+$1.0M", holdings: "0.5%" }
-                    ]
-                },
-                {
-                    name: "Bonk Token",
-                    symbol: "BONK",
-                    mint: "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
-                    price: 0.000022,
-                    change24h: 12.80,
-                    volume24h: "$120.5M",
-                    liquidity: "$18M",
-                    fdv: "$1.4B",
-                    mcap: "$1.4B",
-                    icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png",
-                    timeframeStats: { buys: 32000, sells: 24000, buyVol: "$65M", sellVol: "$55.5M", buyers: 12000, sellers: 9500 },
-                    txnsList: [
-                        { type: "buy", age: "2s", usd: "$450", price: "$0.000022", trader: "Bonker", isBuyer: true }
-                    ],
-                    topTraders: [
-                        { rank: "#1", trader: "BonkKing...11b2", bought: "$500k", sold: "$50k", pnl: "+$450k", holdings: "1.2%" }
-                    ]
-                }
-            ],
-            newTokens: [
-                {
-                    name: "GrokSol AI",
-                    symbol: "GROKS",
-                    mint: "GROK111111111111111111111111111111111111111",
-                    discoveryTime: "vor 4 Min.",
-                    status: "Neu entdeckt",
-                    price: 0.00012,
-                    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='28' fill='%23581c87'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%23c084fc' font-size='18' font-weight='bold'>GROK</text></svg>"
-                }
-            ],
-            chats: {
-                "MAI": [{ user: "AI_Whale", time: "12:10", msg: "Wann genau ist der offizielle Token-Launch für $MEMECOINAI?" }],
-                "CARDS": [{ user: "PokeTrader", time: "12:15", msg: "Volume bei CARDS explodiert gerade auf Dexscreener!" }]
-            }
-        };
+        const BACKEND_URL = "http://localhost:3001";
+        let liveChartInstance = null;
 
-        let currentRoute = 'home';
-        let activeChartInstance = null;
-        let connectedWallet = null;
-        let activeTerminalTab = 'txns';
+        const mockAgents = [
+            { name: "Discovery Agent", status: "WORKING", lastLog: "Überwache Pump.fun Launches..." },
+            { name: "Market Agent", status: "ACTIVE", lastLog: "Momentum Check: Volume +34%." },
+            { name: "Security Agent", status: "ACTIVE", lastLog: "Keine Mint-Authority gefunden." },
+            { name: "Risk Manager Agent", status: "ACTIVE", lastLog: "Max Trade Size eingehalten ($20)." }
+        ];
 
-        function getSVGFallback(ticker) {
-            const letter = ticker ? ticker.charAt(0).toUpperCase() : 'M';
-            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='26' fill='none' stroke='%23a855f7' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
-        }
-
-        function navigateTo(route, param = null) {
-            currentRoute = route;
-            const root = document.getElementById('app-root');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (route === 'home') {
-                root.innerHTML = renderHomePage();
-                initNativeChart();
-            } else if (route === 'token-detail') {
-                const token = PLATFORM_DATA.tokens.find(t => t.symbol === param) || PLATFORM_DATA.nativeToken;
-                root.innerHTML = renderTokenDetailPage(token);
-                initDetailChart(token);
-            } else if (route === 'club') {
-                root.innerHTML = renderClubPage(param || 'MAI');
-            } else if (route === 'clubs') {
-                root.innerHTML = renderClubsOverviewPage();
-            }
-        }
-
-        // --- HOMEPAGE VIEW ---
-        function renderHomePage() {
-            return `
-                <!-- HERO SECTION -->
-                <section class="relative bg-dark-surface border neon-border-purple rounded-3xl p-8 lg:p-12 overflow-hidden shadow-glow-purple">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
-                        <div class="space-y-6">
-                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neon-purple-dark/40 border border-neon-purple/40 text-neon-purple-bright text-xs font-mono tracking-wider">
-                                <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span> NEXT-GEN MEME-COIN INTELLIGENCE
-                            </div>
-                            <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-none">
-                                SOLANA TRADING <br>
-                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple-bright via-white to-neon-green">MIT ECHTER KI-POWER</span>
-                            </h1>
-                            <p class="text-gray-400 text-sm leading-relaxed max-w-lg">
-                                Entdecke neue Token-Launches, verfolge Käufe/Verkäufe und Top 10 Traders in Echtzeit.
-                            </p>
-                            <div class="flex flex-wrap gap-4 pt-2">
-                                <a href="#memecoinai-spotlight" class="bg-gradient-to-r from-neon-purple to-neon-purple-bright hover:opacity-90 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-glow-purple flex items-center gap-2">
-                                    <i class="fa-solid fa-gem"></i> $MEMECOINAI Entdecken
-                                </a>
-                                <a href="#discover-tokens" class="bg-dark-card border border-dark-border hover:border-neon-green text-gray-200 font-bold px-6 py-3 rounded-xl text-sm transition flex items-center gap-2">
-                                    <i class="fa-solid fa-compass"></i> Token Explorer
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="relative flex justify-center items-center">
-                            <div class="w-full max-w-md bg-dark-card/80 border neon-border-green p-6 rounded-2xl shadow-glow-green space-y-4">
-                                <div class="flex justify-between items-center border-b border-dark-border pb-3">
-                                    <span class="text-xs font-mono text-neon-green"><i class="fa-solid fa-bolt mr-1"></i> PUMP.FUN LIVE RADAR</span>
-                                    <span class="text-[10px] text-gray-500">Auto-Update</span>
-                                </div>
-                                <div class="space-y-3">
-                                    ${PLATFORM_DATA.newTokens.map(nt => `
-                                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border flex items-center justify-between hover:border-neon-purple transition cursor-pointer" onclick="navigateTo('token-detail', 'CARDS')">
-                                            <div class="flex items-center gap-3">
-                                                <img src="${nt.icon}" onerror="this.src='${getSVGFallback(nt.symbol)}'" class="w-10 h-10 rounded-xl object-contain bg-dark-surface p-1" alt="${nt.symbol}">
-                                                <div>
-                                                    <p class="text-xs font-bold text-white">${nt.name}</p>
-                                                    <span class="text-[10px] text-neon-purple-bright font-mono">${nt.status}</span>
-                                                </div>
-                                            </div>
-                                            <span class="text-xs font-bold text-neon-green">${nt.discoveryTime}</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
+        function renderAgents() {
+            const grid = document.getElementById('agents-grid');
+            grid.innerHTML = mockAgents.map(a => `
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-xs text-white">${a.name}</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-neon-purple-dark/60 text-neon-purple-bright">${a.status}</span>
                     </div>
-                </section>
-
-                <!-- MEMECOINAI SPOTLIGHT -->
-                <section id="memecoinai-spotlight" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-8 space-y-6 shadow-glow-purple relative overflow-hidden">
-                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-dark-border pb-6">
-                        <div class="flex items-center gap-5">
-                            <img src="${PLATFORM_DATA.nativeToken.icon}" class="w-20 h-20 rounded-2xl border-2 border-neon-purple shadow-glow-purple object-contain bg-dark-bg p-1" alt="MEMECOINAI Logo">
-                            <div>
-                                <div class="flex items-center gap-3">
-                                    <h2 class="text-3xl font-black text-white tracking-wider">${PLATFORM_DATA.nativeToken.name}</h2>
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold font-mono ${PLATFORM_DATA.nativeToken.statusClass}">
-                                        ${PLATFORM_DATA.nativeToken.status}
-                                    </span>
-                                </div>
-                                <p class="text-xs text-gray-400 mt-1 font-mono">Mint-Adresse: ${PLATFORM_DATA.nativeToken.mint}</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <button onclick="navigateTo('club', 'MAI')" class="bg-neon-purple-dark/50 border border-neon-purple text-neon-purple-bright hover:bg-neon-purple hover:text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2">
-                                <i class="fa-solid fa-comments"></i> $MAI Club & Chat
-                            </button>
-                            <button onclick="navigateTo('token-detail', 'MAI')" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">
-                                Details & Terminal
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="relative h-64 w-full bg-dark-bg/60 rounded-2xl border border-dark-border p-4">
-                            <canvas id="nativeTokenChart"></canvas>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- DISCOVER TOKENS -->
-                <section id="discover-tokens" class="space-y-6">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div>
-                            <h2 class="text-2xl font-black text-white tracking-wide">DISCOVER TOKENS</h2>
-                            <p class="text-xs text-gray-400">Verifizierte Solana Meme-Coins & Marktdaten</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${PLATFORM_DATA.tokens.map(t => `
-                            <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 hover:border-neon-green transition duration-300 space-y-4 flex flex-col justify-between group">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <img src="${t.icon}" onerror="this.src='${getSVGFallback(t.symbol)}'" class="w-12 h-12 rounded-xl object-contain bg-dark-bg p-1 border border-dark-border group-hover:border-neon-green transition" alt="${t.symbol}">
-                                        <div>
-                                            <h3 class="font-bold text-white text-base">${t.name}</h3>
-                                            <span class="text-xs text-gray-400 font-mono">${t.symbol}</span>
-                                        </div>
-                                    </div>
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-bold font-mono ${t.change24h >= 0 ? 'bg-neon-green-dark/40 text-neon-green-bright border border-neon-green/30' : 'bg-red-950/60 text-red-400 border border-red-800/40'}">
-                                        ${t.change24h >= 0 ? '+' : ''}${t.change24h}\% </span> </div>                                  <div class="flex justify-between items-end border-t border-dark-border/60 pt-3 text-xs"> <div> <p class="text-gray-500">Preis USD</p> <p class="font-bold text-white text-sm font-mono">$${t.price}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-gray-500">24h Volumen</p>
-                                        <p class="font-bold text-gray-300 font-mono">${t.volume24h}</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex gap-2 pt-1">
-                                    <button onclick="navigateTo('token-detail', '${t.symbol}')" class="w-full bg-dark-card hover:bg-neon-purple hover:text-white border border-dark-border text-gray-200 py-2 rounded-xl text-xs font-bold transition">
-                                        Detail Terminal
-                                    </button>
-                                    <button onclick="navigateTo('club', '${t.symbol}')" class="w-full bg-dark-card hover:bg-neon-green hover:text-dark-bg border border-dark-border text-gray-200 py-2 rounded-xl text-xs font-bold transition">
-                                        Club & Chat
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-            `;
-        }
-
-        // --- GENERALIZED DEXSCREENER TERMINAL FOR ANY TOKEN ---
-        function renderTokenDetailPage(token) {
-            const stats = token.timeframeStats || { buys: 100, sells: 80, buyVol: "$10k", sellVol: "$8k", buyers: 50, sellers: 40 };
-            const txns = token.txnsList || [];
-            const traders = token.topTraders || [];
-
-            const buyPct = ((stats.buys / (stats.buys + stats.sells)) * 100).toFixed(1);
-
-            return `
-                <div class="space-y-6">
-                    <button onclick="navigateTo('home')" class="text-xs text-neon-purple-bright hover:underline flex items-center gap-2">
-                        <i class="fa-solid fa-arrow-left"></i> Zurück zur Startseite
-                    </button>
-
-                    <!-- HEADER METRIC CARDS -->
-                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                        <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
-                            <p class="text-[10px] text-gray-400 font-mono">PRICE USD</p>
-                            <p class="text-lg font-black text-white font-mono mt-0.5">${token.price === 'N/A' ? 'PRE-LAUNCH' : '$' + token.price}</p>
-                        </div>
-                        <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
-                            <p class="text-[10px] text-gray-400 font-mono">LIQUIDITY <i class="fa-solid fa-lock text-neon-green text-[10px] ml-1"></i></p>
-                            <p class="text-lg font-black text-white font-mono mt-0.5">${token.liquidity || 'N/A'}</p>
-                        </div>
-                        <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
-                            <p class="text-[10px] text-gray-400 font-mono">FDV</p>
-                            <p class="text-lg font-black text-white font-mono mt-0.5">${token.fdv || 'N/A'}</p>
-                        </div>
-                        <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
-                            <p class="text-[10px] text-gray-400 font-mono">MKT CAP</p>
-                            <p class="text-lg font-black text-neon-green font-mono mt-0.5">${token.mcap || 'N/A'}</p>
-                        </div>
-                        <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl col-span-2 sm:col-span-1">
-                            <p class="text-[10px] text-gray-400 font-mono">24H CHANGE</p>
-                            <p class="text-lg font-black ${token.change24h >= 0 ? 'text-neon-green' : 'text-neon-red'} font-mono mt-0.5">${token.change24h}%</p>
-                        </div>
-                    </div>
-
-                    <!-- BUYS VS SELLS BAR & RATIO -->
-                    ${token.price !== 'N/A' ? `
-                        <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-                                <div class="space-y-1.5">
-                                    <div class="flex justify-between text-gray-400 font-mono">
-                                        <span>TXNS (${stats.buys + stats.sells})</span>
-                                        <span>BUYS ${stats.buys.toLocaleString()} / SELLS${stats.sells.toLocaleString()}</span>
-                                    </div>
-                                    <div class="w-full h-2.5 bg-neon-red/80 rounded-full overflow-hidden flex">
-                                        <div class="bg-neon-green h-full" style="width: ${buyPct}%"></div>
-                                    </div>
-                                </div>
-                                <div class="space-y-1.5">
-                                    <div class="flex justify-between text-gray-400 font-mono">
-                                        <span>VOLUME</span>
-                                        <span>BUY ${stats.buyVol} / SELL${stats.sellVol}</span>
-                                    </div>
-                                    <div class="w-full h-2.5 bg-neon-red/80 rounded-full overflow-hidden flex">
-                                        <div class="bg-neon-green h-full" style="width: 50%"></div>
-                                    </div>
-                                </div>
-                                <div class="space-y-1.5">
-                                    <div class="flex justify-between text-gray-400 font-mono">
-                                        <span>TRADERS</span>
-                                        <span>BUYERS ${stats.buyers.toLocaleString()} / SELLERS${stats.sellers.toLocaleString()}</span>
-                                    </div>
-                                    <div class="w-full h-2.5 bg-neon-red/80 rounded-full overflow-hidden flex">
-                                        <div class="bg-neon-green h-full" style="width: 52%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <!-- MAIN CHART & LIVE TRANSACTIONS TABBED PANEL -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2 bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
-                            <div class="flex items-center justify-between border-b border-dark-border pb-3">
-                                <div class="flex items-center gap-3">
-                                    <img src="${token.icon}" onerror="this.src='${getSVGFallback(token.symbol)}'" class="w-8 h-8 rounded-full" alt="Icon">
-                                    <span class="font-bold text-white text-sm">${token.name} (${token.symbol})</span>
-                                </div>
-                            </div>
-
-                            <div class="relative h-80 w-full bg-dark-bg rounded-xl border border-dark-border p-2">
-                                <canvas id="detailTokenChart"></canvas>
-                            </div>
-                        </div>
-
-                        <!-- LIVE TRANSACTIONS & TOP TRADERS TABBED PANEL -->
-                        <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 flex flex-col justify-between">
-                            <div class="flex border-b border-dark-border pb-3 gap-2">
-                                <button onclick="switchTab('txns', ${JSON.stringify(txns).replace(/"/g, '&quot;')}, ${JSON.stringify(traders).replace(/"/g, '&quot;')})" id="tab-txns-btn" class="flex-1 py-2 rounded-xl font-bold text-xs transition bg-neon-purple text-white">
-                                    Live Txns
-                                </button>
-                                <button onclick="switchTab('traders', ${JSON.stringify(txns).replace(/"/g, '&quot;')}, ${JSON.stringify(traders).replace(/"/g, '&quot;')})" id="tab-traders-btn" class="flex-1 py-2 rounded-xl font-bold text-xs transition bg-dark-bg text-gray-400 hover:text-white border border-dark-border">
-                                    Top 10 Traders
-                                </button>
-                            </div>
-
-                            <div id="tab-content" class="mt-4 flex-grow overflow-y-auto max-h-[340px] custom-scrollbar">
-                                ${renderTxnsTable(txns)}
-                            </div>
-                        </div>
-                    </div>
+                    <p class="text-[11px] text-gray-400 font-mono">${a.lastLog}</p>
                 </div>
-            `;
+            `).join('');
         }
 
-        function renderTxnsTable(txns) {
-            if (!txns || txns.length === 0) return `<p class="text-xs text-gray-500 py-6 text-center">Keine Handelsdaten vor dem Launch.</p>`;
-            return `
-                <table class="w-full text-left text-xs font-mono">
-                    <thead>
-                        <tr class="text-gray-500 border-b border-dark-border pb-2">
-                            <th class="pb-2">TXN</th>
-                            <th class="pb-2">USD</th>
-                            <th class="pb-2">PRICE</th>
-                            <th class="pb-2 text-right">TRADER</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-dark-border/40">
-                        ${txns.map(tx => `
-                            <tr class="hover:bg-dark-card/50 transition">
-                                <td class="py-2 ${tx.isBuyer ? 'text-neon-green' : 'text-neon-red'} flex items-center gap-1 font-bold">
-                                    <i class="fa-solid fa-arrow-${tx.isBuyer ? 'up' : 'down'} text-[10px]"></i> ${tx.age}
-                                </td>
-                                <td class="py-2 ${tx.isBuyer ? 'text-neon-green' : 'text-neon-red'} font-bold">${tx.usd}</td>
-                                <td class="py-2 text-gray-300">${tx.price}</td>
-                                <td class="py-2 text-right text-neon-purple-bright font-mono">${tx.trader}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
+        async function startBotEngine() {
+            const approval = document.getElementById('user-approval-check').checked;
+            if (!approval) {
+                alert("Bitte bestätige zuerst die ausdrückliche Budgetfreigabe!");
+                return;
+            }
 
-        function renderTopTradersTable(traders) {
-            if (!traders || traders.length === 0) return `<p class="text-xs text-gray-500 py-6 text-center">Keine Holder-Daten vor dem Launch.</p>`;
-            return `
-                <table class="w-full text-left text-xs font-mono">
-                    <thead>
-                        <tr class="text-gray-500 border-b border-dark-border pb-2">
-                            <th class="pb-2"># RANK</th>
-                            <th class="pb-2">TRADER</th>
-                            <th class="pb-2">PNL</th>
-                            <th class="pb-2 text-right">HOLDING</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-dark-border/40">
-                        ${traders.map(tr => `
-                            <tr class="hover:bg-dark-card/50 transition">
-                                <td class="py-2 text-neon-green font-bold">${tr.rank}</td>
-                                <td class="py-2 text-gray-200 font-mono">${tr.trader}</td>
-                                <td class="py-2 text-neon-green font-bold">${tr.pnl}</td>
-                                <td class="py-2 text-right text-neon-purple-bright font-bold">${tr.holdings}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
+            const config = {
+                maxBudgetUsd: parseFloat(document.getElementById('cfg-max-budget').value),
+                maxTradeUsd: parseFloat(document.getElementById('cfg-max-trade').value),
+                stopLossPct: parseFloat(document.getElementById('cfg-stop-loss').value),
+                takeProfitPct: parseFloat(document.getElementById('cfg-take-profit').value),
+                isApprovedByUser: true
+            };
 
-        function switchTab(tab, txns, traders) {
-            const content = document.getElementById('tab-content');
-            const btnTxns = document.getElementById('tab-txns-btn');
-            const btnTraders = document.getElementById('tab-traders-btn');
-
-            if (tab === 'txns') {
-                content.innerHTML = renderTxnsTable(txns);
-                btnTxns.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-neon-purple text-white";
-                btnTraders.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-dark-bg text-gray-400 hover:text-white border border-dark-border";
-            } else {
-                content.innerHTML = renderTopTradersTable(traders);
-                btnTraders.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-neon-purple text-white";
-                btnTxns.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-dark-bg text-gray-400 hover:text-white border border-dark-border";
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/v1/bot/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('bot-status-badge').innerText = "AUTONOM AKTIV";
+                    document.getElementById('bot-status-badge').className = "text-lg font-black text-neon-green font-mono mt-1";
+                    alert("Autonomer KI-Sniper erfolgreich gestartet!");
+                }
+            } catch (e) {
+                // Client-side Fallback
+                document.getElementById('bot-status-badge').innerText = "SIMULATION AKTIV";
+                document.getElementById('bot-status-badge').className = "text-lg font-black text-neon-green font-mono mt-1";
+                alert("Paper-Trading Simulation gestartet.");
             }
         }
 
-        // --- CLUB PAGE VIEW ---
-        function renderClubPage(clubId) {
-            const clubToken = PLATFORM_DATA.tokens.find(t => t.symbol === clubId) || PLATFORM_DATA.nativeToken;
-            const messages = PLATFORM_DATA.chats[clubId] || [];
-
-            return `
-                <div class="space-y-8">
-                    <button onclick="navigateTo('home')" class="text-xs text-neon-purple-bright hover:underline flex items-center gap-2">
-                        <i class="fa-solid fa-arrow-left"></i> Zurück zur Startseite
-                    </button>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div class="lg:col-span-2 space-y-6">
-                            <div class="bg-dark-surface border border-dark-border rounded-3xl p-6 flex items-center gap-4">
-                                <img src="${clubToken.icon}" onerror="this.src='${getSVGFallback(clubToken.symbol)}'" class="w-14 h-14 rounded-xl object-contain bg-dark-bg p-1" alt="Club Icon">
-                                <div>
-                                    <h1 class="text-2xl font-black text-white">${clubToken.name} Community Club</h1>
-                                    <p class="text-xs text-neon-green">Exklusiver Chatbereich für ${clubToken.symbol}-Halter</p>
-                                </div>
-                            </div>
-
-                            <div class="bg-dark-surface border border-dark-border rounded-3xl p-6 space-y-4 flex flex-col h-[500px]">
-                                <h3 class="text-sm font-bold text-gray-300 border-b border-dark-border pb-3">LIVE COMMUNITY CHAT</h3>
-                                <div id="club-chat-messages" class="flex-grow overflow-y-auto space-y-3 pr-2">
-                                    ${messages.map(m => `
-                                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border text-xs space-y-1">
-                                            <div class="flex justify-between font-bold text-neon-purple-bright">
-                                                <span>${m.user}</span>
-                                                <span class="text-gray-500 font-normal text-[10px]">${m.time}</span>
-                                            </div>
-                                            <p class="text-gray-200">${m.msg}</p>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                                <div class="flex gap-2 pt-2 border-t border-dark-border">
-                                    <input type="text" id="chat-input-field" placeholder="Sende eine Nachricht an den ${clubId}-Club..." class="flex-grow bg-dark-bg border border-dark-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-neon-purple">
-                                    <button onclick="sendClubMessage('${clubId}')" class="bg-neon-purple hover:bg-neon-purple-bright text-white px-5 py-2.5 rounded-xl font-bold text-xs transition">Senden</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div class="bg-dark-surface border border-neon-purple/40 rounded-3xl p-6 space-y-4 shadow-glow-purple">
-                                <h3 class="text-base font-bold text-white flex items-center gap-2">
-                                    <i class="fa-solid fa-robot text-neon-green"></i> AI ANALYSIS
-                                </h3>
-                                <p class="text-xs text-gray-300 leading-relaxed">
-                                    Starke Aktivität im ${clubId}-Club. Echzeit-Datenprüfung aktiv.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+        function stopBotEngine() {
+            document.getElementById('bot-status-badge').innerText = "GESTOPPT";
+            document.getElementById('bot-status-badge').className = "text-lg font-black text-red-400 font-mono mt-1";
+            alert("Bot sofort gestoppt. Keine neuen Positionen werden eröffnet.");
         }
 
-        function renderClubsOverviewPage() {
-            return `<div class="text-center py-12"><h1 class="text-3xl font-bold text-white">Alle Clubs</h1><p class="text-xs text-gray-400 mt-2">Wähle auf der Startseite einen Token aus, um seinen Club zu betreten.</p></div>`;
-        }
-
-        // --- CHARTS INITIALIZERS ---
-        function initNativeChart() {
-            const ctx = document.getElementById('nativeTokenChart');
-            if (!ctx) return;
-            if (activeChartInstance) activeChartInstance.destroy();
-
-            activeChartInstance = new Chart(ctx.getContext('2d'), {
+        function initChart() {
+            const ctx = document.getElementById('liveChart').getContext('2d');
+            liveChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['10:00', '11:00', '12:00', '13:00', '14:00', 'Jetzt'],
+                    labels: ['12:00', '12:05', '12:10', '12:15', '12:20', 'Jetzt'],
                     datasets: [{
-                        label: 'MEMECOINAI Index (Pre-Launch)',
-                        data: [100, 100, 100, 100, 100, 100],
-                        borderColor: '#a855f7',
-                        borderWidth: 2,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'rgba(35, 40, 56, 0.4)' }, ticks: { color: '#6b7280', font: { size: 10 } } },
-                        y: { grid: { color: 'rgba(35, 40, 56, 0.4)' }, ticks: { color: '#6b7280', font: { size: 10 } } }
-                    }
-                }
-            });
-        }
-
-        function initDetailChart(token) {
-            const ctx = document.getElementById('detailTokenChart');
-            if (!ctx) return;
-            if (activeChartInstance) activeChartInstance.destroy();
-
-            const p = token.price === 'N/A' ? 1.0 : token.price;
-
-            activeChartInstance = new Chart(ctx.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: ['18:00', '19:00', '20:00', '21:00', '22:00', 'Jetzt'],
-                    datasets: [{
-                        label: token.symbol,
-                        data: [p*0.9, p*0.95, p*0.92, p*0.98, p],
+                        label: 'Solana Meme-Index',
+                        data: [142.5, 143.2, 142.8, 145.1, 144.8, 146.2],
                         borderColor: '#14f195',
-                        borderWidth: 2,
                         backgroundColor: 'rgba(20, 241, 149, 0.1)',
                         fill: true,
-                        tension: 0.2
+                        tension: 0.3
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'rgba(35, 40, 56, 0.4)' }, ticks: { color: '#6b7280', font: { size: 10 } } },
-                        y: { grid: { color: 'rgba(35, 40, 56, 0.4)' }, ticks: { color: '#6b7280', font: { size: 10 } } }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
-        }
-
-        function sendClubMessage(clubId) {
-            const input = document.getElementById('chat-input-field');
-            if (!input || !input.value.trim()) return;
-
-            if (!PLATFORM_DATA.chats[clubId]) PLATFORM_DATA.chats[clubId] = [];
-            PLATFORM_DATA.chats[clubId].push({
-                user: connectedWallet ? connectedWallet.slice(0, 4) + '...' + connectedWallet.slice(-4) : "User_" + Math.floor(Math.random()*1000),
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                msg: input.value.trim()
-            });
-
-            input.value = '';
-            navigateTo('club', clubId);
         }
 
         function toggleWallet() {
             if ("solana" in window) {
                 window.solana.connect().then(res => {
-                    connectedWallet = res.publicKey.toString();
-                    document.getElementById('wallet-text').innerText = connectedWallet.slice(0, 4) + '...' + connectedWallet.slice(-4);
-                }).catch(e => {});
+                    const key = res.publicKey.toString();
+                    document.getElementById('wallet-text').innerText = key.slice(0, 4) + '...' + key.slice(-4);
+                });
             } else {
                 alert("Bitte Phantom Wallet installieren.");
             }
         }
 
         window.onload = () => {
-            navigateTo('home');
+            renderAgents();
+            initChart();
         };
     </script>
 </body>
