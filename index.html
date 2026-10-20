@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Autonomous AI Sniper & Agent Terminal</title>
+    <title>MemeCoinAI – Solana Trading, Pump.fun Live Charts & AI Sniper</title>
     
+    <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -19,6 +20,7 @@
                             green: '#14f195',
                             'green-bright': '#4ade80',
                             'green-dark': '#065f46',
+                            pink: '#ec4899',
                             red: '#ef4444'
                         },
                         dark: {
@@ -30,7 +32,8 @@
                     },
                     boxShadow: {
                         'glow-purple': '0 0 25px -5px rgba(168, 85, 247, 0.4)',
-                        'glow-green': '0 0 25px -5px rgba(20, 241, 149, 0.4)'
+                        'glow-green': '0 0 25px -5px rgba(20, 241, 149, 0.4)',
+                        'glow-pink': '0 0 25px -5px rgba(236, 72, 153, 0.4)'
                     }
                 }
             }
@@ -47,11 +50,13 @@
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
         .neon-border-purple { border: 1px solid rgba(168, 85, 247, 0.3); }
         .neon-border-green { border: 1px solid rgba(20, 241, 149, 0.3); }
+        .neon-border-pink { border: 1px solid rgba(236, 72, 153, 0.3); }
+        .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
     </style>
 </head>
-<body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-neon-purple selection:text-white">
 
-    <!-- HEADER -->
+    <!-- HEADER NAVIGATION -->
     <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center space-x-3">
@@ -61,15 +66,17 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green">AI</span></span>
-                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Autonomous Trading Network</span>
+                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI</span></span>
+                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Trading &amp; Pump.fun Terminal</span>
                 </div>
             </a>
 
-            <nav class="hidden md:flex items-center space-x-6 text-xs font-bold font-mono">
+            <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold font-mono">
+                <a href="#pump-fun-live" class="text-neon-pink hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-fire text-xs"></i> PUMP.FUN LIVE</a>
+                <a href="#memecoinai-spotlight" class="text-neon-purple-bright hover:text-white transition"><i class="fa-solid fa-gem mr-1"></i> $MEMECOINAI</a>
                 <a href="#sniper-control" class="text-white hover:text-neon-green transition"><i class="fa-solid fa-crosshairs text-neon-purple-bright mr-1"></i> AI SNIPER</a>
-                <a href="#agents-overview" class="text-gray-300 hover:text-neon-green transition"><i class="fa-solid fa-users-gear text-neon-green mr-1"></i> AGENT TEAM</a>
-                <a href="#terminal" class="text-gray-300 hover:text-neon-purple-bright transition"><i class="fa-solid fa-chart-line mr-1"></i> LIVE TERMINAL</a>
+                <a href="#terminal" class="text-gray-300 hover:text-neon-green transition"><i class="fa-solid fa-chart-line mr-1"></i> DEX TERMINAL</a>
+                <a href="#discover-tokens" class="text-gray-300 hover:text-neon-purple-bright transition">TOKENS</a>
             </nav>
 
             <div class="flex items-center space-x-4">
@@ -80,45 +87,179 @@
         </div>
     </header>
 
-    <!-- MAIN DASHBOARD -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
 
-        <!-- STATS BAR -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-400 font-mono">BOT STATUS</p>
-                <p id="bot-status-badge" class="text-lg font-black text-red-400 font-mono mt-1">GORGESTOPPT</p>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-400 font-mono">FREIES BUDGET</p>
-                <p id="free-budget-display" class="text-lg font-black text-neon-green font-mono mt-1">$100.00 USD</p>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-400 font-mono">REALISIERTER GEWINN</p>
-                <p id="profit-display" class="text-lg font-black text-white font-mono mt-1">$0.00 USD</p>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-400 font-mono">3% MEMECOINAI FEES</p>
-                <p id="fee-display" class="text-lg font-black text-neon-purple-bright font-mono mt-1">$0.00 USD</p>
-            </div>
-        </div>
+        <!-- 1. HERO SECTION -->
+        <section class="relative bg-dark-surface border neon-border-purple rounded-3xl p-8 lg:p-12 overflow-hidden shadow-glow-purple">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neon-purple-dark/40 border border-neon-purple/40 text-neon-purple-bright text-xs font-mono tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span> PUMP.FUN &amp; SOLANA LIVE RADAR
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-none">
+                        PUMP.FUN CHARTS <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-neon-purple-bright to-neon-green">&amp; AUTONOMER KI-SNIPER</span>
+                    </h1>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-lg">
+                        Verfolge Bonding-Curves in Sub-Sekunden-Takt. Erhalte Warnungen bei Raydium-Graduations und automatisiere deine Trades mit voller Budget-Kontrolle.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#pump-fun-live" class="bg-gradient-to-r from-neon-pink to-neon-purple hover:opacity-90 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-glow-pink flex items-center gap-2">
+                            <i class="fa-solid fa-fire"></i> Pump.fun Live Charts
+                        </a>
+                        <a href="#sniper-control" class="bg-dark-card border border-dark-border hover:border-neon-green text-gray-200 font-bold px-6 py-3 rounded-xl text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-robot"></i> KI-Sniper Setup
+                        </a>
+                    </div>
+                </div>
 
-        <!-- AI SNIPER CONTROL & CAPITAL APPROVAL PANEL -->
+                <!-- Pump.fun Live Stream Preview Card -->
+                <div class="bg-dark-card/80 border neon-border-pink p-6 rounded-2xl shadow-glow-pink space-y-4">
+                    <div class="flex justify-between items-center border-b border-dark-border pb-3">
+                        <span class="text-xs font-mono text-neon-pink flex items-center gap-1.5">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-pink opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-neon-pink"></span>
+                            </span>
+                            PUMP.FUN REAL-TIME FEED
+                        </span>
+                        <span class="text-[10px] text-gray-400 font-mono">Bonding-Curve Stream</span>
+                    </div>
+                    <div id="pump-radar-list" class="space-y-3">
+                        <!-- Dynamisch gefüllt -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PUMP.FUN DEDICATED LIVE CHARTS & BONDING CURVE SECTION -->
+        <section id="pump-fun-live" class="bg-dark-surface border-2 border-neon-pink rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-pink">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-neon-pink/20 text-neon-pink border border-neon-pink/30 text-[10px] font-bold font-mono">PUMP.FUN PROTOCOL</span>
+                        <h2 class="text-2xl font-black text-white">Pump.fun Live Chart &amp; Bonding-Curve Monitor</h2>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Echtzeit-Analyse neuer Token vor und nach dem Raydium-Market-Graduation-Zeitpunkt.</p>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-mono">
+                    <span class="text-gray-400">Aktiver Stream:</span>
+                    <span class="text-neon-green font-bold flex items-center gap-1"><i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Pump.fun WebSocket</span>
+                </div>
+            </div>
+
+            <!-- Pump.fun Active Token Details Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left: Pump.fun Chart & Bonding Progress -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-neon-pink/20 border border-neon-pink text-neon-pink flex items-center justify-center font-bold text-base">
+                                PEPE
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-base">PepeAI Agent (PEPEAI)</h3>
+                                <p class="text-xs text-gray-400 font-mono">Mint: PEPE111111111111111111111111111111111111111</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400">Market Cap / Progress</p>
+                            <p class="text-lg font-black text-neon-green font-mono">$38,420 / 64.2%</p>
+                        </div>
+                    </div>
+
+                    <!-- Bonding Curve Progress Bar -->
+                    <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-gray-300">Bonding Curve Fortschritt bis Raydium Migration</span>
+                            <span class="text-neon-pink font-bold">64.2% ($44,291 / $69,000)</span>
+                        </div>
+                        <div class="w-full h-3 bg-dark-surface rounded-full overflow-hidden p-0.5 border border-dark-border">
+                            <div class="bg-gradient-to-r from-neon-purple via-neon-pink to-neon-green h-full rounded-full transition-all duration-500" style="width: 64.2%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Live Pump.fun Chart Canvas -->
+                    <div class="relative h-72 w-full bg-dark-bg rounded-2xl border border-dark-border p-3">
+                        <canvas id="pumpFunChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right: Pump.fun Recent Launches Feed -->
+                <div class="bg-dark-bg p-5 rounded-2xl border border-dark-border flex flex-col justify-between space-y-4">
+                    <h4 class="text-sm font-bold text-white border-b border-dark-border pb-3 flex items-center justify-between">
+                        <span>Neue Pump.fun Tokens</span>
+                        <span class="text-[10px] text-neon-pink font-mono">Live Stream</span>
+                    </h4>
+
+                    <div id="pump-tokens-feed" class="space-y-3 overflow-y-auto max-h-[320px] custom-scrollbar">
+                        <!-- Dynamisch geladen -->
+                    </div>
+
+                    <button onclick="alert('Token wird im Sniper Geladen...')" class="w-full bg-neon-pink hover:opacity-90 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-glow-pink">
+                        Ausgewählten Token Snipe-Bereit Machen
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MEMECOINAI SPOTLIGHT -->
+        <section id="memecoinai-spotlight" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-8 space-y-6 shadow-glow-purple relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-dark-border pb-6">
+                <div class="flex items-center gap-5">
+                    <div class="w-20 h-20 rounded-2xl border-2 border-neon-purple shadow-glow-purple bg-dark-bg flex items-center justify-center">
+                        <i class="fa-solid fa-brain text-neon-purple-bright text-3xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-3xl font-black text-white tracking-wider">MEMECOINAI</h2>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold font-mono bg-neon-purple-dark/60 text-neon-purple-bright border border-neon-purple/50">
+                                PRE-LAUNCH – NOT YET TRADING
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1 font-mono">Mint-Adresse: MAI1111111111111111111111111111111111111111</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400">Der native Token der Plattform. Echte Kursdaten werden unmittelbar nach dem offiziellen Handelsstart eingebunden.</p>
+        </section>
+
+        <!-- 4. AUTONOMER KI-SNIPER SETUP & BUDGET CONTROL -->
         <section id="sniper-control" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
                 <div>
                     <h2 class="text-2xl font-black text-white flex items-center gap-2">
                         <i class="fa-solid fa-robot text-neon-green"></i> Autonomer KI-Sniper Setup
                     </h2>
-                    <p class="text-xs text-gray-400 mt-1">Lege dein Trading-Budget fest. Der Bot handelt nach Freigabe strikt innerhalb deiner Limits.</p>
+                    <p class="text-xs text-gray-400 mt-1">Bestimme dein Trading-Budget. Der Bot handelt nach deiner Freigabe autonom innerhalb dieser Grenzen.</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="startBotEngine()" id="start-bot-btn" class="bg-neon-green hover:bg-neon-green-bright text-dark-bg font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-glow-green">
-                        <i class="fa-solid fa-play"></i> BOT FREIGEBEN & STARTEN
+                    <button onclick="startBotEngine()" class="bg-neon-green hover:bg-neon-green-bright text-dark-bg font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-glow-green">
+                        <i class="fa-solid fa-play"></i> BOT FREIGEBEN &amp; STARTEN
                     </button>
-                    <button onclick="stopBotEngine()" id="stop-bot-btn" class="bg-red-600 hover:bg-red-700 text-white font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2">
+                    <button onclick="stopBotEngine()" class="bg-red-600 hover:bg-red-700 text-white font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2">
                         <i class="fa-solid fa-stop"></i> NOT-STOPP
                     </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <p class="text-[10px] text-gray-400 font-mono">BOT STATUS</p>
+                    <p id="bot-status-badge" class="text-lg font-black text-red-400 font-mono mt-1">GESTOPPT</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <p class="text-[10px] text-gray-400 font-mono">FREIES BUDGET</p>
+                    <p id="free-budget-display" class="text-lg font-black text-neon-green font-mono mt-1">$100.00 USD</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <p class="text-[10px] text-gray-400 font-mono">REALISIERTER GEWINN</p>
+                    <p id="profit-display" class="text-lg font-black text-white font-mono mt-1">$0.00 USD</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <p class="text-[10px] text-gray-400 font-mono">3% PLATFORM FEE</p>
+                    <p id="fee-display" class="text-lg font-black text-neon-purple-bright font-mono mt-1">$0.00 USD</p>
                 </div>
             </div>
 
@@ -127,12 +268,10 @@
                 <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
                     <label class="text-xs font-bold text-gray-300">Maximales Gesamtbudget ($)</label>
                     <input type="number" id="cfg-max-budget" value="100" class="w-full bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-sm font-mono text-neon-green focus:outline-none">
-                    <p class="text-[10px] text-gray-500">Das maximal für den Bot reservierte Kapital.</p>
                 </div>
                 <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
                     <label class="text-xs font-bold text-gray-300">Max. Einsatz pro Token ($)</label>
                     <input type="number" id="cfg-max-trade" value="20" class="w-full bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-sm font-mono text-white focus:outline-none">
-                    <p class="text-[10px] text-gray-500">Maximales Risiko pro Einzelposition.</p>
                 </div>
                 <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
                     <label class="text-xs font-bold text-gray-300">Stop-Loss (%) / Take-Profit (%)</label>
@@ -140,142 +279,251 @@
                         <input type="number" id="cfg-stop-loss" value="10" placeholder="SL %" class="w-1/2 bg-dark-surface border border-dark-border px-3 py-2 rounded-xl text-xs font-mono text-red-400">
                         <input type="number" id="cfg-take-profit" value="25" placeholder="TP %" class="w-1/2 bg-dark-surface border border-dark-border px-3 py-2 rounded-xl text-xs font-mono text-neon-green">
                     </div>
-                    <p class="text-[10px] text-gray-500">Automatische Schließung der Positionen.</p>
                 </div>
             </div>
 
-            <!-- Confirmation Checkbox -->
             <div class="bg-dark-bg/60 p-4 rounded-xl border border-neon-purple/40 flex items-center gap-3">
                 <input type="checkbox" id="user-approval-check" class="w-4 h-4 accent-neon-purple">
                 <label for="user-approval-check" class="text-xs text-gray-300">
-                    Ich stimme der Freigabe des gewählten Budgets ausdrücklich zu. Der Bot darf autonom simulierte oder echte On-Chain Trades innerhalb dieser Limits durchführen.
+                    Ich stimme der Freigabe des Budgets zu. Der Bot handelt autonom innerhalb dieser Grenzen (3% Fee nur auf realisierten Nettogewinn).
                 </label>
             </div>
         </section>
 
-        <!-- PREMIUM MULTI-AGENT TEAM DASHBOARD -->
-        <section id="agents-overview" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
-            <div class="flex justify-between items-center border-b border-dark-border pb-4">
-                <div>
-                    <h3 class="text-xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-users-gear text-neon-purple-bright"></i> Premium KI-Agenten Network
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-1">8 spezialisierte Agenten überwachen den Markt und den Risk Manager in Echtzeit.</p>
-                </div>
-                <span class="bg-neon-purple-dark/50 text-neon-purple-bright border border-neon-purple/40 px-3 py-1 rounded-full text-xs font-bold">PREMIUM ACTIVE</span>
+        <!-- 5. DEXSCREENER TERMINAL & LIVE TRANSACTIONS -->
+        <section id="terminal" class="space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-black text-white">DEX TERMINAL &amp; LIVE TRANSACTIONS</h2>
+                <span class="text-xs text-neon-green font-mono"><i class="fa-solid fa-wifi mr-1"></i> Real-Time Data Feed</span>
             </div>
 
-            <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Dynamisch via JavaScript befüllt -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400 font-mono">PRICE USD</p>
+                    <p class="text-lg font-black text-white font-mono mt-0.5">$0.002195</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400 font-mono">LIQUIDITY <i class="fa-solid fa-lock text-neon-green text-[10px] ml-1"></i></p>
+                    <p class="text-lg font-black text-white font-mono mt-0.5">$172K</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400 font-mono">FDV</p>
+                    <p class="text-lg font-black text-white font-mono mt-0.5">$2.1M</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400 font-mono">MKT CAP</p>
+                    <p class="text-lg font-black text-neon-green font-mono mt-0.5">$2.1M</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl col-span-2 sm:col-span-1">
+                    <p class="text-[10px] text-gray-400 font-mono">24H CHANGE</p>
+                    <p class="text-lg font-black text-neon-green font-mono mt-0.5">+14,565%</p>
+                </div>
+            </div>
+
+            <!-- Buys / Sells Progress Bar -->
+            <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-gray-400 font-mono">
+                            <span>TXNS (80,052)</span>
+                            <span>BUYS 44,059 / SELLS 35,993</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-red-600/80 rounded-full overflow-hidden flex">
+                            <div class="bg-neon-green h-full" style="width: 55%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-gray-400 font-mono">
+                            <span>VOLUME</span>
+                            <span>BUY $2.5M / SELL $2.5M</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-red-600/80 rounded-full overflow-hidden flex">
+                            <div class="bg-neon-green h-full" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-gray-400 font-mono">
+                            <span>TRADERS</span>
+                            <span>BUYERS 8,169 / SELLERS 8,132</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-red-600/80 rounded-full overflow-hidden flex">
+                            <div class="bg-neon-green h-full" style="width: 50.1%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dex Chart & Txns -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-dark-border pb-3">
+                        <span class="font-bold text-white text-sm">Pokémon / CARDS</span>
+                        <div class="flex gap-1.5 text-xs font-mono">
+                            <button class="px-2 py-1 rounded bg-dark-bg text-gray-300">1m</button>
+                            <button class="px-2 py-1 rounded bg-neon-purple text-white font-bold">15m</button>
+                            <button class="px-2 py-1 rounded bg-dark-bg text-gray-300">1h</button>
+                        </div>
+                    </div>
+                    <div class="relative h-80 w-full bg-dark-bg rounded-xl border border-dark-border p-2">
+                        <canvas id="dexChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 flex flex-col justify-between">
+                    <div class="flex border-b border-dark-border pb-3 gap-2">
+                        <button onclick="switchTab('txns')" id="tab-txns-btn" class="flex-1 py-2 rounded-xl font-bold text-xs bg-neon-purple text-white">Live Txns</button>
+                        <button onclick="switchTab('traders')" id="tab-traders-btn" class="flex-1 py-2 rounded-xl font-bold text-xs bg-dark-bg text-gray-400 border border-dark-border">Top 10 Traders</button>
+                    </div>
+                    <div id="tab-content" class="mt-4 flex-grow overflow-y-auto max-h-[340px]">
+                        <!-- Dynamic via JS -->
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- LIVE TERMINAL & CHARTS -->
-        <section id="terminal" class="bg-dark-surface border border-dark-border rounded-3xl p-6 space-y-6">
-            <div class="flex justify-between items-center border-b border-dark-border pb-4">
-                <h3 class="text-xl font-black text-white">Live Market Chart Terminal</h3>
-                <span class="text-xs text-neon-green font-mono"><i class="fa-solid fa-wifi mr-1"></i> Real-Time DEX Data</span>
-            </div>
-
-            <div class="relative h-80 w-full bg-dark-bg rounded-2xl border border-dark-border p-4">
-                <canvas id="liveChart"></canvas>
+        <!-- 6. TOKEN EXPLORER -->
+        <section id="discover-tokens" class="space-y-6">
+            <h2 class="text-2xl font-black text-white">DISCOVER TOKENS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white">Pokémon (CARDS)</h3>
+                        <span class="text-xs font-bold text-neon-green">+14,565%</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-mono">Preis: $0.002195 | Volume: $5.0M</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white">Wrapped SOL</h3>
+                        <span class="text-xs font-bold text-neon-green">+4.25%</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-mono">Preis: $145.20 | Volume: $840M</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white">Bonk Token</h3>
+                        <span class="text-xs font-bold text-neon-green">+12.80%</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-mono">Preis: $0.000022 | Volume: $120M</p>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="border-t border-dark-border py-6 text-center text-xs text-gray-500 font-mono">
-        &copy; 2026 MemeCoinAI – Autonomous Multi-Agent Trading System.
+        &copy; 2026 MemeCoinAI – All-in-One Solana Trading &amp; Pump.fun Live Terminal.
     </footer>
 
-    <!-- CLIENT SCRIPT -->
+    <!-- CLIENT LOGIC & CHARTS -->
     <script>
-        const BACKEND_URL = "http://localhost:3001";
-        let liveChartInstance = null;
-
-        const mockAgents = [
-            { name: "Discovery Agent", status: "WORKING", lastLog: "Überwache Pump.fun Launches..." },
-            { name: "Market Agent", status: "ACTIVE", lastLog: "Momentum Check: Volume +34%." },
-            { name: "Security Agent", status: "ACTIVE", lastLog: "Keine Mint-Authority gefunden." },
-            { name: "Risk Manager Agent", status: "ACTIVE", lastLog: "Max Trade Size eingehalten ($20)." }
+        const pumpFeedData = [
+            { name: "PepeAI Agent", symbol: "PEPEAI", progress: "64.2%", devBuy: "1.2 SOL", mc: "$38.4k", time: "Gerade eben" },
+            { name: "SolGrok", symbol: "GROK", progress: "42.0%", devBuy: "0.8 SOL", mc: "$18.1k", time: "vor 2s" },
+            { name: "PumpCat", symbol: "PCAT", progress: "88.9%", devBuy: "2.5 SOL", mc: "$58.0k", time: "vor 5s" }
         ];
 
-        function renderAgents() {
-            const grid = document.getElementById('agents-grid');
-            grid.innerHTML = mockAgents.map(a => `
-                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-xs text-white">${a.name}</span>
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-neon-purple-dark/60 text-neon-purple-bright">${a.status}</span>
+        function renderPumpFeed() {
+            const container = document.getElementById('pump-tokens-feed');
+            const radarContainer = document.getElementById('pump-radar-list');
+
+            const html = pumpFeedData.map(p => `
+                <div class="bg-dark-surface p-3 rounded-xl border border-dark-border flex items-center justify-between hover:border-neon-pink transition cursor-pointer">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-neon-pink/20 text-neon-pink font-bold flex items-center justify-center text-xs">
+                            ${p.symbol.substring(0, 2)}
+                        </div>
+                        <div>
+                            <p class="font-bold text-white text-xs">${p.name}</p>
+                            <p class="text-[10px] text-gray-400 font-mono">Dev: ${p.devBuy} | MC: ${p.mc}</p>
+                        </div>
                     </div>
-                    <p class="text-[11px] text-gray-400 font-mono">${a.lastLog}</p>
+                    <div class="text-right">
+                        <span class="text-[10px] bg-neon-pink/20 text-neon-pink font-bold px-2 py-0.5 rounded">${p.progress}</span>
+                    </div>
                 </div>
             `).join('');
+
+            if (container) container.innerHTML = html;
+            if (radarContainer) radarContainer.innerHTML = html;
         }
 
-        async function startBotEngine() {
-            const approval = document.getElementById('user-approval-check').checked;
-            if (!approval) {
-                alert("Bitte bestätige zuerst die ausdrückliche Budgetfreigabe!");
+        function initPumpChart() {
+            const ctx = document.getElementById('pumpFunChart');
+            if (!ctx) return;
+            new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['0s', '10s', '20s', '30s', '40s', '50s', 'Jetzt'],
+                    datasets: [{
+                        label: 'Pump.fun Bonding Curve Price',
+                        data: [0.000010, 0.000015, 0.000014, 0.000022, 0.000028, 0.000035, 0.0000384],
+                        borderColor: '#ec4899',
+                        backgroundColor: 'rgba(236, 72, 153, 0.15)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        }
+
+        const txnsData = [
+            { type: "sell", age: "0s", usd: "$171", price: "$0.002177", trader: "gTciPZ", isBuyer: false },
+            { type: "sell", age: "0s", usd: "$14", price: "$0.002175", trader: "ng7wCT", isBuyer: false },
+            { type: "buy", age: "0s", usd: "$4", price: "$0.002212", trader: "yh88qe", isBuyer: true },
+            { type: "buy", age: "2s", usd: "$850", price: "$0.002215", trader: "7xKP9a", isBuyer: true }
+        ];
+
+        const tradersData = [
+            { rank: "#1", trader: "7xKP9a...99a1", pnl: "+$33,100", holdings: "2.4%" },
+            { rank: "#2", trader: "gTciPZ...12x4", pnl: "+$8,600", holdings: "1.8%" }
+        ];
+
+        function switchTab(tab) {
+            const content = document.getElementById('tab-content');
+            const btnTxns = document.getElementById('tab-txns-btn');
+            const btnTraders = document.getElementById('tab-traders-btn');
+
+            if (tab === 'txns') {
+                content.innerHTML = `
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead><tr class="text-gray-500 border-b border-dark-border pb-1"><th class="pb-2">TXN</th><th class="pb-2">USD</th><th class="pb-2">PRICE</th><th class="pb-2 text-right">TRADER</th></tr></thead>
+                        <tbody class="divide-y divide-dark-border/40">
+                            ${txnsData.map(tx => `<tr><td class="py-2 ${tx.isBuyer?'text-neon-green':'text-red-400'} font-bold">${tx.age}</td><td class="py-2 ${tx.isBuyer?'text-neon-green':'text-red-400'}">${tx.usd}</td><td class="py-2 text-gray-300">${tx.price}</td><td class="py-2 text-right text-neon-purple-bright">${tx.trader}</td></tr>`).join('')}
+                        </tbody>
+                    </table>
+                `;
+                btnTxns.className = "flex-1 py-2 rounded-xl font-bold text-xs bg-neon-purple text-white";
+                btnTraders.className = "flex-1 py-2 rounded-xl font-bold text-xs bg-dark-bg text-gray-400 border border-dark-border";
+            } else {
+                content.innerHTML = `
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead><tr class="text-gray-500 border-b border-dark-border pb-1"><th class="pb-2"># RANK</th><th class="pb-2">TRADER</th><th class="pb-2">PNL</th><th class="pb-2 text-right">HOLDING</th></tr></thead>
+                        <tbody class="divide-y divide-dark-border/40">
+                            ${tradersData.map(tr => `<tr><td class="py-2 text-neon-green font-bold">${tr.rank}</td><td class="py-2 text-gray-200">${tr.trader}</td><td class="py-2 text-neon-green font-bold">${tr.pnl}</td><td class="py-2 text-right text-neon-purple-bright">${tr.holdings}</td></tr>`).join('')}
+                        </tbody>
+                    </table>
+                `;
+                btnTraders.className = "flex-1 py-2 rounded-xl font-bold text-xs bg-neon-purple text-white";
+                btnTxns.className = "flex-1 py-2 rounded-xl font-bold text-xs bg-dark-bg text-gray-400 border border-dark-border";
+            }
+        }
+
+        function startBotEngine() {
+            if (!document.getElementById('user-approval-check').checked) {
+                alert("Bitte stimme zuerst der Budgetfreigabe zu.");
                 return;
             }
-
-            const config = {
-                maxBudgetUsd: parseFloat(document.getElementById('cfg-max-budget').value),
-                maxTradeUsd: parseFloat(document.getElementById('cfg-max-trade').value),
-                stopLossPct: parseFloat(document.getElementById('cfg-stop-loss').value),
-                takeProfitPct: parseFloat(document.getElementById('cfg-take-profit').value),
-                isApprovedByUser: true
-            };
-
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/v1/bot/start`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(config)
-                });
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById('bot-status-badge').innerText = "AUTONOM AKTIV";
-                    document.getElementById('bot-status-badge').className = "text-lg font-black text-neon-green font-mono mt-1";
-                    alert("Autonomer KI-Sniper erfolgreich gestartet!");
-                }
-            } catch (e) {
-                // Client-side Fallback
-                document.getElementById('bot-status-badge').innerText = "SIMULATION AKTIV";
-                document.getElementById('bot-status-badge').className = "text-lg font-black text-neon-green font-mono mt-1";
-                alert("Paper-Trading Simulation gestartet.");
-            }
+            document.getElementById('bot-status-badge').innerText = "AUTONOM AKTIV";
+            document.getElementById('bot-status-badge').className = "text-lg font-black text-neon-green font-mono mt-1";
+            alert("Autonomer Bot gestartet.");
         }
 
         function stopBotEngine() {
             document.getElementById('bot-status-badge').innerText = "GESTOPPT";
             document.getElementById('bot-status-badge').className = "text-lg font-black text-red-400 font-mono mt-1";
-            alert("Bot sofort gestoppt. Keine neuen Positionen werden eröffnet.");
-        }
-
-        function initChart() {
-            const ctx = document.getElementById('liveChart').getContext('2d');
-            liveChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['12:00', '12:05', '12:10', '12:15', '12:20', 'Jetzt'],
-                    datasets: [{
-                        label: 'Solana Meme-Index',
-                        data: [142.5, 143.2, 142.8, 145.1, 144.8, 146.2],
-                        borderColor: '#14f195',
-                        backgroundColor: 'rgba(20, 241, 149, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
-            });
+            alert("Bot gestoppt.");
         }
 
         function toggleWallet() {
@@ -284,14 +532,29 @@
                     const key = res.publicKey.toString();
                     document.getElementById('wallet-text').innerText = key.slice(0, 4) + '...' + key.slice(-4);
                 });
-            } else {
-                alert("Bitte Phantom Wallet installieren.");
-            }
+            } else { alert("Bitte Phantom Wallet installieren."); }
         }
 
         window.onload = () => {
-            renderAgents();
-            initChart();
+            renderPumpFeed();
+            initPumpChart();
+            switchTab('txns');
+
+            const ctx = document.getElementById('dexChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['18:00', '19:00', '20:00', '21:00', '22:00', 'Jetzt'],
+                    datasets: [{
+                        data: [0.00125, 0.00140, 0.00175, 0.00160, 0.00210, 0.002195],
+                        borderColor: '#14f195',
+                        backgroundColor: 'rgba(20, 241, 149, 0.1)',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
         };
     </script>
 </body>
