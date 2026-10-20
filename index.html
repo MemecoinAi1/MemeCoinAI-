@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Premium Solana Meme-Coin Trading Platform</title>
+    <title>MemeCoinAI – Premium Solana Trading Platform</title>
     
-    <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,135 +12,64 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            DEFAULT: '#0a0b0d',
-                            surface: '#12141a',
-                            card: '#1a1d26',
-                            border: '#2a2f3d'
-                        },
-                        brand: {
-                            DEFAULT: '#14f195',
-                            dark: '#0db870',
-                            accent: '#9945ff'
-                        }
+                        dark: { DEFAULT: '#0a0b0d', surface: '#12141a', card: '#1a1d26', border: '#2a2f3d' },
+                        brand: { DEFAULT: '#14f195', dark: '#0db870', accent: '#9945ff' }
                     }
                 }
             }
         }
     </script>
-    
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Solana Web3 SDK mit Fallback-Prüfung -->
-    <script src="https://unpkg.com/@solana/web3.js@1.95.0/lib/index.iife.min.js"></script>
 </head>
-<body class="bg-dark text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand selection:text-dark">
+<body class="bg-dark text-gray-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- Header Navigation -->
-    <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Navigation Header -->
+    <header class="border-b border-dark-border bg-dark-surface sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="bg-gradient-to-r from-brand to-brand-accent p-2 rounded-xl text-dark font-black text-xl flex items-center justify-center w-10 h-10 shadow-lg shadow-brand/20">
                     <i class="fa-solid fa-bolt"></i>
                 </div>
-                <span class="text-xl font-bold tracking-tight text-white">MemeCoin<span class="text-brand">AI</span></span>
+                <span class="text-xl font-bold text-white">MemeCoin<span class="text-brand">AI</span></span>
             </div>
             
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-400">
-                <a href="#explorer" class="text-white hover:text-brand transition">Explorer</a>
-                <a href="#swap" class="hover:text-brand transition">Terminal / Swap</a>
-                <a href="#sniper" class="hover:text-brand transition">Sniper Bot</a>
-                <a href="#premium" class="hover:text-brand transition text-brand flex items-center gap-1.5"><i class="fa-solid fa-crown"></i> Premium</a>
-            </nav>
-
             <div class="flex items-center space-x-3">
-                <div id="badge-container" class="hidden sm:flex items-center px-3 py-1 bg-dark-card border border-dark-border rounded-full text-xs font-medium text-gray-300">
-                    <span id="tier-indicator" class="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse"></span> 
-                    <span id="tier-text">Free Tier (0,5% Gebühr)</span>
+                <div id="badge-status" class="hidden sm:flex items-center px-3 py-1 bg-dark-card border border-dark-border rounded-full text-xs text-gray-300">
+                    <span id="badge-dot" class="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse"></span> 
+                    <span id="badge-text">Free Tier (0,5% Fee)</span>
                 </div>
-                <button id="connect-wallet-btn" onclick="toggleWalletConnection()" class="bg-brand hover:bg-brand-dark text-dark font-semibold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-brand/10 flex items-center gap-2">
-                    <i class="fa-solid fa-wallet"></i> <span id="wallet-btn-text">Wallet verbinden</span>
+                <button onclick="toggleWallet()" id="wallet-btn" class="bg-brand text-dark font-bold px-4 py-2 rounded-xl text-sm hover:bg-brand-dark transition shadow-lg shadow-brand/10">
+                    Wallet verbinden
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Hauptbereich -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-
-        <!-- Stat-Karten Bar -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-8 flex-grow w-full">
+        
+        <!-- Stats Dashboard -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl">
-                <p class="text-xs text-gray-400 font-medium">Volumen (24h)</p>
+                <p class="text-xs text-gray-400">Volumen (24h)</p>
                 <p class="text-2xl font-bold text-white mt-1">$14,289,420</p>
-                <span class="text-xs text-brand mt-2 inline-flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up"></i> +12.4%</span>
+                <span class="text-xs text-brand mt-1 block"><i class="fa-solid fa-arrow-trend-up"></i> Live Trading Aktiv</span>
             </div>
             <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl">
-                <p class="text-xs text-gray-400 font-medium">Aktive Sniper Signals</p>
-                <p class="text-2xl font-bold text-white mt-1">1,432</p>
-                <span class="text-xs text-gray-400 mt-2 block">Echtzeit Pump.fun Monitoring</span>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl">
-                <p class="text-xs text-gray-400 font-medium">Netzwerk Status</p>
-                <p class="text-2xl font-bold text-white mt-1 text-brand">Solana Mainnet</p>
-                <span class="text-xs text-gray-400 mt-2 block">TPS: ~2,840</span>
+                <p class="text-xs text-gray-400">Netzwerk</p>
+                <p class="text-2xl font-bold text-brand mt-1">Solana Mainnet</p>
+                <span class="text-xs text-gray-400 mt-1 block">Powered by Jupiter Router V6</span>
             </div>
             <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl bg-gradient-to-br from-dark-surface to-brand-accent/10 border-brand-accent/30">
-                <p class="text-xs text-brand-accent font-semibold uppercase tracking-wider">Premium Abo</p>
-                <p class="text-lg font-bold text-white mt-1">0% Plattformgebühr</p>
-                <a href="#premium" class="text-xs text-brand hover:underline mt-2 inline-block font-medium">Status prüfen / Upgraden &rarr;</a>
+                <p class="text-xs text-brand-accent font-semibold uppercase">Deine Fee-Stufe</p>
+                <p id="fee-stat-display" class="text-2xl font-bold text-white mt-1">0.5% Fee</p>
+                <a href="#premium" class="text-xs text-brand hover:underline mt-1 block font-medium">Auf 0% reduzieren &rarr;</a>
             </div>
         </div>
 
-        <!-- Token Explorer Section -->
-        <section id="explorer" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl font-bold text-white">Solana & Pump.fun Token Explorer</h2>
-                    <p class="text-xs text-gray-400 mt-1">Echtzeit-Meme-Coin Kurse mit verifizierter Zuordnung der Mint-Adressen.</p>
-                </div>
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <input type="text" id="token-search" onkeyup="filterTokens()" placeholder="Suche nach Name, Ticker, Mint..." 
-                        class="bg-dark border border-dark-border px-4 py-2 rounded-xl text-sm text-white focus:outline-none focus:border-brand w-full sm:w-64">
-                    <button onclick="fetchTokenList()" class="bg-dark-card border border-dark-border px-4 py-2 rounded-xl text-sm hover:border-brand transition">
-                        <i class="fa-solid fa-rotate"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Token Tabelle -->
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-dark-border text-xs text-gray-400 uppercase tracking-wider">
-                            <th class="py-3 px-4">Token</th>
-                            <th class="py-3 px-4">Mint-Adresse</th>
-                            <th class="py-3 px-4">Preis (USD)</th>
-                            <th class="py-3 px-4">24h Änd.</th>
-                            <th class="py-3 px-4">Liquidität</th>
-                            <th class="py-3 px-4 text-right">Aktion</th>
-                        </tr>
-                    </thead>
-                    <tbody id="token-table-body" class="divide-y divide-dark-border text-sm">
-                        <tr>
-                            <td colspan="6" class="py-6 text-center text-gray-500">
-                                <i class="fa-solid fa-spinner fa-spin mr-2"></i> Initialisiere Dashboard...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-dark-border">
-                <span>Quelle: Live DEX Data & Verified Solana Registry</span>
-                <span id="last-update">Zuletzt aktualisiert: -</span>
-            </div>
-        </section>
-
-        <!-- Swap Terminal & Premium Dashboard -->
+        <!-- Swap Terminal & Premium Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Swap Widget -->
+            <!-- Trading / Swap Widget -->
             <section id="swap" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-1">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold text-white">Trading Terminal</h3>
@@ -149,7 +77,6 @@
                 </div>
 
                 <div class="space-y-4">
-                    <!-- Auszahlung -->
                     <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
                         <div class="flex justify-between text-xs text-gray-400">
                             <span>Du zahlst</span>
@@ -157,71 +84,236 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <input type="number" id="pay-amount" placeholder="0.0" oninput="calculateEstimate()" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <div class="flex items-center gap-2 bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">
-                                <span class="font-bold text-sm">SOL</span>
-                            </div>
+                            <span class="font-bold text-sm bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">SOL</span>
                         </div>
                     </div>
 
-                    <div class="flex justify-center -my-2 relative z-10">
-                        <button class="bg-dark-card border border-dark-border p-2.5 rounded-full text-brand hover:scale-110 transition shadow">
+                    <div class="flex justify-center -my-2">
+                        <div class="bg-dark-card border border-dark-border p-2 rounded-full text-brand">
                             <i class="fa-solid fa-arrow-down"></i>
-                        </button>
+                        </div>
                     </div>
 
-                    <!-- Empfang -->
                     <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
                         <div class="flex justify-between text-xs text-gray-400">
                             <span>Du erhältst (geschätzt)</span>
-                            <span>MemeCoinAI Gebühr: <span id="fee-display" class="text-brand font-semibold">0.5%</span></span>
+                            <span>Plattformgebühr: <span id="fee-text" class="text-brand font-semibold">0.5%</span></span>
                         </div>
                         <div class="flex items-center justify-between">
                             <input type="text" id="receive-amount" readonly placeholder="0.0" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <div class="flex items-center gap-2 bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">
-                                <span id="target-token-symbol" class="font-bold text-sm">BONK</span>
-                            </div>
+                            <span id="target-symbol" class="font-bold text-sm bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">BONK</span>
                         </div>
                     </div>
 
-                    <!-- Transaktions-Vorschau -->
-                    <div class="bg-dark-card/50 p-3 rounded-xl border border-dark-border text-xs space-y-1.5 text-gray-400">
-                        <div class="flex justify-between">
-                            <span>Netzwerkgebühr (Solana):</span>
-                            <span>~0.00005 SOL</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Plattformgebühr Status:</span>
-                            <span id="fee-status-text" class="text-yellow-400 font-medium">Free Tier (0,5%)</span>
-                        </div>
-                    </div>
-
-                    <button id="swap-action-btn" onclick="executeSwap()" class="w-full bg-brand hover:bg-brand-dark text-dark font-bold py-3.5 rounded-xl transition shadow-lg shadow-brand/10 flex items-center justify-center gap-2">
-                        <span>Swap durchführen</span>
+                    <button id="swap-btn" onclick="executeSwap()" class="w-full bg-brand hover:bg-brand-dark text-dark font-bold py-3.5 rounded-xl transition shadow-lg shadow-brand/10">
+                        Swap durchführen
                     </button>
                 </div>
             </section>
 
-            <!-- Premium Subscription & Sniper Panel -->
+            <!-- Premium Subscription Module -->
             <section id="premium" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-2 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-crown text-brand text-xl"></i>
-                            <h3 class="text-lg font-bold text-white">Premium Mitgliedschaft</h3>
+                            <h3 class="text-lg font-bold text-white">MemeCoinAI Premium</h3>
                         </div>
                         <span class="bg-brand/10 text-brand border border-brand/20 px-3 py-1 rounded-full text-xs font-semibold">19,99 € / Monat</span>
                     </div>
                     <p class="text-sm text-gray-400 mt-2">
-                        Mit Premium entfällt die 0,5% Plattformgebühr vollständig. Zudem erhältst du Zugriff auf das erweiterte Sniper-Modul und Echtzeit-Sicherheitsprüfungen.
+                        Spare bares Geld bei jedem Swap. Für erfahrene Trader lohnt sich Premium bereits ab wenige Swaps pro Woche.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                        <div class="flex items-start gap-3 bg-dark border border-dark-border p-3.5 rounded-xl">
-                            <i class="fa-solid fa-percent text-brand text-lg mt-0.5"></i>
+                        <div class="bg-dark border border-dark-border p-4 rounded-xl flex items-start gap-3">
+                            <i class="fa-solid fa-percent text-brand text-xl"></i>
                             <div>
-                                <p class="text-sm font-semibold text-white">0% MemeCoinAI Fee</p>
-                                <p class="text-xs text-gray-400">Keine eigenen Handelsgebühren beim Swappen.</p>
+                                <p class="text-sm font-bold text-white">0% Plattformgebühr</p>
+                                <p class="text-xs text-gray-400">Kein 0,5% Abzug mehr bei deinen Trades.</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-3 bg-dark border border-dark-border p-3.5 rounded-xl">
-                            <i class="fa-solid fa-crosshairs text-brand
+                        <div class="bg-dark border border-dark-border p-4 rounded-xl flex items-start gap-3">
+                            <i class="fa-solid fa-crosshairs text-brand text-xl"></i>
+                            <div>
+                                <p class="text-sm font-bold text-white">Pro Sniper Signals</p>
+                                <p class="text-xs text-gray-400">Echtzeit-Alerts für Pump.fun Launches.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="text-xs text-gray-400">Automatische serverseitige Verknüpfung mit deiner Wallet.</p>
+                    <button onclick="startStripeCheckout()" class="w-full sm:w-auto bg-gradient-to-r from-brand to-brand-accent text-dark font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-brand/20">
+                        Jetzt für 19,99 € / Mo freischalten
+                    </button>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-dark-border text-center py-6 text-xs text-gray-500">
+        &copy; 2026 MemeCoinAI – Monetarisierte Solana Trading Plattform
+    </footer>
+
+    <script>
+        // DEINE EIGENE SOLANA WALLET ADRESSE FÜR DIE GEBÜHREN HIER EINTRAGEN:
+        const TREASURY_WALLET = "MemeCoinAITreasuryAddressPlaceholder11111111"; 
+        const BACKEND_URL = "http://localhost:3000"; // Nach Server-Deployment deine Backend-Domain eintragen
+
+        let currentWallet = null;
+        let isPremium = false;
+        let feeBps = 50; // Standard 0.5% (50 Basis-Punkte)
+
+        async function toggleWallet() {
+            if (currentWallet) {
+                currentWallet = null;
+                isPremium = false;
+                feeBps = 50;
+                updateUI();
+                return;
+            }
+
+            if ("solana" in window) {
+                try {
+                    const response = await window.solana.connect();
+                    currentWallet = response.publicKey.toString();
+                    
+                    // Serverseitigen Premium Status abfragen
+                    await checkSubscriptionStatus();
+                    updateUI();
+                } catch (err) {
+                    alert("Wallet-Verbindung abgebrochen.");
+                }
+            } else {
+                alert("Bitte installiere Phantom oder Solflare Wallet.");
+            }
+        }
+
+        async function checkSubscriptionStatus() {
+            if (!currentWallet) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/v1/subscription/${currentWallet}`);
+                const data = await res.json();
+                isPremium = data.premium;
+                feeBps = data.feeBps; // 0 wenn Premium, 50 wenn Free
+            } catch (e) {
+                console.log("Backend offline, Standard Free-Tier aktiv.");
+            }
+        }
+
+        function updateUI() {
+            const btn = document.getElementById('wallet-btn');
+            const badgeText = document.getElementById('badge-text');
+            const badgeDot = document.getElementById('badge-dot');
+            const feeStatDisplay = document.getElementById('fee-stat-display');
+            const feeText = document.getElementById('fee-text');
+
+            if (currentWallet) {
+                btn.innerText = currentWallet.slice(0, 4) + '...' + currentWallet.slice(-4);
+                document.getElementById('sol-balance').innerText = "1.25";
+
+                if (isPremium) {
+                    badgeText.innerText = "Premium Member (0% Fee)";
+                    badgeDot.className = "w-2 h-2 rounded-full bg-brand mr-2 animate-pulse";
+                    feeStatDisplay.innerText = "0% (Premium)";
+                    feeText.innerText = "0.0% (Befreit)";
+                } else {
+                    badgeText.innerText = "Free Tier (0,5% Fee)";
+                    badgeDot.className = "w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse";
+                    feeStatDisplay.innerText = "0.5% Fee";
+                    feeText.innerText = "0.5%";
+                }
+            } else {
+                btn.innerText = "Wallet verbinden";
+                badgeText.innerText = "Free Tier (0,5% Fee)";
+                badgeDot.className = "w-2 h-2 rounded-full bg-yellow-500 mr-2";
+            }
+        }
+
+        function calculateEstimate() {
+            const amount = parseFloat(document.getElementById('pay-amount').value) || 0;
+            const receiveInput = document.getElementById('receive-amount');
+            
+            // Einfache Vorschau-Berechnung unter Berücksichtigung der Plattform-Gebühr
+            const effectiveAmount = amount * (1 - (feeBps / 10000));
+            const estimatedTokens = effectiveAmount * 6500000; // Geschätzter Kurs
+            
+            receiveInput.value = estimatedTokens > 0 ? estimatedTokens.toFixed(0) : "0";
+        }
+
+        async function executeSwap() {
+            if (!currentWallet) {
+                alert("Bitte verbinde zuerst deine Wallet.");
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('pay-amount').value);
+            if (!amount || amount <= 0) {
+                alert("Bitte gib einen SOL-Betrag ein.");
+                return;
+            }
+
+            const lamports = amount * 1000000000;
+
+            try {
+                // Jupiter V6 Quote API inkl. Plattform-Gebühr Aufruf
+                let quoteUrl = `https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263&amount=${lamports}&slippageBps=50`;
+
+                // Nur wenn der Nutzer KEIN Premium hat, wird die Fee-Adresse an Jupiter übergeben:
+                if (feeBps > 0) {
+                    quoteUrl += `&platformFeeBps=${feeBps}`;
+                }
+
+                const quoteRes = await fetch(quoteUrl);
+                const quoteData = await quoteRes.json();
+
+                // Swap Transaction von Jupiter anfordern
+                const swapRes = await fetch('https://quote-api.jup.ag/v6/swap', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        quoteResponse: quoteData,
+                        userPublicKey: currentWallet,
+                        feeAccount: feeBps > 0 ? TREASURY_WALLET : null // Plattform-Einnahmen fließen hier hin!
+                    })
+                });
+
+                const swapData = await swapRes.json();
+                if (swapData.swapTransaction) {
+                    alert("Transaktion mit Gebühren-Routing erstellt! Bitte in der Wallet bestätigen.");
+                }
+
+            } catch (e) {
+                alert("Swap Vorbereitung fehlgeschlagen: " + e.message);
+            }
+        }
+
+        async function startStripeCheckout() {
+            if (!currentWallet) {
+                alert("Bitte verbinde zuerst deine Wallet, um das Abo zu verknüpfen.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/v1/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ walletAddress: currentWallet })
+                });
+
+                const data = await res.json();
+                if (data.url) {
+                    window.location.href = data.url; // Weiterleitung zu Stripe
+                } else {
+                    alert("Checkout-Fehler: " + data.error);
+                }
+            } catch (e) {
+                alert("Backend derzeit nicht erreichbar.");
+            }
+        }
+    </script>
+</body>
+</html>
