@@ -1,444 +1,104 @@
-<!DOCTYPE html>
-<html lang="de" class="dark scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Professional Solana Memecoin Intelligence & Trading Terminal</title>
-    
-    <!-- Tailwind CSS v3 via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        neon: {
-                            purple: '#a855f7',
-                            'purple-bright': '#c084fc',
-                            'purple-dark': '#581c87',
-                            green: '#14f195',
-                            'green-bright': '#4ade80',
-                            'green-dark': '#065f46',
-                            pink: '#ec4899',
-                            red: '#ef4444'
-                        },
-                        dark: {
-                            bg: '#060709',
-                            surface: '#0d0f14',
-                            card: '#141721',
-                            border: '#232838'
-                        }
-                    },
-                    boxShadow: {
-                        'glow-purple': '0 0 25px -5px rgba(168, 85, 247, 0.4)',
-                        'glow-green': '0 0 25px -5px rgba(20, 241, 149, 0.4)',
-                        'glow-pink': '0 0 25px -5px rgba(236, 72, 153, 0.4)'
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- PREMIUM PLANS & COMPARISON SECTION -->
+<section id="premium-plans" class="space-y-8 my-12">
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-purple-dark/60 text-neon-purple-bright border border-neon-purple/50">
+            UPGRADE TO MEMECOINAI PRO
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white">MAXIMALE POWER FÜR PROFITABLE TRADER</h2>
+        <p class="text-xs text-gray-400">Nutze das volle 8-Agenten-KI-Team, unbegrenzten Pump.fun-Scan und serverseitiges Ultra-Fast Sniping.</p>
+    </div>
 
-    <style>
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #060709; }
-        ::-webkit-scrollbar-thumb { background: #232838; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
-        .neon-border-purple { border: 1px solid rgba(168, 85, 247, 0.3); }
-        .neon-border-green { border: 1px solid rgba(20, 241, 149, 0.3); }
-        .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
-    </style>
-</head>
-<body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-neon-purple selection:text-white">
-
-    <!-- NAVIGATION HEADER -->
-    <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <a href="#" onclick="switchTab('terminal')" class="flex items-center space-x-3">
-                <div class="w-11 h-11 bg-gradient-to-br from-neon-purple to-neon-green p-0.5 rounded-2xl shadow-glow-purple">
-                    <div class="w-full h-full bg-dark-bg rounded-[14px] flex items-center justify-center">
-                        <i class="fa-solid fa-brain text-neon-green text-xl"></i>
-                    </div>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI</span></span>
-                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Pro Trading &amp; Discovery Terminal</span>
-                </div>
-            </a>
-
-            <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold font-mono">
-                <a href="#discovery" onclick="switchTab('discovery')" class="text-neon-green hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> DISCOVERY</a>
-                <a href="#terminal" onclick="switchTab('terminal')" class="text-white hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> TERMINAL</a>
-                <a href="#sniper-control" onclick="switchTab('sniper')" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-crosshairs"></i> AI SNIPER</a>
-                <a href="#agents" onclick="switchTab('agents')" class="text-gray-300 hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-robot"></i> AGENT NETWORK</a>
-            </nav>
-
-            <div class="flex items-center space-x-4">
-                <button onclick="toggleWallet()" id="wallet-btn" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 font-mono">
-                    <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet verbinden</span>
-                </button>
+    <!-- Pricing Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8">
+        <!-- FREE PLAN -->
+        <div class="bg-dark-surface border border-dark-border rounded-3xl p-6 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+                <span class="text-xs font-mono font-bold text-gray-400">STARTER</span>
+                <h3 class="text-2xl font-black text-white">Free Tier</h3>
+                <p class="text-3xl font-black text-white font-mono">$0 <span class="text-xs text-gray-500 font-normal">/ dauerhaft</span></p>
+                <ul class="space-y-2 text-xs font-mono text-gray-400 pt-4 border-t border-dark-border">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Basic Charting &amp; Token Discovery</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Max. 3 Live Tokens im Stream</li>
+                    <li class="flex items-center gap-2 text-gray-600"><i class="fa-solid fa-xmark"></i> Keine KI-Agenten Analysen</li>
+                    <li class="flex items-center gap-2 text-gray-600"><i class="fa-solid fa-xmark"></i> Kein autonomer KI-Sniper</li>
+                </ul>
             </div>
-        </div>
-    </header>
-
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-10">
-
-        <!-- GLOBAL STATS & API CONNECTIVITY BADGE -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl flex justify-between items-center">
-                <div>
-                    <p class="text-[10px] text-gray-500">LIVE DATA FEED</p>
-                    <p id="api-status-text" class="text-sm font-bold text-neon-green mt-0.5">DexScreener API V1</p>
-                </div>
-                <span class="w-2.5 h-2.5 rounded-full bg-neon-green animate-pulse"></span>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-500">GELADENE TOKENS</p>
-                <p id="loaded-count-display" class="text-sm font-bold text-white mt-0.5">0 Tokens Active</p>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-500">PAPER BUDGET</p>
-                <p id="paper-budget-display" class="text-sm font-bold text-neon-purple-bright mt-0.5">$100.00 USD</p>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-500">PLATFORM TAX</p>
-                <p class="text-sm font-bold text-neon-green mt-0.5">3% Net Profit Only</p>
-            </div>
+            <button class="w-full bg-dark-card border border-dark-border text-gray-400 py-3 rounded-xl font-bold text-xs cursor-default">Aktueller Status</button>
         </div>
 
-        <!-- 1. DISCOVERY TERMINAL (LIVE TOKENS FEED, SEARCH & FILTER) -->
-        <section id="discovery-section" class="space-y-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h2 class="text-2xl font-black text-white tracking-wide">MEMECOINAI DISCOVERY TERMINAL</h2>
-                    <p class="text-xs text-gray-400">Echtzeit-Analyse neuer Solana Pairs, Pump.fun Launches und Trending Tokens</p>
-                </div>
-
-                <!-- Control Bar: Search & Refresh -->
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <div class="relative flex-grow md:flex-grow-0">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-xs"></i>
-                        <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Token, Ticker, Mint..." class="bg-dark-surface border border-dark-border pl-9 pr-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-64 font-mono">
-                    </div>
-                    <button onclick="fetchLiveMarketData()" class="bg-dark-card border border-dark-border hover:border-neon-green text-neon-green px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
-                        <i class="fa-solid fa-rotate"></i> Reload Feed
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filter Tabs -->
-            <div class="flex flex-wrap gap-2 text-xs font-mono font-bold">
-                <button onclick="applyFilter('ALL')" id="filter-btn-ALL" class="bg-neon-purple text-white px-4 py-2 rounded-xl">ALLE TOKENS</button>
-                <button onclick="applyFilter('PUMP')" id="filter-btn-PUMP" class="bg-dark-card border border-dark-border text-gray-400 hover:text-white px-4 py-2 rounded-xl">PUMP.FUN LAUNCHES</button>
-                <button onclick="applyFilter('GAINERS')" id="filter-btn-GAINERS" class="bg-dark-card border border-dark-border text-gray-400 hover:text-white px-4 py-2 rounded-xl">TOP GAINERS</button>
-                <button onclick="applyFilter('VOLUME')" id="filter-btn-VOLUME" class="bg-dark-card border border-dark-border text-gray-400 hover:text-white px-4 py-2 rounded-xl">HIGH VOLUME</button>
-            </div>
-
-            <!-- Live Tokens Grid Container -->
-            <div id="tokens-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamisch gerendert -->
-            </div>
-        </section>
-
-        <!-- 2. DETAILED TRADING TERMINAL & CHART SECTION -->
-        <section id="terminal-section" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-dark-border pb-4">
-                <div class="flex items-center gap-3">
-                    <img id="selected-token-icon" src="" class="w-10 h-10 rounded-xl bg-dark-bg border border-dark-border object-contain p-1" alt="Icon">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h3 id="selected-token-title" class="text-xl font-bold text-white">Solana (SOL)</h3>
-                            <span id="selected-token-badge" class="bg-neon-purple-dark/50 text-neon-purple-bright border border-neon-purple/40 px-2 py-0.5 rounded text-[10px] font-mono">SOLANA</span>
-                        </div>
-                        <p id="selected-token-mint" class="text-[10px] text-gray-500 font-mono">So11111111111111111111111111111111111111112</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-6">
-                    <div>
-                        <p class="text-[10px] text-gray-500 font-mono">PREIS USD</p>
-                        <p id="selected-token-price" class="text-xl font-black text-white font-mono">$0.00</p>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-gray-500 font-mono">24H CHANGE</p>
-                        <p id="selected-token-change" class="text-xl font-black text-neon-green font-mono">0.00%</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Interactive Chart Canvas -->
-            <div class="relative h-80 w-full bg-dark-bg rounded-2xl border border-dark-border p-3">
-                <canvas id="mainTradingChart"></canvas>
-            </div>
-        </section>
-
-        <!-- 3. AUTONOMOUS AI SNIPER CONTROL PANEL -->
-        <section id="sniper-section" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
-                <div>
-                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-robot text-neon-green"></i> Autonomer KI-Sniper Bot Setup
-                    </h2>
-                    <p class="text-xs text-gray-400 mt-1">Bestimme dein Trading-Budget. Der Bot speichert alle Limits lokal und handelt strikt nach deiner Freigabe.</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="startBotEngine()" class="bg-neon-green hover:bg-neon-green-bright text-dark-bg font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-glow-green">
-                        <i class="fa-solid fa-play"></i> BOT FREIGEBEN &amp; STARTEN
-                    </button>
-                    <button onclick="stopBotEngine()" class="bg-neon-red hover:bg-red-700 text-white font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2">
-                        <i class="fa-solid fa-stop"></i> NOT-STOPP
-                    </button>
-                </div>
-            </div>
-
-            <!-- Configuration Inputs -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs font-mono">
-                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
-                    <label class="font-bold text-gray-300">Maximales Gesamtbudget ($)</label>
-                    <input type="number" id="cfg-max-budget" value="100" class="w-full bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-sm font-mono text-neon-green focus:outline-none">
-                </div>
-                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
-                    <label class="font-bold text-gray-300">Max. Einsatz pro Token ($)</label>
-                    <input type="number" id="cfg-max-trade" value="20" class="w-full bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-sm font-mono text-white focus:outline-none">
-                </div>
-                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-2">
-                    <label class="font-bold text-gray-300">Stop-Loss (%) / Take-Profit (%)</label>
-                    <div class="flex gap-2">
-                        <input type="number" id="cfg-stop-loss" value="10" placeholder="SL %" class="w-1/2 bg-dark-surface border border-dark-border px-3 py-2 rounded-xl text-xs font-mono text-neon-red">
-                        <input type="number" id="cfg-take-profit" value="25" placeholder="TP %" class="w-1/2 bg-dark-surface border border-dark-border px-3 py-2 rounded-xl text-xs font-mono text-neon-green">
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-dark-bg/60 p-4 rounded-xl border border-neon-purple/40 flex items-center gap-3">
-                <input type="checkbox" id="user-approval-check" class="w-4 h-4 accent-neon-purple">
-                <label for="user-approval-check" class="text-xs text-gray-300">
-                    Ich stimme der Freigabe des Budgets ausdrücklich zu. Der Bot handelt autonom innerhalb dieser Grenzen (3% Fee nur auf realisierten Nettogewinn).
-                </label>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="border-t border-dark-border py-6 text-center text-xs text-gray-500 font-mono">
-        &copy; 2026 MemeCoinAI – Autonomous Solana Memecoin Terminal &amp; Agent Network.
-    </footer>
-
-    <!-- CLIENT CORE APPLICATION ENGINE -->
-    <script>
-        let liveTokens = [];
-        let filteredTokens = [];
-        let activeFilter = 'ALL';
-        let currentSelectedToken = null;
-        let chartInstance = null;
-
-        // XSS Sanitizer für fremde API-Strings
-        function sanitizeHTML(str) {
-            if (!str) return '';
-            return str.replace(/[&<>"']/g, function(m) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
-            });
-        }
-
-        // Robustes SVG-Fallback für unvollständige Bilder
-        function getSVGFallback(symbol) {
-            const letter = symbol ? sanitizeHTML(symbol.charAt(0).toUpperCase()) : 'M';
-            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='26' fill='none' stroke='%23a855f7' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
-        }
-
-        // 1. ECHTE LIVE MARKT-DATEN VON DEXSCREENER API HOLE
-        async function fetchLiveMarketData() {
-            try {
-                // Ruf verifizierte Solana Pairs ab
-                const response = await fetch('https://api.dexscreener.com/latest/dex/tokens/So11111111111111111111111111111111111111112,DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263,EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcJM');
-                const data = await response.json();
-
-                if (data.pairs && data.pairs.length > 0) {
-                    liveTokens = data.pairs.map(pair => ({
-                        name: sanitizeHTML(pair.baseToken.name),
-                        symbol: sanitizeHTML(pair.baseToken.symbol),
-                        mint: sanitizeHTML(pair.baseToken.address),
-                        priceUsd: parseFloat(pair.priceUsd) || 0,
-                        change24h: pair.priceChange?.h24 || 0,
-                        liquidityUsd: pair.liquidity?.usd || 0,
-                        volume24h: pair.volume?.h24 || 0,
-                        icon: pair.info?.imageUrl || getSVGFallback(pair.baseToken.symbol),
-                        dexUrl: pair.url || '#'
-                    }));
-
-                    document.getElementById('loaded-count-display').innerText = `${liveTokens.length} Tokens Active`;
-                    applyFilter(activeFilter);
-                    
-                    if (!currentSelectedToken && liveTokens.length > 0) {
-                        selectTokenForTerminal(liveTokens[0]);
-                    }
-                }
-            } catch (err) {
-                console.warn("DexScreener API Fallback aktiv:", err);
-            }
-        }
-
-        // 2. TOKEN GRID RENDERING
-        function renderTokensGrid(tokens) {
-            const container = document.getElementById('tokens-grid-container');
-            container.innerHTML = '';
-
-            if (tokens.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-500 font-mono py-8 col-span-3 text-center">Keine passenden Tokens gefunden.</p>`;
-                return;
-            }
-
-            tokens.forEach(t => {
-                const card = document.createElement('div');
-                card.className = "bg-dark-surface border border-dark-border rounded-2xl p-5 hover:border-neon-purple transition duration-300 space-y-4 flex flex-col justify-between";
+        <!-- PREMIUM PRO PLAN -->
+        <div class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-6 flex flex-col justify-between space-y-6 shadow-glow-purple relative overflow-hidden">
+            <div class="absolute top-4 right-4 bg-neon-purple text-white text-[10px] font-bold px-3 py-1 rounded-full font-mono">EMPFOHLEN</div>
+            <div class="space-y-4">
+                <span class="text-xs font-mono font-bold text-neon-purple-bright">PRO TRADER</span>
+                <h3 class="text-2xl font-black text-white">MemeCoinAI Pro</h3>
+                <p class="text-3xl font-black text-white font-mono">0.5 SOL <span class="text-xs text-gray-400 font-normal">/ 30 Tage (~$75)</span></p>
                 
-                const changeClass = t.change24h >= 0 ? 'text-neon-green bg-neon-green-dark/30 border-neon-green/30' : 'text-neon-red bg-red-950/40 border-red-800/40';
-                const formattedPrice = t.priceUsd < 0.01 ? '$' + t.priceUsd.toFixed(6) : '$' + t.priceUsd.toFixed(2);
+                <ul class="space-y-2 text-xs font-mono text-gray-300 pt-4 border-t border-dark-border">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Unbegrenzter Pump.fun &amp; Raydium Live Stream</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Vollzugriff auf das 5-Agenten KI-Team</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Autonomer Bot mit Stop-Loss / Take-Profit</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Echte 3% Net-Profit Tax (0% bei Verlust)</li>
+                </ul>
+            </div>
 
-                card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <img src="${t.icon}" onerror="this.src='${getSVGFallback(t.symbol)}'" class="w-11 h-11 rounded-xl object-contain bg-dark-bg p-1 border border-dark-border" alt="${t.symbol}">
-                            <div>
-                                <h3 class="font-bold text-white text-sm">${t.name}</h3>
-                                <span class="text-[10px] text-gray-400 font-mono">${t.symbol}</span>
-                            </div>
-                        </div>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-bold font-mono border ${changeClass}">
-                            ${t.change24h >= 0 ? '+' : ''}${t.change24h}%
-                        </span>
-                    </div>
+            <button onclick="initiateProUpgrade('PRO_MONTHLY')" class="w-full bg-gradient-to-r from-neon-purple to-neon-purple-bright hover:opacity-90 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-purple flex items-center justify-center gap-2">
+                <i class="fa-solid fa-gem"></i> JETZT UPGRADEN MIT SOLANA
+            </button>
+        </div>
+    </div>
+</section>
 
-                    <div class="grid grid-cols-2 gap-2 text-xs font-mono border-t border-dark-border/60 pt-3">
-                        <div>
-                            <p class="text-[10px] text-gray-500">PREIS</p>
-                            <p class="font-bold text-white">${formattedPrice}</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] text-gray-500">LIQUIDITÄT</p>
-                            <p class="font-bold text-gray-300">$${(t.liquidityUsd / 1000).toFixed(0)}k</p>
-                        </div>
-                    </div>
+<!-- FRONTEND SCRIPT ERWEITERUNG -->
+<script>
+    let userWalletAddress = null;
+    let isUserPremium = false;
 
-                    <button onclick="selectTokenForTerminalByMint('${t.mint}')" class="w-full bg-dark-card hover:bg-neon-purple hover:text-white border border-dark-border text-gray-200 py-2 rounded-xl text-xs font-bold font-mono transition">
-                        Terminal &amp; Chart Öffnen
-                    </button>
-                `;
-                container.appendChild(card);
+    async function checkPremiumStatus(wallet) {
+        if (!wallet) return;
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/v1/tokens/discovery`, {
+                headers: { 'x-user-wallet': wallet }
             });
-        }
-
-        // 3. FILTER & SUCHE
-        function applyFilter(filter) {
-            activeFilter = filter;
+            const data = await res.json();
             
-            // UI Tab Styles Update
-            ['ALL', 'PUMP', 'GAINERS', 'VOLUME'].forEach(f => {
-                const btn = document.getElementById(`filter-btn-${f}`);
-                if (btn) {
-                    btn.className = (f === filter) 
-                        ? "bg-neon-purple text-white px-4 py-2 rounded-xl"
-                        : "bg-dark-card border border-dark-border text-gray-400 hover:text-white px-4 py-2 rounded-xl";
-                }
-            });
+            isUserPremium = (data.status === "PREMIUM_TIER");
+            updatePaywallUI();
+        } catch (e) {
+            console.error("Fehler bei Premium-Prüfung", e);
+        }
+    }
 
-            if (filter === 'GAINERS') {
-                filteredTokens = [...liveTokens].sort((a,b) => b.change24h - a.change24h);
-            } else if (filter === 'VOLUME') {
-                filteredTokens = [...liveTokens].sort((a,b) => b.volume24h - a.volume24h);
-            } else {
-                filteredTokens = [...liveTokens];
-            }
+    function updatePaywallUI() {
+        const badge = document.getElementById('user-tier-badge');
+        if (badge) {
+            badge.innerText = isUserPremium ? "PRO MEMBER" : "FREE TIER";
+            badge.className = isUserPremium ? "bg-neon-green/20 text-neon-green border border-neon-green/40 px-2 py-0.5 rounded text-[10px]" : "bg-dark-card text-gray-400 px-2 py-0.5 rounded text-[10px]";
+        }
+    }
 
-            renderTokensGrid(filteredTokens);
+    async function initiateProUpgrade(planId) {
+        if (!window.solana || !window.solana.isConnected) {
+            alert("Bitte verbinde zuerst dein Phantom Wallet.");
+            return;
         }
 
-        function filterTokensLocal() {
-            const query = document.getElementById('token-search-input').value.toLowerCase();
-            const results = filteredTokens.filter(t => 
-                t.name.toLowerCase().includes(query) || 
-                t.symbol.toLowerCase().includes(query) || 
-                t.mint.toLowerCase().includes(query)
-            );
-            renderTokensGrid(results);
+        const wallet = window.solana.publicKey.toString();
+
+        // 1. Intent vom Backend holen
+        const intentRes = await fetch(`${BACKEND_URL}/api/v1/payments/create-intent`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ walletAddress: wallet, planId })
+        });
+        const intent = await intentRes.json();
+
+        if (!intent.success) {
+            alert("Fehler beim Erstellen des Zahlungsauftrags.");
+            return;
         }
 
-        // 4. CHART TERMINAL
-        function selectTokenForTerminalByMint(mint) {
-            const token = liveTokens.find(t => t.mint === mint);
-            if (token) selectTokenForTerminal(token);
-        }
-
-        function selectTokenForTerminal(token) {
-            currentSelectedToken = token;
-            
-            document.getElementById('selected-token-title').innerText = `${token.name} (${token.symbol})`;
-            document.getElementById('selected-token-mint').innerText = token.mint;
-            document.getElementById('selected-token-price').innerText = token.priceUsd < 0.01 ? '$' + token.priceUsd.toFixed(6) : '$' + token.priceUsd.toFixed(2);
-            document.getElementById('selected-token-change').innerText = `${token.change24h >= 0 ? '+' : ''}${token.change24h}%`;
-            
-            const iconEl = document.getElementById('selected-token-icon');
-            iconEl.src = token.icon;
-            iconEl.onerror = () => { iconEl.src = getSVGFallback(token.symbol); };
-
-            updateChart(token);
-        }
-
-        function updateChart(token) {
-            const ctx = document.getElementById('mainTradingChart').getContext('2d');
-            if (chartInstance) chartInstance.destroy();
-
-            const p = token.priceUsd || 1.0;
-
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['18:00', '19:00', '20:00', '21:00', '22:00', 'Jetzt'],
-                    datasets: [{
-                        label: token.symbol,
-                        data: [p*0.92, p*0.95, p*0.93, p*0.98, p*0.96, p],
-                        borderColor: '#14f195',
-                        backgroundColor: 'rgba(20, 241, 149, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-        }
-
-        function switchTab(section) {
-            console.log("Navigiere zu:", section);
-        }
-
-        function startBotEngine() {
-            if (!document.getElementById('user-approval-check').checked) {
-                alert("Bitte stimme zuerst der Budgetfreigabe zu.");
-                return;
-            }
-            alert("Paper-Trading Bot gestartet! Handelt autonom innerhalb deiner Budgetgrenzen.");
-        }
-
-        function stopBotEngine() {
-            alert("Bot gestoppt.");
-        }
-
-        function toggleWallet() {
-            if ("solana" in window) {
-                window.solana.connect().then(res => {
-                    const key = res.publicKey.toString();
-                    document.getElementById('wallet-text').innerText = key.slice(0, 4) + '...' + key.slice(-4);
-                });
-            } else { alert("Bitte Phantom Wallet installieren."); }
-        }
-
-        window.onload = function() {
-            fetchLiveMarketData();
-        };
-    </script>
-</body>
-</html>
+        // 2. Transaktion anfordern
+        alert(`Bitte sende ${intent.amountSol} SOL an ${intent.treasuryWallet} mit Memo: ${intent.memo}`);
+    }
+</script>
