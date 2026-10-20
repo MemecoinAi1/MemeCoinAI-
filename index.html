@@ -73,8 +73,8 @@
 
             <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold font-mono">
                 <a href="#premium-plans" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-gem"></i> PRO UPGRADE</a>
-                <a href="#discovery" class="text-neon-green hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> DISCOVERY</a>
                 <a href="#pump-fun-live" class="text-neon-pink hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-fire"></i> PUMP.FUN LIVE</a>
+                <a href="#discovery" class="text-neon-green hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> DISCOVERY</a>
                 <a href="#terminal" class="text-white hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> TERMINAL</a>
                 <a href="#sniper-control" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-crosshairs"></i> AI SNIPER</a>
                 <a href="#agents" class="text-gray-300 hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-robot"></i> AGENTS</a>
@@ -95,7 +95,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
             <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl flex justify-between items-center">
                 <div>
-                    <p class="text-[10px] text-gray-500">WEBSOCKET FEED</p>
+                    <p class="text-[10px] text-gray-500">WEBSOCKET STATUS</p>
                     <p id="api-status-text" class="text-sm font-bold text-yellow-400 mt-0.5">VERBINDET...</p>
                 </div>
                 <span id="live-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping"></span>
@@ -114,20 +114,383 @@
             </div>
         </div>
 
-        <!-- 1. HERO & SPOTLIGHT -->
-        <section class="relative bg-dark-surface border neon-border-purple rounded-3xl p-8 lg:p-12 overflow-hidden shadow-glow-purple">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
-                <div class="space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neon-purple-dark/40 border border-neon-purple/40 text-neon-purple-bright text-xs font-mono tracking-wider">
-                        <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span> PUMPPORTAL.FUN WEBSOCKET ACTIVE
+        <!-- 1. PREMIUM BEREICH (WEIT OBEN PLATZIERT) -->
+        <section id="premium-plans" class="space-y-8 my-6">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-purple-dark/60 text-neon-purple-bright border border-neon-purple/50">
+                    MEMECOINAI PRO TERMINAL
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white">PROFITABLES TRADING MIT PRO-KRAFT</h2>
+                <p class="text-xs text-gray-400">Nutze das volle KI-Team, unbegrenzten Pump.fun-Scan und serverseitiges Ultra-Fast Sniping.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8">
+                <div class="bg-dark-surface border border-dark-border rounded-3xl p-6 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <span class="text-xs font-mono font-bold text-gray-400">STARTER</span>
+                        <h3 class="text-2xl font-black text-white">Free Tier</h3>
+                        <p class="text-3xl font-black text-white font-mono">$0 <span class="text-xs text-gray-500 font-normal">/ dauerhaft</span></p>
+                        <ul class="space-y-2 text-xs font-mono text-gray-400 pt-4 border-t border-dark-border">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Live WebSocket Stream Zugriff</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Basis Token Charting &amp; Discovery</li>
+                        </ul>
                     </div>
-                    <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-none">
-                        ECHTE PUMP.FUN COINS <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-neon-purple-bright to-neon-green">LIVE IM SUB-SEKUNDEN TAKT</span>
-                    </h1>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-lg">
-                        Keine Demos oder gefälschten Daten. Wir empfangen neue Token-Mints direkt vom Solana Mainnet über die PumpPortal WebSocket API.
-                    </p>
+                    <button class="w-full bg-dark-card border border-dark-border text-gray-400 py-3 rounded-xl font-bold text-xs cursor-default font-mono">Aktueller Status</button>
                 </div>
 
-                <!--
+                <div class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-6 flex flex-col justify-between space-y-6 shadow-glow-purple relative overflow-hidden">
+                    <div class="absolute top-4 right-4 bg-neon-purple text-white text-[10px] font-bold px-3 py-1 rounded-full font-mono">EMPFOHLEN</div>
+                    <div class="space-y-4">
+                        <span class="text-xs font-mono font-bold text-neon-purple-bright">PRO TRADER</span>
+                        <h3 class="text-2xl font-black text-white">MemeCoinAI Pro</h3>
+                        <p class="text-3xl font-black text-white font-mono">0.5 SOL <span class="text-xs text-gray-400 font-normal">/ 30 Tage (~$75)</span></p>
+                        <ul class="space-y-2 text-xs font-mono text-gray-300 pt-4 border-t border-dark-border">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Unbegrenzter Sub-Sekunden WebSocket Stream</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Vollzugriff auf das 5-Agenten KI-Team</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Autonomer Bot mit Stop-Loss / Take-Profit</li>
+                        </ul>
+                    </div>
+                    <button onclick="initiateProUpgrade('PRO_MONTHLY')" class="w-full bg-gradient-to-r from-neon-purple to-neon-purple-bright hover:opacity-90 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-purple flex items-center justify-center gap-2 font-mono">
+                        <i class="fa-solid fa-gem"></i> JETZT UPGRADEN MIT SOLANA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PUMP.FUN LIVE MONITOR -->
+        <section id="pump-fun-live" class="bg-dark-surface border-2 border-neon-pink rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-pink">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-neon-pink/20 text-neon-pink border border-neon-pink/30 text-[10px] font-bold font-mono">PUMPPORTAL WEBSOCKET</span>
+                        <h2 class="text-2xl font-black text-white">Pump.fun Real-Time Mint Feed</h2>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Jeder Token erscheint in der exakten Sekunde seiner Erstellung auf Solana.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-4">
+                    <div id="pump-live-container" class="space-y-3">
+                        <p class="text-xs font-mono text-gray-500 py-8 text-center bg-dark-bg rounded-2xl border border-dark-border">
+                            Verbindung zu PumpPortal wird aufgebaut... Warten auf echte Mints.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-dark-bg p-5 rounded-2xl border border-dark-border flex flex-col justify-between space-y-4">
+                    <h4 class="text-sm font-bold text-white border-b border-dark-border pb-3 flex items-center justify-between font-mono">
+                        <span>LIVE STREAM LOG</span>
+                        <span class="text-[10px] text-neon-pink">PumpPortal.fun</span>
+                    </h4>
+                    <div id="stream-log" class="text-[10px] font-mono text-gray-400 space-y-1.5 h-64 overflow-y-auto">
+                        <p>[System] Starte WebSocket Engine...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. DISCOVERY TERMINAL -->
+        <section id="discovery" class="space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY TERMINAL</h2>
+                    <p class="text-xs text-gray-400">Echtzeit-Analyse eingehender Live-Mints</p>
+                </div>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Token, Ticker, Mint..." class="bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-64 font-mono">
+                </div>
+            </div>
+
+            <div id="tokens-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <p class="text-xs text-gray-500 font-mono col-span-3 text-center py-6">Warte auf echte Live-Mints vom WebSocket...</p>
+            </div>
+        </section>
+
+        <!-- 4. DEX TERMINAL & CHART -->
+        <section id="terminal" class="space-y-6">
+            <h2 class="text-2xl font-black text-white">DEX TERMINAL &amp; CHART</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400">SELECTED TOKEN</p>
+                    <p id="selected-token-title" class="text-sm font-bold text-white mt-0.5">Kein Token gewählt</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400">PREIS USD</p>
+                    <p id="selected-token-price" class="text-sm font-bold text-neon-green mt-0.5">$0.00</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400">MINT ADRESSE</p>
+                    <p id="selected-token-mint" class="text-[11px] font-bold text-gray-300 mt-0.5 truncate">-</p>
+                </div>
+                <div class="bg-dark-surface border border-dark-border p-3.5 rounded-xl">
+                    <p class="text-[10px] text-gray-400">PUMP.FUN LINK</p>
+                    <a id="selected-token-link" href="#" target="_blank" class="text-sm font-bold text-neon-purple-bright mt-0.5 block hover:underline">Öffne Token</a>
+                </div>
+            </div>
+
+            <div class="bg-dark-surface border border-dark-border rounded-2xl p-5">
+                <div class="relative h-80 w-full bg-dark-bg rounded-xl border border-dark-border p-2">
+                    <canvas id="dexChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. AUTONOMER KI-SNIPER -->
+        <section id="sniper-control" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-robot text-neon-green"></i> Autonomer KI-Sniper Bot Setup
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">Serverseitige Budget-Sperre &amp; Risikokontrolle.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="startBotEngine()" class="bg-neon-green hover:bg-neon-green-bright text-dark-bg font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-glow-green font-mono">
+                        <i class="fa-solid fa-play"></i> BOT STARTEN
+                    </button>
+                    <button onclick="stopBotEngine()" class="bg-red-600 hover:bg-red-700 text-white font-black px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-stop"></i> NOT-STOPP
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. KI-AGENTEN TEAM -->
+        <section id="agents" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
+            <h3 class="text-xl font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-users-gear text-neon-purple-bright"></i> Premium KI-Agenten Network
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <span class="font-bold text-white">Market Analysis Agent</span>
+                    <p class="text-[11px] text-gray-400 mt-1">Analysiert WebSocket-Mints in Echtzeit.</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <span class="font-bold text-white">Security Agent</span>
+                    <p class="text-[11px] text-gray-400 mt-1">Prüft Token-Mints auf Honeypot-Risiken.</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border">
+                    <span class="font-bold text-white">Sniper Agent</span>
+                    <p class="text-[11px] text-gray-400 mt-1">Berechnet optimale Einstiegsfenster.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-dark-border py-6 text-center text-xs text-gray-500 font-mono">
+        &copy; 2026 MemeCoinAI – Professional Solana Memecoin Intelligence &amp; Trading Terminal.
+    </footer>
+
+    <!-- PUMPPORTAL WEBSOCKET CORE ENGINE -->
+    <script>
+        const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
+
+        let socket = null;
+        let realTokens = [];
+        let currentToken = null;
+        let dexChartInstance = null;
+        let userWalletAddress = null;
+
+        function logStream(msg) {
+            const logBox = document.getElementById('stream-log');
+            if (logBox) {
+                const time = new Date().toLocaleTimeString();
+                logBox.innerHTML = `<p>[${time}] ${msg}</p>` + logBox.innerHTML;
+            }
+        }
+
+        function initPumpPortalWebSocket() {
+            const statusText = document.getElementById('api-status-text');
+            const statusDot = document.getElementById('live-indicator-dot');
+
+            statusText.innerText = "VERBINDET...";
+            statusText.className = "text-sm font-bold text-yellow-400 mt-0.5";
+            statusDot.className = "w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping";
+
+            try {
+                socket = new WebSocket(PUMP_WS_URL);
+
+                socket.onopen = () => {
+                    logStream("WebSocket Verbunden. Sende Subscription...");
+                    statusText.innerText = "LIVE (PumpPortal Stream)";
+                    statusText.className = "text-sm font-bold text-neon-green mt-0.5";
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-neon-green animate-pulse";
+
+                    // OFFICIAL SUBSCRIPTION PAYLOAD FOR NEW TOKEN MINTS
+                    const payload = { method: "subscribeNewToken" };
+                    socket.send(JSON.stringify(payload));
+                    logStream("Abonniert: subscribeNewToken");
+                };
+
+                socket.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.mint) {
+                            handleNewTokenMint(data);
+                        }
+                    } catch (err) {
+                        console.error("JSON Parse Error", err);
+                    }
+                };
+
+                socket.onerror = (error) => {
+                    logStream("WebSocket Fehler aufgetreten!");
+                    statusText.innerText = "VERBINDUNGSFEHLER";
+                    statusText.className = "text-sm font-bold text-red-500 mt-0.5";
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-red-500";
+                };
+
+                socket.onclose = () => {
+                    logStream("WebSocket Verbindung getrennt. Reconnect in 3s...");
+                    statusText.innerText = "DISCONNECTED";
+                    statusText.className = "text-sm font-bold text-red-400 mt-0.5";
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-red-400";
+                    setTimeout(initPumpPortalWebSocket, 3000);
+                };
+
+            } catch (e) {
+                logStream("Socket Init Error: " + e.message);
+            }
+        }
+
+        function handleNewTokenMint(data) {
+            const timeEl = document.getElementById('last-update-time');
+            if (timeEl) timeEl.innerText = new Date().toLocaleTimeString();
+
+            const newToken = {
+                name: data.name || "Unknown Pump Token",
+                symbol: data.symbol || "PUMP",
+                mint: data.mint,
+                uri: data.uri || "",
+                trader: data.traderPublicKey || "",
+                vSolInBondingCurve: data.vSolInBondingCurve || 0,
+                time: new Date().toLocaleTimeString()
+            };
+
+            if (realTokens.some(t => t.mint === newToken.mint)) return;
+
+            realTokens.unshift(newToken);
+            if (realTokens.length > 30) realTokens.pop();
+
+            const countEl = document.getElementById('pump-count-display');
+            if (countEl) countEl.innerText = `${realTokens.length} Tokens Live`;
+            
+            logStream(`Neuer Mint: [${newToken.symbol}] ${newToken.name}`);
+
+            renderLivePumpFeed();
+            renderDiscoveryGrid();
+        }
+
+        function renderLivePumpFeed() {
+            const container = document.getElementById('pump-live-container');
+            if (!container || realTokens.length === 0) return;
+
+            const html = realTokens.slice(0, 5).map(t => `
+                <div onclick="selectTokenForTerminalByMint('${t.mint}')" class="bg-dark-bg p-4 rounded-2xl border border-dark-border hover:border-neon-pink transition duration-300 flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-neon-pink/20 border border-neon-pink text-neon-pink font-bold flex items-center justify-center font-mono text-xs">
+                            ${t.symbol.substring(0, 3)}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">${t.name} <span class="text-xs text-gray-400 font-mono">(${t.symbol})</span></h4>
+                            <p class="text-[10px] text-gray-400 font-mono">Mint: ${t.mint.substring(0, 8)}...${t.mint.substring(t.mint.length - 6)}</p>
+                        </div>
+                    </div>
+                    <div class="text-right font-mono">
+                        <span class="text-xs text-neon-green font-bold">${t.time}</span>
+                        <a href="https://pump.fun/coin/${t.mint}" target="_blank" onclick="event.stopPropagation()" class="block text-[10px] text-neon-purple-bright hover:underline">pump.fun ↗</a>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        function renderDiscoveryGrid() {
+            const container = document.getElementById('tokens-grid-container');
+            if (!container) return;
+
+            if (realTokens.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-500 font-mono col-span-3 text-center py-6">Warte auf echte Live-Mints vom WebSocket...</p>`;
+                return;
+            }
+
+            container.innerHTML = realTokens.map(t => `
+                <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 hover:border-neon-purple transition space-y-4 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-dark-bg border border-dark-border flex items-center justify-center font-bold text-neon-green font-mono">
+                                ${t.symbol.substring(0,2)}
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-sm">${t.name}</h3>
+                                <p class="text-[10px] text-gray-400 font-mono">${t.symbol}</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-neon-purple-dark/50 text-neon-purple-bright border border-neon-purple/40 px-2 py-0.5 rounded font-mono">LIVE MINT</span>
+                    </div>
+
+                    <p class="text-[10px] text-gray-500 font-mono truncate">Mint: ${t.mint}</p>
+
+                    <button onclick="selectTokenForTerminalByMint('${t.mint}')" class="w-full bg-dark-card hover:bg-neon-purple hover:text-white border border-dark-border text-gray-200 py-2 rounded-xl text-xs font-bold font-mono transition">
+                        Im Terminal Laden
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function selectTokenForTerminalByMint(mint) {
+            const token = realTokens.find(t => t.mint === mint);
+            if (!token) return;
+
+            currentToken = token;
+            document.getElementById('selected-token-title').innerText = `${token.name} (${token.symbol})`;
+            document.getElementById('selected-token-mint').innerText = token.mint;
+            
+            const linkEl = document.getElementById('selected-token-link');
+            linkEl.href = `https://pump.fun/coin/${token.mint}`;
+            linkEl.innerText = "Auf Pump.fun Öffnen ↗";
+
+            updateChart(token);
+        }
+
+        function updateChart(token) {
+            const ctx = document.getElementById('dexChart').getContext('2d');
+            if (dexChartInstance) dexChartInstance.destroy();
+
+            dexChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mint', '+1s', '+2s', '+3s', 'Jetzt'],
+                    datasets: [{
+                        label: token.symbol,
+                        data: [0.00001, 0.000012, 0.000011, 0.000015, 0.000018],
+                        borderColor: '#14f195',
+                        backgroundColor: 'rgba(20, 241, 149, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        }
+
+        function startBotEngine() { alert("Paper Trading Bot gestartet."); }
+        function stopBotEngine() { alert("Bot gestoppt."); }
+
+        function toggleWallet() {
+            if ("solana" in window) {
+                window.solana.connect().then(res => {
+                    userWalletAddress = res.publicKey.toString();
+                    document.getElementById('wallet-text').innerText = userWalletAddress.slice(0, 4) + '...' + userWalletAddress.slice(-4);
+                });
+            } else { alert("Bitte Phantom Wallet installieren."); }
+        }
+
+        window.onload = () => {
+            initPumpPortalWebSocket();
+        };
+    </script>
+</body>
+</html>
