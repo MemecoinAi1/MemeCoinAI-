@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Premium Solana Trading Platform & Pump.fun Live Terminal</title>
+    <title>MemeCoinAI – Premium Solana Trading Terminal & Pump.fun Live Radar</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,12 +20,12 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js für professionelle Diagramme -->
+    <!-- Chart.js für professionelle Live-Diagramme -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-dark text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand selection:text-dark">
 
-    <!-- Navigation Header -->
+    <!-- Header Navigation -->
     <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -49,50 +49,49 @@
 
     <main class="max-w-7xl mx-auto px-4 py-8 space-y-8 flex-grow w-full">
         
-        <!-- Live Trading Header Chart & Stats Section -->
+        <!-- Top Trading Header: Chart & Pump.fun Live Radar -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- Pro Interactive Price Chart (TradingView Look) -->
+            <!-- Live Interactive Price Chart -->
             <div class="lg:col-span-2 bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4 flex flex-col justify-between">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-dark-border/60 pb-4">
                     <div class="flex items-center gap-3">
-                        <div id="chart-token-icon" class="w-10 h-10 rounded-full bg-brand/20 border border-brand text-brand flex items-center justify-center font-bold text-lg">SOL</div>
+                        <img id="chart-token-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png" class="w-11 h-11 rounded-full border border-dark-border bg-dark-card p-0.5 object-cover" alt="Selected Token">
                         <div>
                             <div class="flex items-center gap-2">
-                                <h2 id="chart-token-name" class="text-lg font-bold text-white">Solana (SOL)</h2>
-                                <span class="bg-brand/10 text-brand text-xs font-semibold px-2 py-0.5 rounded-md border border-brand/20">Mainnet</span>
+                                <h2 id="chart-token-name" class="text-lg font-bold text-white">Bonk Token</h2>
+                                <span id="chart-token-symbol-badge" class="bg-brand/10 text-brand text-xs font-semibold px-2 py-0.5 rounded-md border border-brand/20">BONK</span>
                             </div>
-                            <p class="text-xs text-gray-400 font-mono" id="chart-token-mint">So11111111111111111111111111111111111111112</p>
+                            <p class="text-xs text-gray-400 font-mono" id="chart-token-mint">DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-6">
                         <div>
-                            <p class="text-xs text-gray-400">Preis (USD)</p>
-                            <p id="chart-token-price" class="text-xl font-extrabold text-white">$145.20</p>
+                            <p class="text-xs text-gray-400">Aktueller Preis</p>
+                            <p id="chart-token-price" class="text-xl font-extrabold text-white">$0.000022</p>
                         </div>
                         <div>
                             <p class="text-xs text-gray-400">24h Änderung</p>
-                            <p id="chart-token-change" class="text-xl font-extrabold text-brand">+4.25%</p>
+                            <p id="chart-token-change" class="text-xl font-extrabold text-brand">+12.8%</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Interactive Canvas Chart -->
-                <div class="relative h-64 w-full pt-2">
+                <!-- Canvas Trading Chart -->
+                <div class="relative h-60 w-full pt-2">
                     <canvas id="tradingChart"></canvas>
                 </div>
 
                 <div class="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-dark-border/40">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span> Live Market Feed</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span> Live Stream Feed</span>
                     <div class="flex gap-2">
                         <button onclick="updateChartTimeframe('1H')" class="px-2 py-1 rounded bg-dark-card border border-dark-border text-gray-300 hover:text-white hover:border-brand text-xs">1H</button>
                         <button onclick="updateChartTimeframe('24H')" class="px-2 py-1 rounded bg-brand/20 border border-brand text-brand text-xs font-bold">24H</button>
-                        <button onclick="updateChartTimeframe('7D')" class="px-2 py-1 rounded bg-dark-card border border-dark-border text-gray-300 hover:text-white hover:border-brand text-xs">7D</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Pump.fun Live Launch Radar Feed -->
+            <!-- Pump.fun Live Radar Stream -->
             <div class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4 flex flex-col justify-between">
                 <div class="flex items-center justify-between border-b border-dark-border/60 pb-3">
                     <div class="flex items-center gap-2">
@@ -102,25 +101,25 @@
                         </span>
                         <h3 class="text-base font-bold text-white">Pump.fun Live Radar</h3>
                     </div>
-                    <span class="text-xs bg-pink-500/10 text-pink-400 border border-pink-500/20 px-2.5 py-0.5 rounded-full font-semibold">Sub-second Stream</span>
+                    <span class="text-xs bg-pink-500/10 text-pink-400 border border-pink-500/20 px-2.5 py-0.5 rounded-full font-semibold">Live Launches</span>
                 </div>
 
-                <!-- Scrollbarer Live Stream Container -->
+                <!-- Scrollbarer Radar Stream -->
                 <div id="pump-feed-container" class="space-y-3 overflow-y-auto max-h-72 pr-1 custom-scrollbar">
-                    <!-- Dynamisch befüllt via WebSocket Stream -->
+                    <!-- Dynamisch geladen -->
                 </div>
 
-                <div class="pt-2 border-t border-dark-border/40 flex justify-between items-center text-xs text-gray-400">
-                    <span>Auto-Sniper: <span class="text-brand font-semibold">Bereit</span></span>
-                    <span class="text-gray-500">WebSocket Connected</span>
+                <div class="pt-2 border-t border-dark-border/40 text-xs text-gray-400 flex justify-between">
+                    <span>Klicke auf Token zum Sofort-Kauf</span>
+                    <i class="fa-solid fa-arrow-right text-brand"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Swap Terminal & Premium Dashboard -->
+        <!-- Middle Section: Trading Terminal, Premium Live Chat & Premium Subscription -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Swap Widget -->
+            <!-- Swap / Buy Terminal -->
             <section id="swap" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-1">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-bold text-white">Trading Terminal</h3>
@@ -128,6 +127,7 @@
                 </div>
 
                 <div class="space-y-4">
+                    <!-- Zahlungsfeld -->
                     <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
                         <div class="flex justify-between text-xs text-gray-400">
                             <span>Du zahlst</span>
@@ -145,73 +145,134 @@
                         </div>
                     </div>
 
+                    <!-- Empfangsfeld mit ausgewähltem Token-Logo -->
                     <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
                         <div class="flex justify-between text-xs text-gray-400">
                             <span>Du erhältst (geschätzt)</span>
-                            <span>Plattformgebühr: <span id="fee-text" class="text-brand font-semibold">0.5%</span></span>
+                            <span>Gebühr: <span id="fee-text" class="text-brand font-semibold">0.5%</span></span>
                         </div>
                         <div class="flex items-center justify-between">
                             <input type="text" id="receive-amount" readonly placeholder="0.0" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <span id="target-symbol" class="font-bold text-sm bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">BONK</span>
+                            <div class="flex items-center gap-2 bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">
+                                <img id="selected-token-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png" class="w-5 h-5 rounded-full object-cover" alt="Token">
+                                <span id="target-symbol" class="font-bold text-sm">BONK</span>
+                            </div>
                         </div>
                     </div>
 
                     <button id="swap-btn" onclick="executeSwap()" class="w-full bg-brand hover:bg-brand-dark text-dark font-bold py-3.5 rounded-xl transition shadow-lg shadow-brand/10 flex items-center justify-center gap-2">
-                        <span>Swap durchführen</span>
+                        <i class="fa-solid fa-bolt"></i> <span id="swap-btn-label">BONK jetzt kaufen</span>
                     </button>
                 </div>
             </section>
 
-            <!-- Premium Subscription Module -->
-            <section id="premium" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-2 flex flex-col justify-between">
+            <!-- Premium Exclusive Live Chat -->
+            <section class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4 lg:col-span-1 flex flex-col justify-between">
+                <div class="flex items-center justify-between border-b border-dark-border pb-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-brand"></i>
+                        <h3 class="text-lg font-bold text-white">Trollbox Live Chat</h3>
+                    </div>
+                    <span id="chat-badge" class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                        Premium Only Chat
+                    </span>
+                </div>
+
+                <!-- Chat Nachrichten Box -->
+                <div id="chat-box" class="space-y-3 overflow-y-auto max-h-56 pr-1 text-xs custom-scrollbar flex-grow">
+                    <div class="bg-dark border border-dark-border p-2.5 rounded-xl">
+                        <span class="font-bold text-brand">CryptoWhale_88</span> <span class="text-[10px] text-gray-500">12:04</span>
+                        <p class="text-gray-300 mt-0.5">BONK pushed gerade extrem durch, gutes Setup!</p>
+                    </div>
+                    <div class="bg-dark border border-dark-border p-2.5 rounded-xl">
+                        <span class="font-bold text-brand-accent">SolanaChad</span> <span class="text-[10px] text-gray-500">12:05</span>
+                        <p class="text-gray-300 mt-0.5">Neuer Launch auf Pump.fun im Radar entdeckt 🔥</p>
+                    </div>
+                </div>
+
+                <!-- Chat Eingabebereich mit Premium Schutz -->
+                <div class="pt-2 border-t border-dark-border space-y-2">
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="Nachricht schreiben..." class="bg-dark border border-dark-border px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-brand flex-grow">
+                        <button onclick="sendChatMessage()" class="bg-brand hover:bg-brand-dark text-dark px-4 py-2 rounded-xl font-bold text-xs transition">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <p id="chat-lock-msg" class="text-[10px] text-yellow-400 flex items-center gap-1">
+                        <i class="fa-solid fa-lock"></i> Nur Premium Mitglieder (€19,99/Mo) können im Chat schreiben.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Premium Subscription Banner -->
+            <section id="premium" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-1 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-crown text-brand text-xl"></i>
                             <h3 class="text-lg font-bold text-white">MemeCoinAI Premium</h3>
                         </div>
-                        <span class="bg-brand/10 text-brand border border-brand/20 px-3 py-1 rounded-full text-xs font-semibold">19,99 € / Monat</span>
+                        <span class="bg-brand/10 text-brand border border-brand/20 px-3 py-1 rounded-full text-xs font-semibold">19,99 € / Mo</span>
                     </div>
-                    <p class="text-sm text-gray-400 mt-2">
-                        Erhalte 0% Plattformgebühren und blitzschnelle Auto-Sniper Signale bei jedem neuen Pump.fun Launch.
+                    <p class="text-xs text-gray-400 mt-2">
+                        0% Plattformgebühren, Schreibrechte im Live-Chat & automatische Sniper-Signale.
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                        <div class="bg-dark border border-dark-border p-4 rounded-xl flex items-start gap-3">
-                            <i class="fa-solid fa-percent text-brand text-xl mt-0.5"></i>
-                            <div>
-                                <p class="text-sm font-bold text-white">0% Plattformgebühr</p>
-                                <p class="text-xs text-gray-400">Keine Gebührenabzüge mehr bei deinen Swaps.</p>
-                            </div>
+                    <div class="space-y-2.5 mt-4">
+                        <div class="bg-dark border border-dark-border p-2.5 rounded-xl flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-brand text-xs"></i>
+                            <span class="text-xs text-white font-semibold">0% Plattformgebühr</span>
                         </div>
-                        <div class="bg-dark border border-dark-border p-4 rounded-xl flex items-start gap-3">
-                            <i class="fa-solid fa-crosshairs text-pink-400 text-xl mt-0.5"></i>
-                            <div>
-                                <p class="text-sm font-bold text-white">Pump.fun Fast-Sniper</p>
-                                <p class="text-xs text-gray-400">Automatische Filterung von Rug-Pulls & Authorities.</p>
-                            </div>
+                        <div class="bg-dark border border-dark-border p-2.5 rounded-xl flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-brand text-xs"></i>
+                            <span class="text-xs text-white font-semibold">Trollbox Chat Schreibrechte</span>
+                        </div>
+                        <div class="bg-dark border border-dark-border p-2.5 rounded-xl flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-brand text-xs"></i>
+                            <span class="text-xs text-white font-semibold">Pump.fun Sniper Access</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="pt-6 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p class="text-xs text-gray-400">Sichere serverseitige Abrechnung verknüpft mit deiner Wallet.</p>
-                    <button onclick="startStripeCheckout()" class="w-full sm:w-auto bg-gradient-to-r from-brand to-brand-accent text-dark font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-brand/20">
-                        Freischalten (€19,99/Mo)
-                    </button>
-                </div>
+                <button onclick="startStripeCheckout()" class="w-full bg-gradient-to-r from-brand to-brand-accent text-dark font-bold py-3 rounded-xl transition shadow-lg shadow-brand/20 text-xs">
+                    Jetzt Premium freischalten (€19,99)
+                </button>
             </section>
         </div>
+
+        <!-- Token Explorer Table mit Klick-to-Buy -->
+        <section class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white">Verifizierte Token & Meme-Coins</h3>
+                <span class="text-xs text-gray-400">Klicke auf einen Token zum Sofort-Kauf</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="border-b border-dark-border text-xs text-gray-400 uppercase">
+                            <th class="py-3 px-4">Token</th>
+                            <th class="py-3 px-4">Mint-Adresse</th>
+                            <th class="py-3 px-4">Preis</th>
+                            <th class="py-3 px-4">24h Änd.</th>
+                            <th class="py-3 px-4 text-right">Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="token-table-body" class="divide-y divide-dark-border text-sm">
+                        <!-- Dynamisch geladen -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
     </main>
 
     <footer class="border-t border-dark-border text-center py-6 text-xs text-gray-500">
-        &copy; 2026 MemeCoinAI – Premium Trading Platform & Pump.fun Live Stream
+        &copy; 2026 MemeCoinAI – Solana Trading Terminal & Premium Live Chat
     </footer>
 
-    <!-- Core Scripting -->
+    <!-- Plattform Skripte -->
     <script>
-        const TREASURY_WALLET = "MemeCoinAITreasuryAddressPlaceholder11111111"; 
         const BACKEND_URL = "http://localhost:3000";
 
         let currentWallet = null;
@@ -219,201 +280,24 @@
         let feeBps = 50;
         let chartInstance = null;
 
-        // 1. Initialisiere TradingView-Style Chart
-        function initChart() {
-            const ctx = document.getElementById('tradingChart').getContext('2d');
-            
-            // Gradient Füllung
-            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(20, 241, 149, 0.3)');
-            gradient.addColorStop(1, 'rgba(20, 241, 149, 0.0)');
-
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', 'Jetzt'],
-                    datasets: [{
-                        label: 'Preis (USD)',
-                        data: [138.5, 139.2, 138.8, 141.0, 140.5, 142.8, 144.1, 143.5, 144.9, 145.2],
-                        borderColor: '#14f195',
-                        borderWidth: 2,
-                        fill: true,
-                        backgroundColor: gradient,
-                        tension: 0.35,
-                        pointRadius: 0,
-                        pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#14f195'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'rgba(42, 47, 61, 0.3)' }, ticks: { color: '#6b7280', font: { size: 10 } } },
-                        y: { grid: { color: 'rgba(42, 47, 61, 0.3)' }, ticks: { color: '#6b7280', font: { size: 10 } } }
-                    }
-                }
-            });
-        }
-
-        function updateChartTimeframe(tf) {
-            if (!chartInstance) return;
-            if (tf === '1H') {
-                chartInstance.data.dataSets[0].data = [144.8, 144.9, 145.0, 145.1, 145.2];
-            } else if (tf === '24H') {
-                chartInstance.data.datasets[0].data = [138.5, 139.2, 138.8, 141.0, 140.5, 142.8, 144.1, 143.5, 144.9, 145.2];
-            }
-            chartInstance.update();
-        }
-
-        // 2. Pump.fun Live WebSocket Stream Integration
-        function startPumpFunStream() {
-            const container = document.getElementById('pump-feed-container');
-            
-            // Simulierter sub-second Stream mit echten Datenfeldern von Pump.fun
-            const sampleMemeCoins = [
-                { name: "PepeAI", symbol: "PEPEAI", devBuy: "1.2 SOL", mc: "$12.4k", time: "Gerade eben" },
-                { name: "Doggo Fun", symbol: "DOGGO", devBuy: "0.5 SOL", mc: "$8.1k", time: "vor 2s" },
-                { name: "PumpCat", symbol: "PCAT", devBuy: "2.5 SOL", mc: "$34.0k", time: "vor 5s" },
-                { name: "Solana AI Agent", symbol: "AGENT", devBuy: "4.0 SOL", mc: "$89.2k", time: "vor 9s" }
-            ];
-
-            sampleMemeCoins.forEach(coin => addPumpItem(coin));
-
-            // Intervall zum Einspeisen neuer Pump.fun Events
-            setInterval(() => {
-                const names = ["AlphaGrok", "MoonShot", "TurboPump", "ElonDog", "AIPenguin"];
-                const randomName = names[Math.floor(Math.random() * names.length)];
-                const randomSymbol = randomName.substring(0, 4).toUpperCase();
-                const randomDev = (Math.random() * 2 + 0.1).toFixed(1) + " SOL";
-                const randomMc = "$" + (Math.random() * 20 + 5).toFixed(1) + "k";
-
-                addPumpItem({
-                    name: randomName,
-                    symbol: randomSymbol,
-                    devBuy: randomDev,
-                    mc: randomMc,
-                    time: "Neu!"
-                });
-            }, 4500);
-        }
-
-        function addPumpItem(coin) {
-            const container = document.getElementById('pump-feed-container');
-            const item = document.createElement('div');
-            item.className = "bg-dark border border-dark-border p-3 rounded-xl flex items-center justify-between hover:border-pink-500/50 transition cursor-pointer";
-            
-            item.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-400 flex items-center justify-center font-bold text-xs">
-                        ${coin.symbol.substring(0, 2)}
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <p class="font-bold text-white text-xs">${coin.name}</p>
-                            <span class="text-[10px] text-gray-400 font-mono">${coin.symbol}</span>
-                        </div>
-                        <p class="text-[10px] text-gray-400">Dev Buy: <span class="text-brand font-medium">${coin.devBuy}</span> | MC: <span class="text-white">${coin.mc}</span></p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <span class="text-[10px] bg-pink-500/20 text-pink-300 px-2 py-0.5 rounded font-semibold">${coin.time}</span>
-                </div>
-            `;
-
-            container.insertBefore(item, container.firstChild);
-            if (container.children.length > 6) {
-                container.removeChild(container.lastChild);
-            }
-        }
-
-        // 3. Wallet Connection & Status Logic
-        async function toggleWallet() {
-            if (currentWallet) {
-                currentWallet = null;
-                isPremium = false;
-                feeBps = 50;
-                updateUI();
-                return;
-            }
-
-            if ("solana" in window) {
-                try {
-                    const response = await window.solana.connect();
-                    currentWallet = response.publicKey.toString();
-                    await checkSubscriptionStatus();
-                    updateUI();
-                } catch (err) {
-                    alert("Wallet-Verbindung abgebrochen.");
-                }
-            } else {
-                alert("Bitte installiere Phantom oder Solflare Wallet.");
-            }
-        }
-
-        async function checkSubscriptionStatus() {
-            if (!currentWallet) return;
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/v1/subscription/${currentWallet}`);
-                const data = await res.json();
-                isPremium = data.premium;
-                feeBps = data.feeBps;
-            } catch (e) {
-                console.log("Backend offline, Standard Free-Tier aktiv.");
-            }
-        }
-
-        function updateUI() {
-            const btnText = document.getElementById('wallet-btn-text');
-            const badgeText = document.getElementById('badge-text');
-            const badgeDot = document.getElementById('badge-dot');
-
-            if (currentWallet) {
-                btnText.innerText = currentWallet.slice(0, 4) + '...' + currentWallet.slice(-4);
-                document.getElementById('sol-balance').innerText = "1.25";
-
-                if (isPremium) {
-                    badgeText.innerText = "Premium Member (0% Fee)";
-                    badgeDot.className = "w-2 h-2 rounded-full bg-brand mr-2 animate-pulse";
-                    document.getElementById('fee-text').innerText = "0.0% (Befreit)";
-                } else {
-                    badgeText.innerText = "Free Tier (0,5% Fee)";
-                    badgeDot.className = "w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse";
-                    document.getElementById('fee-text').innerText = "0.5%";
-                }
-            } else {
-                btnText.innerText = "Wallet verbinden";
-                badgeText.innerText = "Free Tier (0,5% Fee)";
-                badgeDot.className = "w-2 h-2 rounded-full bg-yellow-500 mr-2";
-            }
-        }
-
-        function calculateEstimate() {
-            const amount = parseFloat(document.getElementById('pay-amount').value) || 0;
-            const receiveInput = document.getElementById('receive-amount');
-            const effectiveAmount = amount * (1 - (feeBps / 10000));
-            const estimatedTokens = effectiveAmount * 6500000;
-            receiveInput.value = estimatedTokens > 0 ? estimatedTokens.toFixed(0) : "0";
-        }
-
-        async function executeSwap() {
-            if (!currentWallet) {
-                alert("Bitte verbinde zuerst deine Wallet.");
-                return;
-            }
-            alert("Jupiter Swap wird vorbereitet und signiert...");
-        }
-
-        function startStripeCheckout() {
-            alert("Weiterleitung zum Stripe-Checkout für das Premium Abo (19,99€)...");
-        }
-
-        // Init beim Laden
-        window.onload = function() {
-            initChart();
-            startPumpFunStream();
+        // Ausgewählter Token
+        let selectedToken = {
+            name: "Bonk Token",
+            symbol: "BONK",
+            mint: "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+            price: 0.000022,
+            change: "+12.8%",
+            icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png"
         };
-    </script>
-</body>
-</html>
+
+        // Verifizierte Token-Liste mit Bildern
+        const tokenList = [
+            { name: "Wrapped SOL", symbol: "SOL", mint: "So11111111111111111111111111111111111111112", price: 145.20, change: "+4.25%", icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" },
+            { name: "Bonk Token", symbol: "BONK", mint: "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263", price: 0.000022, change: "+12.8%", icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png" },
+            { name: "dogwifhat", symbol: "WIF", mint: "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcJM", price: 2.45, change: "-2.10%", icon: "https://arweave.net/3P0n3_XpWn5_3P0n3_XpWn5_3P0n3_XpWn5" },
+            { name: "USD Coin", symbol: "USDC", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", price: 1.00, change: "0.00%", icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png" }
+        ];
+
+        // Fallback SVG Generator für fehlende Token-Logos
+        function getSVGIcon(letter) {
+            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="%231a1d26"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="%2314f
