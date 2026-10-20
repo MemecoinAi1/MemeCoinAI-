@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Premium Solana Trading Platform</title>
+    <title>MemeCoinAI – Premium Solana Meme-Coin Trading Platform</title>
+    
     <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -28,13 +29,15 @@
             }
         }
     </script>
-    <!-- FontAwesome für saubere Icons -->
+    
+    <!-- FontAwesome Icons & Solana Web3 SDK -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 </head>
-<body class="bg-dark text-gray-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-dark text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand selection:text-dark">
 
-    <!-- Top Navigation -->
-    <header class="border-b border-dark-border bg-dark-surface/80 backdrop-blur sticky top-0 z-50">
+    <!-- Header Navigation -->
+    <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="bg-gradient-to-r from-brand to-brand-accent p-2 rounded-xl text-dark font-black text-xl flex items-center justify-center w-10 h-10 shadow-lg shadow-brand/20">
@@ -43,284 +46,27 @@
                 <span class="text-xl font-bold tracking-tight text-white">MemeCoin<span class="text-brand">AI</span></span>
             </div>
             
-            <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-400">
                 <a href="#explorer" class="text-white hover:text-brand transition">Explorer</a>
-                <a href="#swap" class="hover:text-brand transition">Swap</a>
+                <a href="#swap" class="hover:text-brand transition">Terminal / Swap</a>
                 <a href="#sniper" class="hover:text-brand transition">Sniper Bot</a>
                 <a href="#premium" class="hover:text-brand transition text-brand flex items-center gap-1.5"><i class="fa-solid fa-crown"></i> Premium</a>
             </nav>
 
-            <!-- Wallet & Status -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-3">
                 <div id="badge-container" class="hidden sm:flex items-center px-3 py-1 bg-dark-card border border-dark-border rounded-full text-xs font-medium text-gray-300">
-                    <span class="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse"></span> Free Tier (0.5% Gebühr)
+                    <span id="tier-indicator" class="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse"></span> 
+                    <span id="tier-text">Free Tier (0,5% Gebühr)</span>
                 </div>
-                <button id="connect-wallet-btn" onclick="connectWallet()" class="bg-brand hover:bg-brand-dark text-dark font-semibold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-brand/10 flex items-center gap-2">
+                <button id="connect-wallet-btn" onclick="toggleWalletConnection()" class="bg-brand hover:bg-brand-dark text-dark font-semibold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-brand/10 flex items-center gap-2">
                     <i class="fa-solid fa-wallet"></i> <span id="wallet-btn-text">Wallet verbinden</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Hauptbereich -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-        <!-- Hero / Stats Bar -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl">
-                <p class="text-xs text-gray-400 font-medium">Plattform Volumen (24h)</p>
-                <p class="text-2xl font-bold text-white mt-1">$14,289,420</p>
-                <span class="text-xs text-brand mt-2 inline-flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up"></i> +12.4%</span>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl">
-                <p class="text-xs text-gray-400 font-medium">Aktive Sniper Bots</p>
-                <p class="text-2xl font-bold text-white mt-1">1,432</p>
-                <span class="text-xs text-gray-400 mt-2 block">Sicher im Echtzeitbetrieb</span>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl">
-                <p class="text-xs text-gray-400 font-medium">Verifizierte Token</p>
-                <p class="text-2xl font-bold text-white mt-1">8,920</p>
-                <span class="text-xs text-brand mt-2 block">Inkl. Pump.fun Launches</span>
-            </div>
-            <div class="bg-dark-surface border border-dark-border p-5 rounded-2xl bg-gradient-to-br from-dark-surface to-brand-accent/10 border-brand-accent/30">
-                <p class="text-xs text-brand-accent font-semibold uppercase tracking-wider">Premium Status</p>
-                <p class="text-lg font-bold text-white mt-1">0% Plattformgebühr</p>
-                <a href="#premium" class="text-xs text-brand hover:underline mt-2 inline-block font-medium">Jetzt upgraden (€19,99/Mo) &rarr;</a>
-            </div>
-        </div>
-
-        <!-- Token Explorer Section -->
-        <section id="explorer" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl font-bold text-white">Solana & Pump.fun Token Explorer</h2>
-                    <p class="text-xs text-gray-400 mt-1">Echtzeit-Datenanalyse mit verifizierten Token-Metadaten und Logos.</p>
-                </div>
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <input type="text" id="token-search" placeholder="Suche nach Name, Ticker, Mint..." 
-                        class="bg-dark border border-dark-border px-4 py-2 rounded-xl text-sm text-white focus:outline-none focus:border-brand w-full sm:w-64">
-                    <button onclick="loadTokens()" class="bg-dark-card border border-dark-border px-4 py-2 rounded-xl text-sm hover:border-brand transition">
-                        <i class="fa-solid fa-rotate"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Token Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-dark-border text-xs text-gray-400 uppercase tracking-wider">
-                            <th class="py-3 px-4">Token</th>
-                            <th class="py-3 px-4">Mint-Adresse</th>
-                            <th class="py-3 px-4">Preis (USD)</th>
-                            <th class="py-3 px-4">24h Änd.</th>
-                            <th class="py-3 px-4">Marktkapitalisierung</th>
-                            <th class="py-3 px-4 text-right">Aktion</th>
-                        </tr>
-                    </thead>
-                    <tbody id="token-table-body" class="divide-y divide-dark-border text-sm">
-                        <!-- Dynamisch gefüllt via JS -->
-                        <tr>
-                            <td colspan="6" class="py-6 text-center text-gray-500">Lade verifizierte Token-Daten...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex items-center justify-between text-xs text-gray-400 pt-2">
-                <span id="datasource-info">Datenquelle: Offizielle Jupiter / Dexscreener API (Aktualisiert: Live)</span>
-                <span>Sicherheitsprüfung: Aktiv</span>
-            </div>
-        </section>
-
-        <!-- Trading / Swap & Sniper Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Swap Widget -->
-            <section id="swap" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-1">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-white">Sicherer Token Swap</h3>
-                    <span class="text-xs bg-dark-card border border-dark-border px-2.5 py-1 rounded-lg text-gray-300">Slippage: 0.5%</span>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
-                        <div class="flex justify-between text-xs text-gray-400">
-                            <span>Du zahlst</span>
-                            <span>Guthaben: <span id="sol-balance">0.00</span> SOL</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <input type="number" id="pay-amount" placeholder="0.0" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <div class="flex items-center gap-2 bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">
-                                <span class="font-bold text-sm">SOL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center -my-2 relative z-10">
-                        <button class="bg-dark-card border border-dark-border p-2.5 rounded-full text-brand hover:scale-110 transition shadow">
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </button>
-                    </div>
-
-                    <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
-                        <div class="flex justify-between text-xs text-gray-400">
-                            <span>Du erhältst (geschätzt)</span>
-                            <span>Gebühr: <span id="fee-display" class="text-brand font-semibold">0.5% (Free)</span></span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <input type="text" id="receive-amount" readonly placeholder="0.0" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <div class="flex items-center gap-2 bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">
-                                <span id="receive-symbol" class="font-bold text-sm">TOKEN</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="executeSwap()" class="w-full bg-brand hover:bg-brand-dark text-dark font-bold py-3.5 rounded-xl transition shadow-lg shadow-brand/10">
-                        Swap ausführen
-                    </button>
-                </div>
-            </section>
-
-            <!-- Premium Subscription Section -->
-            <section id="premium" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-2 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-crown text-brand text-xl"></i>
-                            <h3 class="text-lg font-bold text-white">MemeCoinAI Premium Mitgliedschaft</h3>
-                        </div>
-                        <span class="bg-brand/10 text-brand border border-brand/20 px-3 py-1 rounded-full text-xs font-semibold">€19,99 / Monat</span>
-                    </div>
-                    <p class="text-sm text-gray-400 mt-2">
-                        Eliminiere jegliche Plattformgebühren und erhalte Zugriff auf professionelle Analyse-Tools und automatisierte Sniper-Systeme.
-                    </p>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-circle-check text-brand mt-1"></i>
-                            <div>
-                                <p class="text-sm font-semibold text-white">0% Plattformgebühr</p>
-                                <p class="text-xs text-gray-400">Spare bei jedem Kauf und Verkauf.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-circle-check text-brand mt-1"></i>
-                            <div>
-                                <p class="text-sm font-semibold text-white">Automatisierter Sniper</p>
-                                <p class="text-xs text-gray-400">Blitzschnelle Ausführung direkt bei Launch.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-circle-check text-brand mt-1"></i>
-                            <div>
-                                <p class="text-sm font-semibold text-white">Erweiterte Risikoprüfung</p>
-                                <p class="text-xs text-gray-400">Echtzeit-Analyse von Mint- & Freeze-Authorities.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-circle-check text-brand mt-1"></i>
-                            <div>
-                                <p class="text-sm font-semibold text-white">Prioritäts-Support</p>
-                                <p class="text-xs text-gray-400">Direkter Draht zu unseren Entwicklern.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-6 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p class="text-xs text-gray-400">Sichere Abwicklung über verifizierte Zahlungsdienstleister. Jederzeit kündbar.</p>
-                    <button onclick="startSubscription()" class="w-full sm:w-auto bg-gradient-to-r from-brand to-brand-accent text-dark font-bold px-8 py-3 rounded-xl transition shadow-lg shadow-brand/20">
-                        Jetzt Premium aktivieren (€19,99/Mo)
-                    </button>
-                </div>
-            </section>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-dark-border bg-dark-surface/50 mt-12 py-8 text-center text-xs text-gray-500 space-y-2">
-        <p>&copy; 2026 MemeCoinAI. Alle Rechte vorbehalten. Entwickelt für den sicheren Solana-Handel.</p>
-        <p class="max-w-xl mx-auto text-gray-600">Risikohinweis: Der Handel mit Krypto-Meme-Coins birgt ein hohes Verlustrisiko. Keine Anlageberatung.</p>
-    </footer>
-
-    <!-- Core Frontend Logic -->
-    <script>
-        let walletConnected = false;
-        let userPublicKey = null;
-
-        async function connectWallet() {
-            if ("solana" in window) {
-                const provider = window.solana;
-                if (provider.isPhantom) {
-                    try {
-                        const response = await provider.connect();
-                        walletConnected = true;
-                        userPublicKey = response.publicKey.toString();
-                        document.getElementById('wallet-btn-text').innerText = userPublicKey.slice(0, 4) + '...' + userPublicKey.slice(-4);
-                        document.getElementById('sol-balance').innerText = '1.42'; // Live Abfrage über Web3.js in Produktion
-                        alert('Wallet erfolgreich verbunden!');
-                    } catch (err) {
-                        console.error("Verbindung abgelehnt", err);
-                    }
-                }
-            } else {
-                alert('Keine kompatible Solana Wallet gefunden. Bitte installieren Sie Phantom oder Solflare.');
-            }
-        }
-
-        async function loadTokens() {
-            const tbody = document.getElementById('token-table-body');
-            tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-gray-400">Lade verifizierte Token...</td></tr>`;
-            
-            try {
-                // Nutzung einer offiziellen verifizierten Datenquelle (Dexscreener / Jupiter API)
-                const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/So11111111111111111111111111111111111111112');
-                const data = await res.json();
-                
-                // Beispiels-Daten rendering mit sicheren Fallback-Logos zur Vermeidung falscher Bildzuordnungen
-                tbody.innerHTML = `
-                    <tr class="hover:bg-dark-card/50 transition">
-                        <td class="py-3 px-4 flex items-center gap-3">
-                            <img src="https://arweave.net/W1V0V6XW58Fp8H8-hB6wB8-8nB8wB88nB8wB88nB8w" onerror="this.src='https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png'" class="w-8 h-8 rounded-full border border-dark-border" alt="Logo">
-                            <div>
-                                <p class="font-bold text-white">MemeAI Token</p>
-                                <p class="text-xs text-gray-400">MAI</p>
-                            </div>
-                        </td>
-                        <td class="py-3 px-4 font-mono text-xs text-gray-400">MAI...pump</td>
-                        <td class="py-3 px-4 font-semibold text-white">$0.00421</td>
-                        <td class="py-3 px-4 text-brand font-semibold">+34.8%</td>
-                        <td class="py-3 px-4 text-gray-300">$4.2M</td>
-                        <td class="py-3 px-4 text-right">
-                            <button onclick="selectToken('MAI', '$0.00421')" class="bg-brand/10 hover:bg-brand text-brand hover:text-dark px-3 py-1.5 rounded-xl text-xs font-bold transition">Handeln</button>
-                        </td>
-                    </tr>
-                `;
-            } catch (e) {
-                tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-red-400">Fehler beim Laden der Token-Daten. Bitte versuchen Sie es später erneut.</td></tr>`;
-            }
-        }
-
-        function selectToken(symbol, price) {
-            document.getElementById('receive-symbol').innerText = symbol;
-            document.getElementById('swap').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function executeSwap() {
-            if (!walletConnected) {
-                alert('Bitte verbinden Sie zuerst Ihre Wallet.');
-                return;
-            }
-            alert('Schnittstelle bereit: Transaktions-Signierung wird vorbereitet.');
-        }
-
-        function startSubscription() {
-            window.location.href = '/checkout'; // Verweis auf sicheren Backend-Checkout
-        }
-
-        // Initialer Aufruf
-        loadTokens();
-    </script>
-</body>
-</html>
+        <!-- Stat-Karten Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols
