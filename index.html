@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="de" class="dark">
+<html lang="de" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Premium Solana Trading Terminal & Pump.fun Live Radar</title>
+    <title>MemeCoinAI – Futuristic Web3 & AI Meme-Coin Platform</title>
     
+    <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -12,292 +13,599 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: { DEFAULT: '#0a0b0d', surface: '#12141a', card: '#1a1d26', border: '#2a2f3d' },
-                        brand: { DEFAULT: '#14f195', dark: '#0db870', accent: '#9945ff' }
+                        neon: {
+                            purple: '#a855f7',
+                            'purple-bright': '#c084fc',
+                            'purple-dark': '#581c87',
+                            green: '#14f195',
+                            'green-bright': '#4ade80',
+                            'green-dark': '#065f46'
+                        },
+                        dark: {
+                            bg: '#060709',
+                            surface: '#0d0f14',
+                            card: '#141721',
+                            border: '#232838'
+                        }
+                    },
+                    boxShadow: {
+                        'glow-purple': '0 0 25px -5px rgba(168, 85, 247, 0.4)',
+                        'glow-green': '0 0 25px -5px rgba(20, 241, 149, 0.4)'
                     }
                 }
             }
         }
     </script>
+    
+    <!-- FontAwesome & Chart.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js für professionelle Live-Diagramme -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-dark text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand selection:text-dark">
 
-    <!-- Header Navigation -->
+    <style>
+        /* Custom Custom Scrollbar & Glow Animations */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #060709; }
+        ::-webkit-scrollbar-thumb { background: #232838; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+
+        .neon-border-purple { border: 1px solid rgba(168, 85, 247, 0.3); }
+        .neon-border-green { border: 1px solid rgba(20, 241, 149, 0.3); }
+        .neon-glow-text-purple { text-shadow: 0 0 12px rgba(168, 85, 247, 0.6); }
+        .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
+    </style>
+</head>
+<body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-neon-purple selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
     <header class="border-b border-dark-border bg-dark-surface/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-r from-brand to-brand-accent p-2 rounded-xl text-dark font-black text-xl flex items-center justify-center w-10 h-10 shadow-lg shadow-brand/20">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <span class="text-xl font-bold text-white">MemeCoin<span class="text-brand">AI</span></span>
-            </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
-            <div class="flex items-center space-x-3">
-                <div id="badge-status" class="hidden sm:flex items-center px-3 py-1 bg-dark-card border border-dark-border rounded-full text-xs text-gray-300">
-                    <span id="badge-dot" class="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse"></span> 
-                    <span id="badge-text">Free Tier (0,5% Fee)</span>
+            <!-- Brand Logo & Typography -->
+            <a href="#" onclick="navigateTo('home')" class="flex items-center space-x-3 group">
+                <div class="relative w-11 h-11 bg-gradient-to-br from-neon-purple to-neon-green p-0.5 rounded-2xl shadow-glow-purple group-hover:shadow-glow-green transition duration-300">
+                    <div class="w-full h-full bg-dark-bg rounded-[14px] flex items-center justify-center">
+                        <i class="fa-solid fa-brain text-transparent bg-clip-text bg-gradient-to-r from-neon-purple-bright to-neon-green font-black text-xl"></i>
+                    </div>
                 </div>
-                <button onclick="toggleWallet()" id="wallet-btn" class="bg-brand text-dark font-bold px-4 py-2 rounded-xl text-sm hover:bg-brand-dark transition shadow-lg shadow-brand/10 flex items-center gap-2">
-                    <i class="fa-solid fa-wallet"></i> <span id="wallet-btn-text">Wallet verbinden</span>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-wider text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI</span></span>
+                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Future Web3 Intelligence</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wide">
+                <a href="#" onclick="navigateTo('home')" class="text-white hover:text-neon-green transition flex items-center gap-2"><i class="fa-solid fa-house text-xs"></i> HOME</a>
+                <a href="#memecoinai-spotlight" class="text-neon-purple-bright hover:text-white transition flex items-center gap-2 font-bold"><i class="fa-solid fa-gem text-xs"></i> $MEMECOINAI</a>
+                <a href="#discover-tokens" class="text-gray-300 hover:text-neon-green transition">TOKENS</a>
+                <a href="#new-tokens" class="text-gray-300 hover:text-neon-green transition">NEW TOKENS</a>
+                <a href="#" onclick="navigateTo('clubs')" class="text-gray-300 hover:text-neon-purple-bright transition flex items-center gap-1.5"><i class="fa-solid fa-users text-xs"></i> CLUBS</a>
+                <a href="#" onclick="navigateTo('ai-analysis')" class="text-gray-300 hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-robot text-xs"></i> AI ANALYSIS</a>
+            </nav>
+
+            <!-- Wallet Action -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleWallet()" id="wallet-btn" class="relative group overflow-hidden rounded-xl p-px font-bold text-xs">
+                    <span class="absolute inset-0 bg-gradient-to-r from-neon-purple to-neon-green transition-all duration-300 group-hover:opacity-100"></span>
+                    <span class="relative block px-5 py-2.5 bg-dark-bg rounded-[11px] text-white transition-all duration-300 group-hover:bg-transparent flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet verbinden</span>
+                    </span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 space-y-8 flex-grow w-full">
-        
-        <!-- Top Trading Header: Chart & Pump.fun Live Radar -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- Live Interactive Price Chart -->
-            <div class="lg:col-span-2 bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4 flex flex-col justify-between">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-dark-border/60 pb-4">
-                    <div class="flex items-center gap-3">
-                        <img id="chart-token-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png" class="w-11 h-11 rounded-full border border-dark-border bg-dark-card p-0.5 object-cover" alt="Selected Token">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <h2 id="chart-token-name" class="text-lg font-bold text-white">Bonk Token</h2>
-                                <span id="chart-token-symbol-badge" class="bg-brand/10 text-brand text-xs font-semibold px-2 py-0.5 rounded-md border border-brand/20">BONK</span>
-                            </div>
-                            <p class="text-xs text-gray-400 font-mono" id="chart-token-mint">DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <div>
-                            <p class="text-xs text-gray-400">Aktueller Preis</p>
-                            <p id="chart-token-price" class="text-xl font-extrabold text-white">$0.000022</p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-gray-400">24h Änderung</p>
-                            <p id="chart-token-change" class="text-xl font-extrabold text-brand">+12.8%</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Canvas Trading Chart -->
-                <div class="relative h-60 w-full pt-2">
-                    <canvas id="tradingChart"></canvas>
-                </div>
-
-                <div class="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-dark-border/40">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span> Live Stream Feed</span>
-                    <div class="flex gap-2">
-                        <button onclick="updateChartTimeframe('1H')" class="px-2 py-1 rounded bg-dark-card border border-dark-border text-gray-300 hover:text-white hover:border-brand text-xs">1H</button>
-                        <button onclick="updateChartTimeframe('24H')" class="px-2 py-1 rounded bg-brand/20 border border-brand text-brand text-xs font-bold">24H</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pump.fun Live Radar Stream -->
-            <div class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4 flex flex-col justify-between">
-                <div class="flex items-center justify-between border-b border-dark-border/60 pb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="relative flex h-3 w-3">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
-                        </span>
-                        <h3 class="text-base font-bold text-white">Pump.fun Live Radar</h3>
-                    </div>
-                    <span class="text-xs bg-pink-500/10 text-pink-400 border border-pink-500/20 px-2.5 py-0.5 rounded-full font-semibold">Live Launches</span>
-                </div>
-
-                <!-- Scrollbarer Radar Stream -->
-                <div id="pump-feed-container" class="space-y-3 overflow-y-auto max-h-72 pr-1 custom-scrollbar">
-                    <!-- Dynamisch geladen -->
-                </div>
-
-                <div class="pt-2 border-t border-dark-border/40 text-xs text-gray-400 flex justify-between">
-                    <span>Klicke auf Token zum Sofort-Kauf</span>
-                    <i class="fa-solid fa-arrow-right text-brand"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Middle Section: Trading Terminal, Premium Live Chat & Premium Subscription -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- Swap / Buy Terminal -->
-            <section id="swap" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-1">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-white">Trading Terminal</h3>
-                    <span class="text-xs bg-dark-card border border-dark-border px-2.5 py-1 rounded-lg text-gray-300">Slippage: 0.5%</span>
-                </div>
-
-                <div class="space-y-4">
-                    <!-- Zahlungsfeld -->
-                    <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
-                        <div class="flex justify-between text-xs text-gray-400">
-                            <span>Du zahlst</span>
-                            <span>Guthaben: <span id="sol-balance">0.00</span> SOL</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <input type="number" id="pay-amount" placeholder="0.0" oninput="calculateEstimate()" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <span class="font-bold text-sm bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">SOL</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center -my-2 relative z-10">
-                        <div class="bg-dark-card border border-dark-border p-2 rounded-full text-brand shadow">
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </div>
-                    </div>
-
-                    <!-- Empfangsfeld mit ausgewähltem Token-Logo -->
-                    <div class="bg-dark border border-dark-border p-4 rounded-xl space-y-2">
-                        <div class="flex justify-between text-xs text-gray-400">
-                            <span>Du erhältst (geschätzt)</span>
-                            <span>Gebühr: <span id="fee-text" class="text-brand font-semibold">0.5%</span></span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <input type="text" id="receive-amount" readonly placeholder="0.0" class="bg-transparent text-xl font-bold text-white focus:outline-none w-1/2">
-                            <div class="flex items-center gap-2 bg-dark-surface px-3 py-1.5 rounded-lg border border-dark-border">
-                                <img id="selected-token-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png" class="w-5 h-5 rounded-full object-cover" alt="Token">
-                                <span id="target-symbol" class="font-bold text-sm">BONK</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button id="swap-btn" onclick="executeSwap()" class="w-full bg-brand hover:bg-brand-dark text-dark font-bold py-3.5 rounded-xl transition shadow-lg shadow-brand/10 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-bolt"></i> <span id="swap-btn-label">BONK jetzt kaufen</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Premium Exclusive Live Chat -->
-            <section class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4 lg:col-span-1 flex flex-col justify-between">
-                <div class="flex items-center justify-between border-b border-dark-border pb-3">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-comments text-brand"></i>
-                        <h3 class="text-lg font-bold text-white">Trollbox Live Chat</h3>
-                    </div>
-                    <span id="chat-badge" class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2.5 py-0.5 rounded-full text-xs font-semibold">
-                        Premium Only Chat
-                    </span>
-                </div>
-
-                <!-- Chat Nachrichten Box -->
-                <div id="chat-box" class="space-y-3 overflow-y-auto max-h-56 pr-1 text-xs custom-scrollbar flex-grow">
-                    <div class="bg-dark border border-dark-border p-2.5 rounded-xl">
-                        <span class="font-bold text-brand">CryptoWhale_88</span> <span class="text-[10px] text-gray-500">12:04</span>
-                        <p class="text-gray-300 mt-0.5">BONK pushed gerade extrem durch, gutes Setup!</p>
-                    </div>
-                    <div class="bg-dark border border-dark-border p-2.5 rounded-xl">
-                        <span class="font-bold text-brand-accent">SolanaChad</span> <span class="text-[10px] text-gray-500">12:05</span>
-                        <p class="text-gray-300 mt-0.5">Neuer Launch auf Pump.fun im Radar entdeckt 🔥</p>
-                    </div>
-                </div>
-
-                <!-- Chat Eingabebereich mit Premium Schutz -->
-                <div class="pt-2 border-t border-dark-border space-y-2">
-                    <div class="flex gap-2">
-                        <input type="text" id="chat-input" placeholder="Nachricht schreiben..." class="bg-dark border border-dark-border px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-brand flex-grow">
-                        <button onclick="sendChatMessage()" class="bg-brand hover:bg-brand-dark text-dark px-4 py-2 rounded-xl font-bold text-xs transition">
-                            <i class="fa-solid fa-paper-plane"></i>
-                        </button>
-                    </div>
-                    <p id="chat-lock-msg" class="text-[10px] text-yellow-400 flex items-center gap-1">
-                        <i class="fa-solid fa-lock"></i> Nur Premium Mitglieder (€19,99/Mo) können im Chat schreiben.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Premium Subscription Banner -->
-            <section id="premium" class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-6 lg:col-span-1 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-crown text-brand text-xl"></i>
-                            <h3 class="text-lg font-bold text-white">MemeCoinAI Premium</h3>
-                        </div>
-                        <span class="bg-brand/10 text-brand border border-brand/20 px-3 py-1 rounded-full text-xs font-semibold">19,99 € / Mo</span>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2">
-                        0% Plattformgebühren, Schreibrechte im Live-Chat & automatische Sniper-Signale.
-                    </p>
-
-                    <div class="space-y-2.5 mt-4">
-                        <div class="bg-dark border border-dark-border p-2.5 rounded-xl flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-brand text-xs"></i>
-                            <span class="text-xs text-white font-semibold">0% Plattformgebühr</span>
-                        </div>
-                        <div class="bg-dark border border-dark-border p-2.5 rounded-xl flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-brand text-xs"></i>
-                            <span class="text-xs text-white font-semibold">Trollbox Chat Schreibrechte</span>
-                        </div>
-                        <div class="bg-dark border border-dark-border p-2.5 rounded-xl flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-brand text-xs"></i>
-                            <span class="text-xs text-white font-semibold">Pump.fun Sniper Access</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button onclick="startStripeCheckout()" class="w-full bg-gradient-to-r from-brand to-brand-accent text-dark font-bold py-3 rounded-xl transition shadow-lg shadow-brand/20 text-xs">
-                    Jetzt Premium freischalten (€19,99)
-                </button>
-            </section>
-        </div>
-
-        <!-- Token Explorer Table mit Klick-to-Buy -->
-        <section class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-lg font-bold text-white">Verifizierte Token & Meme-Coins</h3>
-                <span class="text-xs text-gray-400">Klicke auf einen Token zum Sofort-Kauf</span>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm border-collapse">
-                    <thead>
-                        <tr class="border-b border-dark-border text-xs text-gray-400 uppercase">
-                            <th class="py-3 px-4">Token</th>
-                            <th class="py-3 px-4">Mint-Adresse</th>
-                            <th class="py-3 px-4">Preis</th>
-                            <th class="py-3 px-4">24h Änd.</th>
-                            <th class="py-3 px-4 text-right">Aktion</th>
-                        </tr>
-                    </thead>
-                    <tbody id="token-table-body" class="divide-y divide-dark-border text-sm">
-                        <!-- Dynamisch geladen -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
+    <!-- MAIN DYNAMIC CONTENT CONTAINER -->
+    <main id="app-root" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+        <!-- Dynamisch gefüllt durch JavaScript je nach Route -->
     </main>
 
-    <footer class="border-t border-dark-border text-center py-6 text-xs text-gray-500">
-        &copy; 2026 MemeCoinAI – Solana Trading Terminal & Premium Live Chat
+    <!-- FOOTER -->
+    <footer class="border-t border-dark-border bg-dark-surface/60 mt-16 py-10">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex justify-center items-center space-x-3">
+                <span class="text-lg font-black tracking-wider text-white">MEMECOIN<span class="text-neon-green">AI</span></span>
+            </div>
+            <p class="text-xs text-gray-500 max-w-xl mx-auto">
+                Futuristische Web3- & KI-Plattform für Solana Meme-Coins. Pre-Launch Status für den nativen $MEMECOINAI Token. Keine Anlageberatung.
+            </p>
+            <p class="text-[11px] text-gray-600 font-mono">&copy; 2026 MemeCoinAI. Hosted on GitHub Pages.</p>
+        </div>
     </footer>
 
-    <!-- Plattform Skripte -->
+    <!-- CORE PLATFORM JAVASCRIPT -->
     <script>
-        const BACKEND_URL = "http://localhost:3000";
-
-        let currentWallet = null;
-        let isPremium = false;
-        let feeBps = 50;
-        let chartInstance = null;
-
-        // Ausgewählter Token
-        let selectedToken = {
-            name: "Bonk Token",
-            symbol: "BONK",
-            mint: "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
-            price: 0.000022,
-            change: "+12.8%",
-            icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png"
+        // -------------------------------------------------------------
+        // 1. ZENTRALE DATENSTRUKTUR & MOCK-APIS (OHNE ERFUNDENE KURSE BEI PRE-LAUNCH)
+        // -------------------------------------------------------------
+        const PLATFORM_DATA = {
+            nativeToken: {
+                name: "MEMECOINAI",
+                symbol: "MAI",
+                status: "PRE-LAUNCH – NOT YET TRADING",
+                statusClass: "bg-neon-purple-dark/60 text-neon-purple-bright border-neon-purple/50",
+                price: "N/A",
+                change24h: "0.00%",
+                isPositive: true,
+                mint: "MAI1111111111111111111111111111111111111111",
+                description: "Der native Utility & Governance AI-Token der MemeCoinAI-Plattform. Erschließt automatisierte Sniper-Bots, Gebührenbefreiung und exklusive Club-Analysen.",
+                // Verifiziertes Logo mit Neon-Branding
+                icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><rect width='120' height='120' rx='30' fill='%230d0f14'/><circle cx='60' cy='60' r='50' fill='none' stroke='%23a855f7' stroke-width='3'/><path d='M35 75 L60 35 L85 75 L60 60 Z' fill='%2314f195'/></svg>"
+            },
+            tokens: [
+                {
+                    name: "Wrapped SOL",
+                    symbol: "SOL",
+                    mint: "So11111111111111111111111111111111111111112",
+                    price: 145.20,
+                    change24h: 4.25,
+                    volume24h: "$840.2M",
+                    category: "Trending",
+                    icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png"
+                },
+                {
+                    name: "Bonk Token",
+                    symbol: "BONK",
+                    mint: "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+                    price: 0.000022,
+                    change24h: 12.80,
+                    volume24h: "$120.5M",
+                    category: "Trending",
+                    icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png"
+                },
+                {
+                    name: "dogwifhat",
+                    symbol: "WIF",
+                    mint: "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcJM",
+                    price: 2.45,
+                    change24h: -3.15,
+                    volume24h: "$95.1M",
+                    category: "Größte Verlierer",
+                    icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcJM/logo.png"
+                },
+                {
+                    name: "PepeAI Agent",
+                    symbol: "PEPEAI",
+                    mint: "PEPE111111111111111111111111111111111111111",
+                    price: 0.00084,
+                    change24h: 38.50,
+                    volume24h: "$12.4M",
+                    category: "Neue Tokens",
+                    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='28' fill='%23065f46'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='20' font-weight='bold'>PEPE</text></svg>"
+                }
+            ],
+            newTokens: [
+                {
+                    name: "GrokSol AI",
+                    symbol: "GROKS",
+                    mint: "GROK111111111111111111111111111111111111111",
+                    discoveryTime: "vor 4 Minuten",
+                    status: "Neu entdeckt",
+                    price: 0.00012,
+                    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='28' fill='%23581c87'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%23c084fc' font-size='18' font-weight='bold'>GROK</text></svg>"
+                },
+                {
+                    name: "PumpCat",
+                    symbol: "PCAT",
+                    mint: "PCAT111111111111111111111111111111111111111",
+                    discoveryTime: "vor 18 Minuten",
+                    status: "Neuer Handelspool",
+                    price: 0.000045,
+                    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='28' fill='%23065f46'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='18' font-weight='bold'>PCAT</text></svg>"
+                }
+            ],
+            chats: {
+                "MAI": [
+                    { user: "AI_Whale", time: "12:10", msg: "Wann genau ist der offizielle Token-Launch für $MEMECOINAI?" },
+                    { user: "DevTeam_Alex", time: "12:14", msg: "Der Pre-Launch Status ist aktiv. Die Audits laufen aktuell." }
+                ],
+                "BONK": [
+                    { user: "BonkArmy", time: "11:45", msg: "Bonk durchbricht gleich den nächsten Resistance Level!" }
+                ]
+            }
         };
 
-        // Verifizierte Token-Liste mit Bildern
-        const tokenList = [
-            { name: "Wrapped SOL", symbol: "SOL", mint: "So11111111111111111111111111111111111111112", price: 145.20, change: "+4.25%", icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" },
-            { name: "Bonk Token", symbol: "BONK", mint: "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263", price: 0.000022, change: "+12.8%", icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263/logo.png" },
-            { name: "dogwifhat", symbol: "WIF", mint: "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcJM", price: 2.45, change: "-2.10%", icon: "https://arweave.net/3P0n3_XpWn5_3P0n3_XpWn5_3P0n3_XpWn5" },
-            { name: "USD Coin", symbol: "USDC", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", price: 1.00, change: "0.00%", icon: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png" }
-        ];
+        let activeChartInstance = null;
+        let connectedWallet = null;
 
-        // Fallback SVG Generator für fehlende Token-Logos
-        function getSVGIcon(letter) {
-            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="%231a1d26"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="%2314f
+        // -------------------------------------------------------------
+        // 2. HELPER FUNCTIONS FOR IMAGES & FALLBACKS
+        // -------------------------------------------------------------
+        function getSVGFallback(ticker) {
+            const letter = ticker ? ticker.charAt(0).toUpperCase() : 'M';
+            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='26' fill='none' stroke='%23a855f7' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
+        }
+
+        // -------------------------------------------------------------
+        // 3. ROUTING & PAGES RENDERING
+        // -------------------------------------------------------------
+        function navigateTo(route, param = null) {
+            const root = document.getElementById('app-root');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (route === 'home') {
+                root.innerHTML = renderHomePage();
+                initNativeChart('24H');
+            } else if (route === 'token-detail') {
+                const token = PLATFORM_DATA.tokens.find(t => t.symbol === param) || PLATFORM_DATA.nativeToken;
+                root.innerHTML = renderTokenDetailPage(token);
+                initGenericChart(token, '24H');
+            } else if (route === 'club') {
+                root.innerHTML = renderClubPage(param || 'MAI');
+                initGenericChart(PLATFORM_DATA.nativeToken, '24H');
+            } else if (route === 'clubs') {
+                root.innerHTML = renderClubsOverviewPage();
+            } else if (route === 'ai-analysis') {
+                root.innerHTML = renderAIAnalysisPage();
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 4. HOME PAGE VIEW
+        // -------------------------------------------------------------
+        function renderHomePage() {
+            return `
+                <!-- FUTURISTIC HERO SECTION -->
+                <section class="relative bg-dark-surface border neon-border-purple rounded-3xl p-8 lg:p-12 overflow-hidden shadow-glow-purple">
+                    <!-- Subtle Glow Shapes -->
+                    <div class="absolute -top-24 -right-24 w-96 h-96 bg-neon-purple/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-neon-green/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
+                        <div class="space-y-6">
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neon-purple-dark/40 border border-neon-purple/40 text-neon-purple-bright text-xs font-mono tracking-wider">
+                                <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span> NEXT-GEN MEME-COIN INTELLIGENCE
+                            </div>
+                            <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-none">
+                                SOLANA TRADING <br>
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple-bright via-white to-neon-green">MIT ECHTER KI-POWER</span>
+                            </h1>
+                            <p class="text-gray-400 text-sm leading-relaxed max-w-lg">
+                                Entdecke neue Token-Launches, automatisiere Sniper-Signale und tausche dich in exklusiven Coin-Clubs aus. Maximale Transparenz für das Solana-Ökosystem.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <a href="#memecoinai-spotlight" class="bg-gradient-to-r from-neon-purple to-neon-purple-bright hover:opacity-90 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-glow-purple flex items-center gap-2">
+                                    <i class="fa-solid fa-gem"></i> $MEMECOINAI Entdecken
+                                </a>
+                                <a href="#discover-tokens" class="bg-dark-card border border-dark-border hover:border-neon-green text-gray-200 font-bold px-6 py-3 rounded-xl text-sm transition flex items-center gap-2">
+                                    <i class="fa-solid fa-compass"></i> Token Explorer
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Hero Graphic Illustration -->
+                        <div class="relative flex justify-center items-center">
+                            <div class="w-full max-w-md bg-dark-card/80 border neon-border-green p-6 rounded-2xl shadow-glow-green space-y-4">
+                                <div class="flex justify-between items-center border-b border-dark-border pb-3">
+                                    <span class="text-xs font-mono text-neon-green"><i class="fa-solid fa-bolt mr-1"></i> PUMP.FUN LIVE RADAR</span>
+                                    <span class="text-[10px] text-gray-500">Auto-Update</span>
+                                </div>
+                                <div class="space-y-3">
+                                    ${PLATFORM_DATA.newTokens.map(nt => `
+                                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border flex items-center justify-between hover:border-neon-purple transition cursor-pointer" onclick="navigateTo('token-detail', 'BONK')">
+                                            <div class="flex items-center gap-3">
+                                                <img src="${nt.icon}" onerror="this.src='${getSVGFallback(nt.symbol)}'" class="w-10 h-10 rounded-xl object-contain bg-dark-surface p-1" alt="${nt.symbol}">
+                                                <div>
+                                                    <p class="text-xs font-bold text-white">${nt.name}</p>
+                                                    <span class="text-[10px] text-neon-purple-bright font-mono">${nt.status}</span>
+                                                </div>
+                                            </div>
+                                            <span class="text-xs font-bold text-neon-green">${nt.discoveryTime}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: MEMECOINAI ALWAYS ON TOP SPOTLIGHT -->
+                <section id="memecoinai-spotlight" class="bg-dark-surface border-2 border-neon-purple rounded-3xl p-8 space-y-6 shadow-glow-purple relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-dark-border pb-6">
+                        <div class="flex items-center gap-5">
+                            <img src="${PLATFORM_DATA.nativeToken.icon}" class="w-20 h-20 rounded-2xl border-2 border-neon-purple shadow-glow-purple object-contain bg-dark-bg p-1" alt="MEMECOINAI Logo">
+                            <div>
+                                <div class="flex items-center gap-3">
+                                    <h2 class="text-3xl font-black text-white tracking-wider">${PLATFORM_DATA.nativeToken.name}</h2>
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold font-mono ${PLATFORM_DATA.nativeToken.statusClass}">
+                                        ${PLATFORM_DATA.nativeToken.status}
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1 font-mono">Mint-Adresse: ${PLATFORM_DATA.nativeToken.mint}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <button onclick="navigateTo('club', 'MAI')" class="bg-neon-purple-dark/50 border border-neon-purple text-neon-purple-bright hover:bg-neon-purple hover:text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                                <i class="fa-solid fa-comments"></i> $MAI Club & Chat
+                            </button>
+                            <button onclick="navigateTo('token-detail', 'MAI')" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">
+                                Details & Info
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container mit Zeitraumauswahl -->
+                    <div class="space-y-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-300 uppercase tracking-wider">Live Kurs-Chart Vorschau</h3>
+                                <p class="text-xs text-gray-500">Pre-Launch Zustand: Historische Marktdaten werden nach offiziellem Handelsstart synchronisiert.</p>
+                            </div>
+                            
+                            <!-- Zeitraumbuttons -->
+                            <div class="flex flex-wrap gap-1.5 bg-dark-bg p-1.5 rounded-xl border border-dark-border text-xs">
+                                ${['1m', '5m', '15m', '1h', '4h', '24h', '7d'].map(tf => `
+                                    <button onclick="changeNativeChartTimeframe('${tf}')" class="px-2.5 py-1 rounded-lg font-mono text-gray-400 hover:text-white hover:bg-dark-card transition ${tf==='24h'?'bg-neon-purple text-white font-bold':''}">
+                                        ${tf}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="relative h-72 w-full bg-dark-bg/60 rounded-2xl border border-dark-border p-4">
+                            <canvas id="nativeTokenChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: DISCOVER TOKENS (SEPARATE BEREICHE) -->
+                <section id="discover-tokens" class="space-y-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-black text-white tracking-wide">DISCOVER TOKENS</h2>
+                            <p class="text-xs text-gray-400">Verifizierte Solana Meme-Coins & Marktdaten</p>
+                        </div>
+
+                        <!-- Filter buttons -->
+                        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+                            <button class="bg-neon-green text-dark-bg px-3.5 py-1.5 rounded-xl font-bold">Alle Tokens</button>
+                            <button class="bg-dark-card border border-dark-border text-gray-300 hover:border-neon-purple px-3.5 py-1.5 rounded-xl">Trending</button>
+                            <button class="bg-dark-card border border-dark-border text-gray-300 hover:border-neon-purple px-3.5 py-1.5 rounded-xl">Größte Gewinner</button>
+                            <button class="bg-dark-card border border-dark-border text-gray-300 hover:border-neon-purple px-3.5 py-1.5 rounded-xl">Größte Verlierer</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${PLATFORM_DATA.tokens.map(t => `
+                            <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 hover:border-neon-green transition duration-300 space-y-4 flex flex-col justify-between group">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <img src="${t.icon}" onerror="this.src='${getSVGFallback(t.symbol)}'" class="w-12 h-12 rounded-xl object-contain bg-dark-bg p-1 border border-dark-border group-hover:border-neon-green transition" alt="${t.symbol}">
+                                        <div>
+                                            <h3 class="font-bold text-white text-base">${t.name}</h3>
+                                            <span class="text-xs text-gray-400 font-mono">${t.symbol}</span>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-bold font-mono ${t.change24h >= 0 ? 'bg-neon-green-dark/40 text-neon-green-bright border border-neon-green/30' : 'bg-red-950/60 text-red-400 border border-red-800/40'}">
+                                        ${t.change24h >= 0 ? '+' : ''}${t.change24h}\% </span> </div>                                  <div class="flex justify-between items-end border-t border-dark-border/60 pt-3 text-xs"> <div> <p class="text-gray-500">Preis USD</p> <p class="font-bold text-white text-sm font-mono">$${t.price}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-gray-500">24h Volumen</p>
+                                        <p class="font-bold text-gray-300 font-mono">${t.volume24h}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 pt-1">
+                                    <button onclick="navigateTo('token-detail', '${t.symbol}')" class="w-full bg-dark-card hover:bg-neon-purple hover:text-white border border-dark-border text-gray-200 py-2 rounded-xl text-xs font-bold transition">
+                                        Detailseite
+                                    </button>
+                                    <button onclick="navigateTo('club', '${t.symbol}')" class="w-full bg-dark-card hover:bg-neon-green hover:text-dark-bg border border-dark-border text-gray-200 py-2 rounded-xl text-xs font-bold transition">
+                                        Club & Chat
+                                    </button>
+                                </div>
+                            </div>
+                        `).map(item => item).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        // -------------------------------------------------------------
+        // 5. TOKEN DETAIL PAGE VIEW
+        // -------------------------------------------------------------
+        function renderTokenDetailPage(token) {
+            return `
+                <div class="space-y-8">
+                    <button onclick="navigateTo('home')" class="text-xs text-neon-purple-bright hover:underline flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Zurück zur Übersicht
+                    </button>
+
+                    <div class="bg-dark-surface border border-dark-border rounded-3xl p-8 space-y-6">
+                        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-dark-border pb-6">
+                            <div class="flex items-center gap-4">
+                                <img src="${token.icon}" onerror="this.src='${getSVGFallback(token.symbol)}'" class="w-16 h-16 rounded-2xl object-contain bg-dark-bg p-1 border border-neon-purple" alt="${token.symbol}">
+                                <div>
+                                    <h1 class="text-3xl font-black text-white">${token.name} (${token.symbol})</h1>
+                                    <p class="text-xs text-gray-400 font-mono mt-1">Mint: ${token.mint}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-400">Aktueller Preis</p>
+                                <p class="text-3xl font-black text-white font-mono">${token.price === 'N/A' ? 'PRE-LAUNCH' : '$' + token.price}</p>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Chart -->
+                        <div class="space-y-4">
+                            <h3 class="text-sm font-bold text-gray-300">INTERAKTIVES KURS-CHART</h3>
+                            <div class="relative h-80 w-full bg-dark-bg rounded-2xl border border-dark-border p-4">
+                                <canvas id="genericTokenChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // -------------------------------------------------------------
+        // 6. CLUB PAGE WITH SEPARATE CHATS VIEW
+        // -------------------------------------------------------------
+        function renderClubPage(clubId) {
+            const clubToken = PLATFORM_DATA.tokens.find(t => t.symbol === clubId) || PLATFORM_DATA.nativeToken;
+            const messages = PLATFORM_DATA.chats[clubId] || [];
+
+            return `
+                <div class="space-y-8">
+                    <button onclick="navigateTo('home')" class="text-xs text-neon-purple-bright hover:underline flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Zurück zur Startseite
+                    </button>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="bg-dark-surface border border-dark-border rounded-3xl p-6 flex items-center gap-4">
+                                <img src="${clubToken.icon}" onerror="this.src='${getSVGFallback(clubToken.symbol)}'" class="w-14 h-14 rounded-xl object-contain bg-dark-bg p-1" alt="Club Icon">
+                                <div>
+                                    <h1 class="text-2xl font-black text-white">${clubToken.name} Community Club</h1>
+                                    <p class="text-xs text-neon-green">Exklusiver Chatbereich für ${clubToken.symbol}-Halter</p>
+                                </div>
+                            </div>
+
+                            <!-- Dedicated Chat Box -->
+                            <div class="bg-dark-surface border border-dark-border rounded-3xl p-6 space-y-4 flex flex-col h-[500px]">
+                                <h3 class="text-sm font-bold text-gray-300 border-b border-dark-border pb-3">LIVE COMMUNITY CHAT</h3>
+                                <div id="club-chat-messages" class="flex-grow overflow-y-auto space-y-3 pr-2">
+                                    ${messages.map(m => `
+                                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border text-xs space-y-1">
+                                            <div class="flex justify-between font-bold text-neon-purple-bright">
+                                                <span>${m.user}</span>
+                                                <span class="text-gray-500 font-normal text-[10px]">${m.time}</span>
+                                            </div>
+                                            <p class="text-gray-200">${m.msg}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="flex gap-2 pt-2 border-t border-dark-border">
+                                    <input type="text" id="chat-input-field" placeholder="Sende eine Nachricht an den ${clubId}-Club..." class="flex-grow bg-dark-bg border border-dark-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-neon-purple">
+                                    <button onclick="sendClubMessage('${clubId}')" class="bg-neon-purple hover:bg-neon-purple-bright text-white px-5 py-2.5 rounded-xl font-bold text-xs transition">Senden</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar: KI-Analyse Panel -->
+                        <div class="space-y-6">
+                            <div class="bg-dark-surface border border-neon-purple/40 rounded-3xl p-6 space-y-4 shadow-glow-purple">
+                                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-robot text-neon-green"></i> AI ANALYSIS
+                                </h3>
+                                <div class="text-xs text-gray-300 space-y-3 leading-relaxed">
+                                    <p><strong>Projekt-Typ:</strong> Solana Utility & Meme Hybrid.</p>
+                                    <p><strong>Risiko-Score:</strong> <span class="text-neon-green font-bold">Niedrig (Geprüfter Pre-Launch)</span></p>
+                                    <p><strong>Zusammenfassung:</strong> Starke Community-Aktivität im ${clubId}-Club mit Fokus auf verifizierte Metadaten.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderClubsOverviewPage() {
+            return `<div class="text-center py-12"><h1 class="text-3xl font-bold text-white">Alle Clubs</h1><p class="text-xs text-gray-400 mt-2">Wähle oben einen Token aus, um seinen Club zu betreten.</p></div>`;
+        }
+
+        function renderAIAnalysisPage() {
+            return `<div class="text-center py-12"><h1 class="text-3xl font-bold text-white">AI Analysis Dashboard</h1><p class="text-xs text-gray-400 mt-2">Automatische KI-Zusammenfassungen aller Solana Token-Launches.</p></div>`;
+        }
+
+        // -------------------------------------------------------------
+        // 7. CHART INITIALIZERS (USING CHART.JS)
+        // -------------------------------------------------------------
+        function initNativeChart(tf) {
+            const ctx = document.getElementById('nativeTokenChart');
+            if (!ctx) return;
+
+            if (activeChartInstance) activeChartInstance.destroy();
+
+            activeChartInstance = new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['10:00', '11:00', '12:00', '13:00', '14:00', 'Jetzt'],
+                    datasets: [{
+                        label: 'MEMECOINAI Index (Pre-Launch)',
+                        data: [100, 100, 100, 100, 100, 100],
+                        borderColor: '#a855f7',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(35, 40, 56, 0.4)' }, ticks: { color: '#6b7280', font: { size: 10 } } },
+                        y: { grid: { color: 'rgba(35, 40, 56, 0.4)' }, ticks: { color: '#6b7280', font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        function initGenericChart(token, tf) {
+            const ctx = document.getElementById('genericTokenChart');
+            if (!ctx) return;
+
+            if (activeChartInstance) activeChartInstance.destroy();
+
+            activeChartInstance = new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+                    datasets: [{
+                        label: token.name,
+                        data: [token.price*0.9, token.price*0.95, token.price*0.92, token.price*0.98, token.price],
+                        borderColor: '#14f195',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function changeNativeChartTimeframe(tf) {
+            initNativeChart(tf);
+        }
+
+        // -------------------------------------------------------------
+        // 8. CHAT INTERACTION & WALLET TOGGLE
+        // -------------------------------------------------------------
+        function sendClubMessage(clubId) {
+            const input = document.getElementById('chat-input-field');
+            if (!input || !input.value.trim()) return;
+
+            if (!PLATFORM_DATA.chats[clubId]) PLATFORM_DATA.chats[clubId] = [];
+            
+            PLATFORM_DATA.chats[clubId].push({
+                user: connectedWallet ? connectedWallet.slice(0, 4) + '...' + connectedWallet.slice(-4) : "User_" + Math.floor(Math.random()*1000),
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                msg: input.value.trim()
+            });
+
+            input.value = '';
+            navigateTo('club', clubId);
+        }
+
+        async function toggleWallet() {
+            if ("solana" in window) {
+                try {
+                    const res = await window.solana.connect();
+                    connectedWallet = res.publicKey.toString();
+                    document.getElementById('wallet-text').innerText = connectedWallet.slice(0, 4) + '...' + connectedWallet.slice(-4);
+                } catch (e) {}
+            } else {
+                alert("Bitte Phantom Wallet installieren.");
+            }
+        }
+
+        // App Start
+        window.onload = () => {
+            navigateTo('home');
+        };
+    </script>
+</body>
+</html>
