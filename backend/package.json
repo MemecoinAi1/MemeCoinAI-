@@ -1,17 +1,68 @@
-{
-  "name": "memecoinai-backend",
-  "version": "2.0.0",
-  "description": "MemeCoinAI Autonomous Trading Backend & Multi-Agent Network",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "node ../tests/feeAndRisk.test.js"
-  },
-  "dependencies": {
-    "@solana/web3.js": "^1.95.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "ws": "^8.18.0"
-  }
+/**
+ * MemeCoinAI Backend Worker & Risk Manager Engine
+ */
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// In-Memory Zustand für aktives Trading & Bot-Konfiguration
+let activeBotConfig = {
+    maxBudgetUsd: 100,
+    maxTradeUsd: 20,
+    stopLossPct: 10,
+    takeProfitPct: 25,
+    isRunning: false
+};
+
+let userPortfolio = {
+    allocatedUsd: 100,
+    freeUsd: 100,
+    investedUsd: 0,
+    realizedProfitUsd: 0,
+    totalFeesUsd: 0,
+    positions: []
+};
+
+// 3% Net Profit Tax Berechnungslogik
+function calculate3PercentPlatformFee(buyPrice, sellPrice, amount) {
+    const buyCost = buyPrice * amount;
+    const sellRevenue = sellPrice * amount;
+    const grossProfit = sellRevenue - buyCost;
+
+    let platformFeeUsd = 0;
+    if (grossProfit > 0) {
+        platformFeeUsd = grossProfit * 0.03;
+    }
+
+    return {
+        grossProfit,
+        platformFeeUsd,
+        netProfit: grossProfit - platformFeeUsd
+    };
 }
+
+// Health Status Endpoint
+app.get('/api/v1/health', (req, res) => {
+    res.json({ status: "ONLINE", service: "MemeCoinAI Worker", timestamp: new Date().toISOString() });
+});
+
+// Bot Control Endpoints
+app.post('/api/v1/sniper/start', (req, res) => {
+    const { maxBudgetUsd, maxTradeUsd, stopLossPct, takeProfitPct } = req.body;
+    activeBotConfig = { maxBudgetUsd, maxTradeUsd, stopLossPct, takeProfitPct, isRunning: true };
+    userPortfolio.freeUsd = maxBudgetUsd;
+    res.json({ success: true, message: "Bot gestartet", config: activeBotConfig });
+});
+
+app.post('/api/v1/sniper/stop', (req, res) => {
+    activeBotConfig.isRunning = false;
+    res.json({ success: true, message: "Bot gestoppt" });
+});
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`[MemeCoinAI Worker] Backend aktiv auf Port ${PORT}`);
+});
