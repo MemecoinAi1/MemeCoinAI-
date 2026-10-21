@@ -474,9 +474,10 @@
         &copy; 2026 MemeCoinAI – Professional Solana Memecoin Intelligence &amp; Trading Terminal.
     </footer>
 
-    <!-- ROBUST DATASTREAM & PRICE DISPLAY SCRIPT -->
+    <!-- ROBUST DATASTREAM, PERSISTENCE & PRICE DISPLAY SCRIPT -->
     <script>
         const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
+        const STORAGE_KEY = "memecoinai_stored_tokens_v1";
 
         let socket = null;
         let approvedTokens = [];
@@ -495,6 +496,37 @@
         let rankingMode = 'gainers';
         let stats = { scanned: 0, approved: 0, rejected: 0, pending: 0, blocked: 0 };
         let renderScheduled = false;
+
+        function loadStoredTokens() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        parsed.forEach(t => {
+                            if (t && t.mint && !tokenMap.has(t.mint)) {
+                                tokenMap.set(t.mint, t);
+                                knownMintsSet.add(t.mint);
+                                approvedTokens.push(t);
+                            }
+                        });
+                        stats.approved = approvedTokens.length;
+                        stats.scanned = approvedTokens.length + auditArchives.rejected.length;
+                    }
+                }
+            } catch (e) {
+                console.error("Storage Load Error", e);
+            }
+        }
+
+        function saveStoredTokens() {
+            try {
+                const arr = Array.from(tokenMap.values()).slice(0, 50);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+            } catch (e) {
+                console.error("Storage Save Error", e);
+            }
+        }
 
         function updateStatsUI() {
             document.getElementById('stat-scanned').innerText = stats.scanned;
@@ -642,6 +674,7 @@
                     existing.priceUsd = data.price || (vSol * 0.00005);
                     existing.liquidityUsd = vSol * 180;
                     existing.marketCapUsd = vSol * 180 * 200;
+                    saveStoredTokens();
                     scheduleUiRender();
                 }
                 return;
@@ -715,10 +748,10 @@
                 marketCapUsd: approxMcap,
                 volumeUsd: data.initialBuy || 250,
                 liquidityUsd: vSol * 180,
-                change1h: Number((Math.random() * 8 - 3).toFixed(2)),
-                changeToday: Number((Math.random() * 15 - 5).toFixed(2)),
-                change24h: Number((Math.random() * 30 - 10).toFixed(2)),
-                change7d: Number((Math.random() * 50 - 15).toFixed(2)),
+                change1h: 0.0,
+                changeToday: 0.0,
+                change24h: 0.0,
+                change7d: 0.0,
                 observedTime: Date.now(),
                 security: securityReport,
                 imageUrl: data.image || data.uri || getSVGFallback(data.symbol || "SAFE")
@@ -734,6 +767,7 @@
                 if (removed) tokenMap.delete(removed.mint);
             }
 
+            saveStoredTokens();
             scheduleUiRender();
         }
 
@@ -742,8 +776,12 @@
             if (!container) return;
 
             if (liveFeedTokens.length === 0) {
-                container.innerHTML = `<div class="bg-dark-surface border border-dark-border p-4 rounded-2xl text-center text-gray-500 col-span-full">Warte auf Live-Ereignisse...</div>`;
-                return;
+                if (approvedTokens.length > 0) {
+                    liveFeedTokens = approvedTokens.slice(0, 4);
+                } else {
+                    container.innerHTML = `<div class="bg-dark-surface border border-dark-border p-4 rounded-2xl text-center text-gray-500 col-span-full">Warte auf Live-Ereignisse...</div>`;
+                    return;
+                }
             }
 
             container.innerHTML = liveFeedTokens.map(t => `
@@ -974,11 +1012,14 @@
         }
 
         function proceedToCheckout() {
-            alert("Weiterleitung zur sicheren Stripe-Zahlungsabwicklung. (Statische Demo-Umgebung)");
+            alert("Zahlungsintegration erfordert ein aktives Backend (z.B. Stripe Webhooks). In dieser reinen Frontend-Umgebung ist dieser Service noch nicht vollständig angebunden.");
             closeUpgradeModal();
         }
 
         window.onload = () => {
+            loadStoredTokens();
+            updateStatsUI();
+            scheduleUiRender();
             initPumpPortalWebSocket();
         };
     </script>
