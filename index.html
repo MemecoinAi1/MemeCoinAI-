@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI – Professional Solana Memecoin Intelligence & Trading Terminal</title>
+    <title>MemeCoinAI V2 – Professional Solana Intelligence Terminal</title>
     
     <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,7 +43,6 @@
     </script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -67,7 +66,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI</span></span>
+                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI V2</span></span>
                     <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Pro Trading &amp; Security Terminal</span>
                 </div>
             </a>
@@ -124,7 +123,7 @@
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl col-span-2 md:col-span-1">
                 <p class="text-[9px] text-gray-500">SECURITY ARCHITEKTUR</p>
-                <p id="diag-last-err" class="text-[10px] text-gray-300 mt-0.5 truncate" title="Client-Side Zero-Trust">Client-Side Zero-Trust</p>
+                <p id="diag-last-err" class="text-[10px] text-gray-300 mt-0.5 truncate" title="Client-Side Zero-Trust">Zero-Trust Guard V2</p>
             </div>
         </div>
 
@@ -132,8 +131,8 @@
         <div class="bg-dark-surface border border-amber-500/30 p-4 rounded-2xl text-xs font-mono text-amber-200/90 flex items-start gap-3">
             <i class="fa-solid fa-shield-halved text-amber-400 text-lg mt-0.5"></i>
             <div class="space-y-1">
-                <strong class="text-amber-300">Sicherheitsarchitektur (Client-Side Audit & Zero-Trust):</strong>
-                <p>Alle Token starten streng im Status <span class="text-yellow-400 font-bold">REVIEW</span>. Gespeicherte Freigaben verfallen bei Neustart. Diese GitHub-Pages-Implementierung führt clientseitige On-Chain-Prüfungen (RugCheck & DexScreener) aus. Keine Garantie oder Risikofreiheit.</p>
+                <strong class="text-amber-300">Sicherheitsarchitektur V2 (Client Audit & Zero-Trust Pipeline):</strong>
+                <p>Alle Token starten streng im Status <span class="text-yellow-400 font-bold">REVIEW</span>. Ein Token erscheint erst nach verifiziertem RugCheck-Audit in den öffentlichen Tabellen. Es werden keine unbegründeten Freigaben erteilt.</p>
             </div>
         </div>
 
@@ -202,12 +201,12 @@
                             <th class="p-3.5">FDV</th>
                             <th class="p-3.5">LIQUIDITÄT</th>
                             <th class="p-3.5">STATUS</th>
-                            <th class="p-3.5">ALTER</th>
+                            <th class="p-3.5">VOTES</th>
                             <th class="p-3.5 text-right">AKTION</th>
                         </tr>
                     </thead>
                     <tbody id="live-feed-table-body" class="divide-y divide-dark-border/40">
-                        <tr><td colspan="8" class="p-6 text-center text-gray-400">Warte auf verifizierte Live-Ereignisse... (Prüfung im Hintergrund aktiv)</td></tr>
+                        <tr><td colspan="8" class="p-6 text-center text-gray-400">Warte auf verifizierte Live-Ereignisse...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -218,7 +217,7 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-4">
                 <div>
                     <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY (SOLANA COINS)</h2>
-                    <p class="text-xs text-gray-400">Unabhängige DexScreener-Versorgung. Nur vollständig geprüfte Coins sichtbar.</p>
+                    <p class="text-xs text-gray-400">Unabhängige DexScreener-Versorgung. Nur verifizierte Coins sichtbar.</p>
                 </div>
                 <div class="w-full md:w-auto flex items-center gap-3">
                     <button onclick="triggerDiscoveryScan()" class="bg-dark-card border border-dark-border hover:border-neon-green text-xs font-mono text-white px-3 py-2 rounded-xl transition">
@@ -237,7 +236,7 @@
                             <th class="p-3.5">FDV</th>
                             <th class="p-3.5">LIQUIDITÄT</th>
                             <th class="p-3.5">STATUS</th>
-                            <th class="p-3.5">ALTER</th>
+                            <th class="p-3.5">VOTES</th>
                             <th class="p-3.5 text-right">TERMINAL</th>
                         </tr>
                     </thead>
@@ -257,7 +256,12 @@
                         <h3 id="selected-token-title" class="font-bold text-white text-base">Kein Coin gewählt</h3>
                         <p id="selected-token-mint" class="text-[10px] text-gray-400 truncate max-w-xs">-</p>
                     </div>
-                    <a id="selected-token-link" href="#" target="_blank" class="text-xs bg-neon-pink/20 text-neon-pink border border-neon-pink/40 px-3 py-1.5 rounded-xl hidden">DexScreener ↗</a>
+                    <div class="flex items-center gap-3">
+                        <button id="selected-token-vote-btn" onclick="voteSelectedToken()" class="text-xs bg-neon-green/20 hover:bg-neon-green text-neon-green hover:text-dark-bg border border-neon-green/40 px-3 py-1.5 rounded-xl font-bold transition">
+                            🚀 Vote (<span id="selected-token-votes">0</span>)
+                        </button>
+                        <a id="selected-token-link" href="#" target="_blank" class="text-xs bg-neon-pink/20 text-neon-pink border border-neon-pink/40 px-3 py-1.5 rounded-xl hidden">DexScreener ↗</a>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
                     <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
@@ -290,19 +294,20 @@
     <div id="upgrade-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-dark-surface border-2 border-amber-500 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-glow-gold font-mono relative">
             <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-2xl font-black text-white">MemeCoinAI Pro</h3>
+            <h3 class="text-2xl font-black text-white">MemeCoinAI Pro V2</h3>
             <p class="text-xs text-gray-300">Echte Live-Daten und unbegrenzte Streams. Backend-Anbindung erforderlich.</p>
             <button onclick="closeUpgradeModal()" class="w-full bg-amber-500 text-dark-bg font-black py-3 rounded-xl text-xs cursor-pointer">Schließen</button>
         </div>
     </div>
 
-    <!-- ROBUST SCRIPT LOGIC WITH ZERO-TRUST ENGINE -->
+    <!-- SCRIPT LOGIC WITH ZERO-TRUST ENGINE V2 -->
     <script>
         const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
         const DEX_PAID_API = "https://api.dexscreener.com/token-boosts/latest/v1";
         const DEX_PROFILES_API = "https://api.dexscreener.com/token-profiles/latest/v1";
         const RUGCHECK_API_BASE = "https://api.rugcheck.xyz/v1/tokens";
-        const STORAGE_KEY = "memecoinai_stored_tokens_v9";
+        const STORAGE_KEY = "memecoinai_stored_tokens_v10";
+        const VOTES_KEY = "memecoinai_user_votes_v1";
 
         let socket = null;
         let reconnectAttempts = 0;
@@ -318,6 +323,8 @@
         let approvedTokens = [];
         let liveFeedTokens = [];
         let dexPaidTokens = [];
+        let userVotes = {};
+        let activeSelectedMint = null;
 
         let stats = {
             messages: 0,
@@ -326,7 +333,7 @@
             reviewCount: 0,
             rejectedCount: 0,
             apiErrors: 0,
-            lastStatus: "Zero-Trust Guard Aktiv"
+            lastStatus: "Zero-Trust Guard V2 Aktiv"
         };
         let renderScheduled = false;
 
@@ -376,6 +383,17 @@
             return isImage ? getSVGFallback('UNK') : '#';
         }
 
+        function loadUserVotes() {
+            try {
+                const raw = localStorage.getItem(VOTES_KEY);
+                if (raw) userVotes = JSON.parse(raw);
+            } catch (e) { userVotes = {}; }
+        }
+
+        function saveUserVotes() {
+            try { localStorage.setItem(VOTES_KEY, JSON.stringify(userVotes)); } catch (e) {}
+        }
+
         function loadStoredTokens() {
             try {
                 const raw = localStorage.getItem(STORAGE_KEY);
@@ -394,8 +412,9 @@
                                     liquidityUsd: typeof t.liquidityUsd === 'number' ? t.liquidityUsd : null,
                                     observedTime: typeof t.observedTime === 'number' ? t.observedTime : Date.now(),
                                     securityStatus: "REVIEW",
-                                    securityDetails: { raw: null, status: "REVIEW", reason: "Aus Speicher geladen – Re-Audit erforderlich" },
-                                    imageUrl: sanitizeUrl(t.imageUrl, true)
+                                    securityDetails: { raw: null, status: "REVIEW", reason: "Re-Audit erforderlich" },
+                                    imageUrl: sanitizeUrl(t.imageUrl, true),
+                                    votes: (userVotes[t.mint] || 0)
                                 };
                                 tokenMap.set(t.mint, token);
                                 knownMintsSet.add(t.mint);
@@ -477,12 +496,12 @@
                 if (!res.ok) {
                     if (res.status === 429) {
                         stats.apiErrors++;
-                        return { status: "REVIEW", raw: null, reason: "RugCheck Rate Limit (HTTP 429) – Review" };
+                        return { status: "REVIEW", raw: null, reason: "RugCheck Rate Limit (HTTP 429)" };
                     }
                     const res2 = await fetch(`${RUGCHECK_API_BASE}/${mint}/report`, { signal: controller.signal });
                     if (!res2.ok) {
                         stats.apiErrors++;
-                        return { status: "REVIEW", raw: null, reason: `RugCheck API HTTP Fehler (${res2.status})` };
+                        return { status: "REVIEW", raw: null, reason: `RugCheck API Fehler (${res2.status})` };
                     }
                     const rawData2 = await res2.json();
                     return normalizeRugCheckReport(rawData2);
@@ -501,7 +520,7 @@
 
         function normalizeRugCheckReport(data) {
             if (!data || typeof data !== 'object') {
-                return { status: "REVIEW", raw: data, reason: "Ungültiges oder leeres JSON-Antwortformat" };
+                return { status: "REVIEW", raw: data, reason: "Ungültiges JSON-Antwortformat" };
             }
 
             const score = typeof data.score === 'number' ? data.score : 
@@ -513,7 +532,7 @@
             const rugged = data.rugged === true || data.isRugged === true;
 
             if (score === null && mintAuthority === undefined && freezeAuthority === undefined) {
-                return { status: "REVIEW", raw: data, reason: "Erforderliche Pflichtfelder (Score/Authorities) fehlen im Schema" };
+                return { status: "REVIEW", raw: data, reason: "Erforderliche Schema-Felder fehlen" };
             }
 
             return evaluateSecurityRules({
@@ -539,8 +558,8 @@
                     raw: rawData,
                     score: parsed.score,
                     reason: parsed.rugged ? "Token als Rugged markiert" :
-                            hasActiveMintAuth ? "Aktive Mint Authority erkannt" :
-                            hasActiveFreezeAuth ? "Aktive Freeze Authority erkannt" : "Kritisches Risikoflag in Audit-Risks"
+                            hasActiveMintAuth ? "Aktive Mint Authority" :
+                            hasActiveFreezeAuth ? "Aktive Freeze Authority" : "Kritisches Risikoflag"
                 };
             }
 
@@ -549,7 +568,7 @@
                     status: "APPROVED",
                     raw: rawData,
                     score: parsed.score,
-                    reason: "Verified: Mint & Freeze Authority widerrufen, niedriger Risikoscore"
+                    reason: "Verified: Mint & Freeze Authority widerrufen"
                 };
             }
 
@@ -557,7 +576,7 @@
                 status: "REVIEW",
                 raw: rawData,
                 score: parsed.score,
-                reason: "Daten unklar oder Score über Toleranzgrenze (Review)"
+                reason: "Score über Toleranzgrenze (Review)"
             };
         }
 
@@ -582,578 +601,3 @@
             if (token) {
                 try {
                     const auditResult = await fetchRugCheckReport(mint);
-                    
-                    if (token.securityStatus === "APPROVED") stats.approvedCount--;
-                    if (token.securityStatus === "REVIEW") stats.reviewCount--;
-                    if (token.securityStatus === "REJECTED") stats.rejectedCount--;
-
-                    token.securityStatus = auditResult.status;
-                    token.securityDetails = auditResult;
-
-                    if (auditResult.status === "APPROVED") {
-                        stats.approvedCount++;
-                        if (!approvedTokens.some(t => t.mint === mint)) {
-                            approvedTokens.unshift(token);
-                        }
-                        if (!liveFeedTokens.some(t => t.mint === mint)) {
-                            liveFeedTokens.unshift(token);
-                            if (liveFeedTokens.length > 20) liveFeedTokens.pop();
-                        }
-                        saveApprovedTokens();
-                        setLastStatus(`APPROVED: ${token.symbol}`);
-                    } else if (auditResult.status === "REJECTED") {
-                        stats.rejectedCount++;
-                        approvedTokens = approvedTokens.filter(t => t.mint !== mint);
-                        liveFeedTokens = liveFeedTokens.filter(t => t.mint !== mint);
-                        setLastStatus(`REJECTED: ${token.symbol}`);
-                    } else {
-                        stats.reviewCount++;
-                        approvedTokens = approvedTokens.filter(t => t.mint !== mint);
-                        liveFeedTokens = liveFeedTokens.filter(t => t.mint !== mint);
-                        setLastStatus(`REVIEW: ${token.symbol}`);
-                    }
-                    scheduleUiRender();
-                } catch (e) {
-                    stats.apiErrors++;
-                    token.securityStatus = "REVIEW";
-                    stats.reviewCount++;
-                } finally {
-                    inFlightMints.delete(mint);
-                }
-            }
-
-            isSecurityWorkerRunning = false;
-            updateDiagUI();
-
-            if (securityQueue.length > 0) {
-                setTimeout(processSecurityQueue, 450);
-            }
-        }
-
-        async function fetchDexDiscoveryTokens() {
-            try {
-                setLastStatus("Lade DexScreener Profile & Boosts...");
-                const [resProfiles, resBoosts] = await Promise.allSettled([
-                    fetch(DEX_PROFILES_API),
-                    fetch(DEX_PAID_API)
-                ]);
-
-                let collectedItems = [];
-
-                if (resProfiles.status === 'fulfilled' && resProfiles.value.ok) {
-                    const profiles = await resProfiles.value.json();
-                    if (Array.isArray(profiles)) {
-                        profiles.forEach(item => {
-                            if (item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress)) {
-                                collectedItems.push({
-                                    mint: item.tokenAddress,
-                                    name: item.description ? String(item.description).slice(0, 30) : 'Solana Token',
-                                    symbol: item.tokenAddress.slice(0, 4).toUpperCase(),
-                                    image: item.icon
-                                });
-                            }
-                        });
-                    }
-                }
-
-                if (resBoosts.status === 'fulfilled' && resBoosts.value.ok) {
-                    const boosts = await resBoosts.value.json();
-                    if (Array.isArray(boosts)) {
-                        boosts.forEach(item => {
-                            if (item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress)) {
-                                collectedItems.push({
-                                    mint: item.tokenAddress,
-                                    name: item.description ? String(item.description).slice(0, 30) : 'Boosted SOL',
-                                    symbol: item.tokenAddress.slice(0, 4).toUpperCase(),
-                                    image: item.icon
-                                });
-                            }
-                        });
-                    }
-                }
-
-                let newCount = 0;
-                collectedItems.forEach(item => {
-                    if (!tokenMap.has(item.mint)) {
-                        stats.validMints++;
-                        newCount++;
-                        const newToken = {
-                            name: item.name,
-                            symbol: item.symbol,
-                            mint: item.mint,
-                            priceUsd: null,
-                            marketCapUsd: null,
-                            fdvUsd: null,
-                            liquidityUsd: null,
-                            observedTime: Date.now(),
-                            securityStatus: "REVIEW",
-                            securityDetails: { status: "REVIEW", reason: "Aus Discovery-Versorgung – Re-Audit aktiv" },
-                            imageUrl: sanitizeUrl(item.image, true)
-                        };
-                        tokenMap.set(item.mint, newToken);
-                        knownMintsSet.add(item.mint);
-                        stats.reviewCount++;
-                        enqueueSecurityCheck(item.mint);
-                    }
-                });
-
-                updateDiagUI();
-                if (newCount > 0) {
-                    setLastStatus(`${newCount} neue Mints in Security Queue`);
-                }
-            } catch (err) {
-                stats.apiErrors++;
-                setLastStatus("Discovery API Fehler");
-            }
-        }
-
-        function triggerDiscoveryScan() {
-            fetchDexDiscoveryTokens();
-        }
-
-        function enqueueDexScreenerFetch(mint, callback) {
-            apiQueue.push({ mint, callback });
-            processApiQueue();
-        }
-
-        function processApiQueue() {
-            if (activeRequests >= maxConcurrentRequests || apiQueue.length === 0) return;
-
-            const { mint, callback } = apiQueue.shift();
-            activeRequests++;
-
-            fetchDexScreenerData(mint).then(result => {
-                callback(result);
-            }).catch(() => {
-                callback(null);
-            }).finally(() => {
-                activeRequests--;
-                setTimeout(processApiQueue, requestDelayMs);
-            });
-        }
-
-        async function fetchDexScreenerData(mint) {
-            let controller = null;
-            let timeoutId = null;
-            try {
-                controller = new AbortController();
-                timeoutId = setTimeout(() => controller.abort(), 4500);
-
-                const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`, { signal: controller.signal });
-                if (!res.ok) {
-                    if (res.status === 429) stats.apiErrors++;
-                    return null;
-                }
-                const data = await res.json();
-
-                if (data && Array.isArray(data.pairs) && data.pairs.length > 0) {
-                    const solPairs = data.pairs.filter(p => p.chainId === 'solana');
-                    if (solPairs.length === 0) return null;
-
-                    solPairs.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0));
-                    const bestPair = solPairs[0];
-
-                    return {
-                        priceUsd: bestPair.priceUsd ? parseFloat(bestPair.priceUsd) : null,
-                        marketCap: bestPair.marketCap ? parseFloat(bestPair.marketCap) : null,
-                        fdv: bestPair.fdv ? parseFloat(bestPair.fdv) : null,
-                        liquidity: bestPair.liquidity?.usd ? parseFloat(bestPair.liquidity.usd) : null
-                    };
-                }
-            } catch (e) {
-                stats.apiErrors++;
-            } finally {
-                if (timeoutId) clearTimeout(timeoutId);
-            }
-            return null;
-        }
-
-        function initPumpPortalWebSocket() {
-            if (isConnecting || (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING))) {
-                return;
-            }
-
-            isConnecting = true;
-            try {
-                socket = new WebSocket(PUMP_WS_URL);
-
-                socket.onopen = () => {
-                    isConnecting = false;
-                    reconnectAttempts = 0;
-                    document.getElementById('diag-ws-status').innerText = "VERBUNDEN";
-                    document.getElementById('diag-ws-status').className = "text-xs font-bold text-neon-green mt-0.5";
-                    document.getElementById('stream-diag-badge').innerText = "Stream Aktiv (Zero-Trust Guard)";
-                    socket.send(JSON.stringify({ method: "subscribeNewToken" }));
-                };
-
-                socket.onmessage = async (event) => {
-                    stats.messages++;
-                    updateDiagUI();
-
-                    try {
-                        const rawData = JSON.parse(event.data);
-                        await processIncomingMessage(rawData);
-                    } catch (err) {
-                        stats.apiErrors++;
-                        setLastStatus("WS JSON Parse Fehler");
-                    }
-                };
-
-                socket.onerror = () => {
-                    isConnecting = false;
-                    stats.apiErrors++;
-                    setLastStatus("WebSocket Netzwerkfehler");
-                };
-
-                socket.onclose = () => {
-                    isConnecting = false;
-                    document.getElementById('diag-ws-status').innerText = "GETRENNT";
-                    document.getElementById('diag-ws-status').className = "text-xs font-bold text-red-400 mt-0.5";
-                    document.getElementById('stream-diag-badge').innerText = "Verbindung unterbrochen";
-
-                    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), maxReconnectDelay);
-                    reconnectAttempts++;
-                    setTimeout(initPumpPortalWebSocket, delay);
-                };
-            } catch (e) {
-                isConnecting = false;
-                stats.apiErrors++;
-                setLastStatus("WebSocket Init Exception");
-            }
-        }
-
-        async function processIncomingMessage(data) {
-            if (!data || typeof data !== 'object') return;
-
-            const mint = data.mint || data.tokenMint;
-            if (!isValidSolanaMint(mint)) return;
-
-            stats.validMints++;
-            updateDiagUI();
-
-            const sanitizedName = String(data.name || "Unbekannter Token").slice(0, 40);
-            const sanitizedSymbol = String(data.symbol || "UNK").slice(0, 10);
-            const sanitizedImage = sanitizeUrl(data.image || data.uri, true);
-
-            if (tokenMap.has(mint)) {
-                const existing = tokenMap.get(mint);
-                existing.name = sanitizedName;
-                existing.symbol = sanitizedSymbol;
-                return;
-            }
-
-            const newToken = {
-                name: sanitizedName,
-                symbol: sanitizedSymbol,
-                mint: mint,
-                priceUsd: data.price ? parseFloat(data.price) : null,
-                marketCapUsd: null,
-                fdvUsd: null,
-                liquidityUsd: null,
-                observedTime: Date.now(),
-                securityStatus: "REVIEW",
-                securityDetails: { status: "REVIEW", reason: "Live Stream Event – Re-Audit aktiv" },
-                imageUrl: sanitizedImage
-            };
-
-            tokenMap.set(mint, newToken);
-            knownMintsSet.add(mint);
-            stats.reviewCount++;
-            updateDiagUI();
-
-            enqueueSecurityCheck(mint);
-
-            enqueueDexScreenerFetch(mint, (marketData) => {
-                if (marketData && tokenMap.has(mint)) {
-                    const t = tokenMap.get(mint);
-                    if (marketData.priceUsd) t.priceUsd = marketData.priceUsd;
-                    if (marketData.marketCap) t.marketCapUsd = marketData.marketCap;
-                    if (marketData.fdv) t.fdvUsd = marketData.fdv;
-                    if (marketData.liquidity) t.liquidityUsd = marketData.liquidity;
-                    if (t.securityStatus === "APPROVED") {
-                        saveApprovedTokens();
-                        scheduleUiRender();
-                    }
-                }
-            });
-        }
-
-        async function fetchDexPaidTokens() {
-            try {
-                const res = await fetch(DEX_PAID_API);
-                if (!res.ok) throw new Error("Netzwerkfehler");
-                const data = await res.json();
-                if (Array.isArray(data)) {
-                    dexPaidTokens = [];
-                    data.filter(item => item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress))
-                        .slice(0, 15)
-                        .forEach(item => {
-                            const mint = item.tokenAddress;
-                            if (!tokenMap.has(mint)) {
-                                const newToken = {
-                                    name: item.description ? String(item.description).slice(0, 20) : 'Paid Token',
-                                    symbol: mint.slice(0, 4).toUpperCase(),
-                                    mint: mint,
-                                    priceUsd: null,
-                                    marketCapUsd: null,
-                                    fdvUsd: null,
-                                    liquidityUsd: null,
-                                    observedTime: Date.now(),
-                                    securityStatus: "REVIEW",
-                                    securityDetails: { status: "REVIEW", reason: "DEX Paid Ad – Audit aktiv" },
-                                    imageUrl: sanitizeUrl(item.icon, true),
-                                    url: sanitizeUrl(item.url),
-                                    amount: item.amount || 0
-                                };
-                                tokenMap.set(mint, newToken);
-                                knownMintsSet.add(mint);
-                                stats.reviewCount++;
-                                enqueueSecurityCheck(mint);
-                            }
-                            const current = tokenMap.get(mint);
-                            if (current && current.securityStatus === "APPROVED") {
-                                if (!dexPaidTokens.some(d => d.mint === mint)) {
-                                    dexPaidTokens.push(current);
-                                }
-                            }
-                        });
-                    renderDexPaidTable();
-                }
-            } catch (err) {
-                stats.apiErrors++;
-            }
-        }
-
-        function populateRowCells(tr, t, isPaid = false, paidData = null) {
-            tr.innerHTML = '';
-            tr.className = "hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40";
-            tr.onclick = () => selectTokenForTerminal(t.mint);
-
-            const tdCoin = document.createElement('td');
-            tdCoin.className = "p-3.5 flex items-center gap-3";
-            const img = document.createElement('img');
-            img.src = t.imageUrl;
-            img.className = "w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1";
-            img.onerror = () => { img.src = getSVGFallback(t.symbol); };
-            
-            const divInfo = document.createElement('div');
-            const divName = document.createElement('div');
-            divName.className = "font-bold text-white";
-            divName.textContent = t.name;
-            const divSymbol = document.createElement('div');
-            divSymbol.className = "text-[10px] text-gray-400";
-            divSymbol.textContent = t.symbol;
-
-            divInfo.appendChild(divName);
-            divInfo.appendChild(divSymbol);
-            tdCoin.appendChild(img);
-            tdCoin.appendChild(divInfo);
-
-            if (isPaid) {
-                const tdChain = document.createElement('td');
-                tdChain.className = "p-3.5 uppercase text-gray-300";
-                tdChain.textContent = "solana";
-
-                const tdMint = document.createElement('td');
-                tdMint.className = "p-3.5 text-gray-400 font-mono text-[11px]";
-                tdMint.textContent = t.mint;
-
-                const tdBoosts = document.createElement('td');
-                tdBoosts.className = "p-3.5 text-neon-gold font-bold";
-                tdBoosts.textContent = `🔥 ${paidData?.amount || 1} Boosts`;
-
-                const tdSec = document.createElement('td');
-                tdSec.className = "p-3.5";
-                const spanSec = document.createElement('span');
-                spanSec.className = "px-2 py-0.5 rounded bg-neon-green/10 text-neon-green border border-neon-green/30 text-[10px] font-bold";
-                spanSec.textContent = "APPROVED";
-                tdSec.appendChild(spanSec);
-
-                const tdAction = document.createElement('td');
-                tdAction.className = "p-3.5 text-right";
-                const a = document.createElement('a');
-                a.href = paidData?.url || `https://dexscreener.com/solana/${t.mint}`;
-                a.target = "_blank";
-                a.className = "bg-neon-pink/20 hover:bg-neon-pink text-neon-pink hover:text-white px-3 py-1.5 rounded-lg text-xs transition border border-neon-pink/40";
-                a.textContent = "DexScreener ↗";
-                tdAction.appendChild(a);
-
-                tr.appendChild(tdCoin);
-                tr.appendChild(tdChain);
-                tr.appendChild(tdMint);
-                tr.appendChild(tdBoosts);
-                tr.appendChild(tdSec);
-                tr.appendChild(tdAction);
-                return;
-            }
-
-            const tdPrice = document.createElement('td');
-            tdPrice.className = "p-3.5 font-bold text-neon-green";
-            tdPrice.textContent = formatPrice(t.priceUsd);
-
-            const tdMcap = document.createElement('td');
-            tdMcap.className = "p-3.5 text-gray-300";
-            tdMcap.textContent = formatCompact(t.marketCapUsd);
-
-            const tdFdv = document.createElement('td');
-            tdFdv.className = "p-3.5 text-gray-400";
-            tdFdv.textContent = formatCompact(t.fdvUsd);
-
-            const tdLiq = document.createElement('td');
-            tdLiq.className = "p-3.5 text-gray-300";
-            tdLiq.textContent = formatCompact(t.liquidityUsd);
-
-            const tdSec = document.createElement('td');
-            tdSec.className = "p-3.5";
-            const spanSec = document.createElement('span');
-            spanSec.className = "px-2 py-0.5 rounded bg-neon-green/10 text-neon-green border border-neon-green/30 text-[10px] font-bold";
-            spanSec.textContent = "APPROVED";
-            tdSec.appendChild(spanSec);
-
-            const tdAge = document.createElement('td');
-            tdAge.className = "p-3.5 text-gray-400";
-            tdAge.textContent = formatTokenAge(t.observedTime);
-
-            const tdAction = document.createElement('td');
-            tdAction.className = "p-3.5 text-right";
-            const btn = document.createElement('button');
-            btn.className = "bg-dark-card hover:bg-neon-purple text-gray-200 px-3 py-1.5 rounded-lg text-xs transition border border-dark-border";
-            btn.textContent = "Terminal";
-            tdAction.appendChild(btn);
-
-            tr.appendChild(tdCoin);
-            tr.appendChild(tdPrice);
-            tr.appendChild(tdMcap);
-            tr.appendChild(tdFdv);
-            tr.appendChild(tdLiq);
-            tr.appendChild(tdSec);
-            tr.appendChild(tdAge);
-            tr.appendChild(tdAction);
-        }
-
-        function renderLiveFeedTable() {
-            const tbody = document.getElementById('live-feed-table-body');
-            if (!tbody) return;
-
-            const approvedLive = liveFeedTokens.filter(t => t.securityStatus === "APPROVED");
-
-            if (approvedLive.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">Warte auf verifizierte Live-Ereignisse... (Ungeprüfte und REVIEW/REJECTED Tokens bleiben ausgeblendet)</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = '';
-            approvedLive.forEach(t => {
-                const tr = document.createElement('tr');
-                populateRowCells(tr, t);
-                tbody.appendChild(tr);
-            });
-        }
-
-        function renderDiscoveryTable() {
-            const tbody = document.getElementById('tokens-table-body');
-            if (!tbody) return;
-
-            const approvedDiscovery = approvedTokens.filter(t => t.securityStatus === "APPROVED");
-
-            if (approvedDiscovery.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">Keine APPROVED Discovery-Coins gefunden. (Klicken Sie auf 'Discovery Scan')</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = '';
-            approvedDiscovery.forEach(t => {
-                const tr = document.createElement('tr');
-                populateRowCells(tr, t);
-                tbody.appendChild(tr);
-            });
-        }
-
-        function renderDexPaidTable() {
-            const tbody = document.getElementById('dex-paid-table-body');
-            if (!tbody) return;
-
-            const approvedPaid = dexPaidTokens.filter(t => t.securityStatus === "APPROVED");
-
-            if (approvedPaid.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">Keine APPROVED Paid Tokens verfügbar (Sicherheitsfilter aktiv).</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = '';
-            approvedPaid.forEach(t => {
-                const tr = document.createElement('tr');
-                populateRowCells(tr, t, true, t);
-                tbody.appendChild(tr);
-            });
-        }
-
-        function filterTokensLocal() {
-            const query = document.getElementById('token-search-input').value.toLowerCase();
-            const rows = document.querySelectorAll('#tokens-table-body tr');
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
-            });
-        }
-
-        function selectTokenForTerminal(mint) {
-            const token = tokenMap.get(mint);
-            if (!token) return;
-
-            document.getElementById('selected-token-title').textContent = `${token.name} (${token.symbol})`;
-            document.getElementById('selected-token-mint').textContent = token.mint;
-            document.getElementById('selected-token-price').textContent = formatPrice(token.priceUsd);
-            document.getElementById('selected-token-mcap').textContent = formatCompact(token.marketCapUsd);
-            document.getElementById('selected-token-fdv').textContent = formatCompact(token.fdvUsd);
-            document.getElementById('selected-token-security').textContent = token.securityStatus;
-
-            const auditReasonEl = document.getElementById('selected-token-audit-reason');
-            if (token.securityDetails) {
-                auditReasonEl.textContent = `[Status: ${token.securityStatus}] Score: ${token.securityDetails.score ?? 'N/A'}. Begründung: ${token.securityDetails.reason || 'Keine Details'}.`;
-            } else {
-                auditReasonEl.textContent = "Sicherheitsprüfung läuft...";
-            }
-
-            const linkEl = document.getElementById('selected-token-link');
-            linkEl.href = `https://dexscreener.com/solana/${token.mint}`;
-            linkEl.classList.remove('hidden');
-
-            document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function toggleWallet() {
-            if ("solana" in window) {
-                window.solana.connect().then(res => {
-                    const addr = res.publicKey.toString();
-                    document.getElementById('wallet-text').innerText = addr.slice(0, 4) + '...' + addr.slice(-4);
-                }).catch(() => {});
-            } else {
-                alert("Keine Phantom Wallet gefunden.");
-            }
-        }
-
-        function openUpgradeModal() {
-            document.getElementById('upgrade-modal').classList.remove('hidden');
-        }
-
-        function closeUpgradeModal() {
-            document.getElementById('upgrade-modal').classList.add('hidden');
-        }
-
-        window.onload = () => {
-            try {
-                loadStoredTokens();
-                updateDiagUI();
-                fetchDexPaidTokens();
-                fetchDexDiscoveryTokens();
-                initPumpPortalWebSocket();
-                scheduleUiRender();
-            } catch (e) {
-                console.error("Initialization error:", e);
-                setLastStatus("Init Fehler: " + e.message);
-            }
-        };
-    </script>
-</body>
-</html>
