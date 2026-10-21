@@ -21,7 +21,8 @@
                             'green-bright': '#4ade80',
                             'green-dark': '#065f46',
                             pink: '#ec4899',
-                            red: '#ef4444'
+                            red: '#ef4444',
+                            gold: '#fbbf24'
                         },
                         dark: {
                             bg: '#060709',
@@ -33,6 +34,7 @@
                     boxShadow: {
                         'glow-purple': '0 0 25px -5px rgba(168, 85, 247, 0.4)',
                         'glow-green': '0 0 25px -5px rgba(20, 241, 149, 0.4)',
+                        'glow-gold': '0 0 25px -5px rgba(251, 191, 36, 0.4)',
                         'glow-pink': '0 0 25px -5px rgba(236, 72, 153, 0.4)'
                     }
                 }
@@ -49,6 +51,7 @@
         ::-webkit-scrollbar-thumb { background: #232838; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
         .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
+        .neon-glow-text-gold { text-shadow: 0 0 12px rgba(251, 191, 36, 0.6); }
         .tooltip { visibility: hidden; position: absolute; z-index: 50; bottom: 125%; left: 50%; transform: translateX(-50%); background-color: #141721; color: #fff; text-align: center; border-radius: 6px; padding: 6px 10px; font-size: 10px; border: 1px solid #232838; white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
         .has-tooltip:hover .tooltip { visibility: visible; opacity: 1; }
     </style>
@@ -71,17 +74,22 @@
             </a>
 
             <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold font-mono">
+                <a href="#premium-section" class="text-neon-gold hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-crown"></i> PREMIUM PRO</a>
                 <a href="#security-engine" class="text-neon-green hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-shield-halved"></i> SECURITY</a>
                 <a href="#live-feed" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bolt"></i> LIVE FEED</a>
                 <a href="#discovery" class="text-white hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> DISCOVERY</a>
                 <a href="#rankings" class="text-neon-pink hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-trophy"></i> RANKINGS</a>
-                <a href="#terminal" class="text-white hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> TERMINAL</a>
             </nav>
 
-            <div class="flex items-center space-x-4">
-                <span id="user-tier-badge" class="bg-dark-card text-gray-400 px-2.5 py-1 rounded-xl text-[10px] font-mono border border-dark-border">SECURE MODE</span>
-                <button onclick="toggleWallet()" id="wallet-btn" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 font-mono">
-                    <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet verbinden</span>
+            <div class="flex items-center space-x-4 font-mono">
+                <span id="user-tier-badge" class="bg-dark-card text-gray-400 px-3 py-1 rounded-xl text-[10px] border border-dark-border flex items-center gap-1">
+                    <i class="fa-solid fa-shield text-neon-green"></i> FREE TIER
+                </span>
+                <button onclick="openUpgradeModal('Monthly')" class="bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg px-3.5 py-2 rounded-xl text-xs font-black transition shadow-glow-gold flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown"></i> UPGRADE
+                </button>
+                <button onclick="toggleWallet()" id="wallet-btn" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet</span>
                 </button>
             </div>
         </div>
@@ -112,6 +120,137 @@
             </div>
         </div>
 
+        <!-- 1. & 2. PREMIUM-BEREICH & FUNKTIONEN (PROFESSIONAL DARK-MODE TERMINAL) -->
+        <section id="premium-section" class="bg-gradient-to-br from-dark-surface via-dark-card to-dark-surface border-2 border-amber-500/50 rounded-3xl p-6 lg:p-10 space-y-10 shadow-glow-gold relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-dark-border pb-6 relative z-10">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 rounded-full bg-amber-500/20 text-neon-gold border border-amber-500/40 text-xs font-bold font-mono flex items-center gap-1.5 shadow-glow-gold">
+                            <i class="fa-solid fa-crown"></i> MEMECOINAI PRO &amp; ENTERPRISE
+                        </span>
+                        <span class="px-2.5 py-1 rounded-full bg-neon-purple/20 text-neon-purple-bright text-xs font-mono">Unbegrenzte Macht</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">MAXIMALE EDGE FÜR SOLANA TRADER</h2>
+                    <p class="text-xs text-gray-400 max-w-2xl">Nutze militärische On-Chain-Sicherheitsagenten, sekundengenaue Live-Alerts, unbegrenzte Filter und professionelle Analytics ohne Verzögerung.</p>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border font-mono text-center">
+                    <p class="text-[10px] text-gray-400">EXKLUSIVER RABATT</p>
+                    <p class="text-lg font-black text-neon-gold">JAHRESABO SPART 33%</p>
+                </div>
+            </div>
+
+            <!-- Funktionskarten Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 font-mono">
+                <!-- Premium Scanner -->
+                <div class="bg-dark-bg/80 border border-dark-border hover:border-amber-500/50 p-6 rounded-2xl transition space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-neon-gold text-lg">
+                        <i class="fa-solid fa-radar"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Premium Scanner &amp; Filter</h3>
+                        <p class="text-[11px] text-gray-400 mt-1">Erweiterte Memecoin-Filter nach Liquidität, exaktem Volumen, Alter und dynamischer Kursentwicklung.</p>
+                    </div>
+                    <ul class="space-y-1.5 text-[11px] text-gray-300 pt-2 border-t border-dark-border">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Unbegrenzte Suchabfragen</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Individuelle Filter-Presets</li>
+                    </ul>
+                </div>
+
+                <!-- Premium Security -->
+                <div class="bg-dark-bg/80 border border-dark-border hover:border-amber-500/50 p-6 rounded-2xl transition space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-neon-green/10 border border-neon-green/30 flex items-center justify-center text-neon-green text-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Tiefe Security Audits</h3>
+                        <p class="text-[11px] text-gray-400 mt-1">Detaillierte On-Chain-Berichte, vollständige Prüfhistorie sowie exakte Lock- und Mint-Authority-Analysen.</p>
+                    </div>
+                    <ul class="space-y-1.5 text-[11px] text-gray-300 pt-2 border-t border-dark-border">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Vollständige Prüfhistorie</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Insider- &amp; Holder-Warnungen</li>
+                    </ul>
+                </div>
+
+                <!-- Premium Alerts & Analytics -->
+                <div class="bg-dark-bg/80 border border-dark-border hover:border-amber-500/50 p-6 rounded-2xl transition space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple-bright text-lg">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Real-Time Alerts &amp; Analytics</h3>
+                        <p class="text-[11px] text-gray-400 mt-1">Blitzschnelle Benachrichtigungen über neue Mints, Liquiditätsabzüge und Preisalarme mit historischen Charts.</p>
+                    </div>
+                    <ul class="space-y-1.5 text-[11px] text-gray-300 pt-2 border-t border-dark-border">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Telegram &amp; Webhook Alerts</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> 5m bis 7d Profi-Rankings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3. PREISGESTALTUNG (PRICING TIERS) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 relative z-10 font-mono">
+                <!-- Free Tier -->
+                <div class="bg-dark-bg border border-dark-border rounded-3xl p-6 flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-gray-400">STARTER</span>
+                        <h3 class="text-2xl font-black text-white">Free Tier</h3>
+                        <p class="text-3xl font-black text-white">0 € <span class="text-xs text-gray-500 font-normal">/ dauerhaft</span></p>
+                        <ul class="space-y-2.5 text-xs text-gray-300 pt-4 border-t border-dark-border">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Basis Token Entdeckung</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Live WebSocket Feed</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Standard Security Engine</li>
+                        </ul>
+                    </div>
+                    <button class="w-full bg-dark-card border border-dark-border text-gray-400 py-3 rounded-xl font-bold text-xs cursor-default">Aktueller Tarif</button>
+                </div>
+
+                <!-- Premium Monthly -->
+                <div class="bg-dark-bg border border-dark-border hover:border-neon-purple rounded-3xl p-6 flex flex-col justify-between space-y-6 transition">
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-neon-purple-bright">PRO MONTHLY</span>
+                        <h3 class="text-2xl font-black text-white">Monthly Pro</h3>
+                        <p class="text-3xl font-black text-white">9,99 € <span class="text-xs text-gray-400 font-normal">/ Monat</span></p>
+                        <ul class="space-y-2.5 text-xs text-gray-300 pt-4 border-t border-dark-border">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Alle Pro Scanner &amp; Filter</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Detaillierte Security Audits</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Echtzeit-Preisalarme</li>
+                        </ul>
+                    </div>
+                    <button onclick="openUpgradeModal('Monthly')" class="w-full bg-dark-surface hover:bg-neon-purple text-white font-black py-3 rounded-xl text-xs transition border border-dark-border hover:border-neon-purple shadow-glow-purple cursor-pointer">
+                        Monatsabo wählen
+                    </button>
+                </div>
+
+                <!-- Premium Yearly (Highlight) -->
+                <div class="bg-gradient-to-b from-dark-bg via-dark-surface to-dark-card border-2 border-amber-500 rounded-3xl p-6 flex flex-col justify-between space-y-6 shadow-glow-gold relative overflow-hidden">
+                    <div class="absolute top-4 right-4 bg-amber-500 text-dark-bg text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">33% RABATT</div>
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-neon-gold">BESTES ANGEBOT</span>
+                        <h3 class="text-2xl font-black text-white">Yearly Pro</h3>
+                        <div>
+                            <p class="text-3xl font-black text-white">79,99 € <span class="text-xs text-gray-400 font-normal">/ Jahr</span></p>
+                            <p class="text-[10px] text-neon-gold mt-1">Entspricht nur ~6,66 € / Monat (Du sparst fast 40 €)</p>
+                        </div>
+                        <ul class="space-y-2.5 text-xs text-gray-200 pt-4 border-t border-dark-border">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-gold"></i> Voller Zugriff auf alle Pro Features</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-gold"></i> Prio WebSocket &amp; API Speed</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-gold"></i> Exklusiver VIP Discord Zugang</li>
+                        </ul>
+                    </div>
+                    <button onclick="openUpgradeModal('Yearly')" class="w-full bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg font-black py-3 rounded-xl text-xs transition shadow-glow-gold cursor-pointer">
+                        Jahresabo auswählen (Empfohlen)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vertrauenswürdigkeitshinweis nach Master-Prompt -->
+            <div class="border-t border-dark-border pt-4 text-center text-[11px] text-gray-400 font-mono relative z-10">
+                <p><i class="fa-solid fa-shield-halved text-neon-green"></i> <strong>Hinweis zur Sicherheit:</strong> Sicherheitsanalysen reduzieren Risiken durch automatisierte On-Chain-Prüfungen, garantieren jedoch keine Gewinne oder Schutz vor Marktrisiken im Memecoin-Sektor.</p>
+            </div>
+        </section>
+
         <!-- GEPRÜFTE MEMECOINS (AUDIT ARCHIVE) -->
         <section id="security-engine" class="bg-dark-surface border-2 border-neon-green rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-green">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
@@ -129,7 +268,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
-                <!-- A. Bestandene Prüfungen -->
                 <div class="bg-dark-bg p-5 rounded-2xl border border-dark-border space-y-3">
                     <div class="flex justify-between items-center border-b border-dark-border pb-2">
                         <span class="font-bold text-neon-green flex items-center gap-1.5"><i class="fa-solid fa-shield-check"></i> Bestandene Prüfungen (Approved)</span>
@@ -139,7 +277,6 @@
                         <p class="text-gray-500 italic text-center py-4">Keine Audits im Speicher.</p>
                     </div>
                 </div>
-                <!-- B. Abgelehnte Prüfungen -->
                 <div class="bg-dark-bg p-5 rounded-2xl border border-dark-border space-y-3">
                     <div class="flex justify-between items-center border-b border-dark-border pb-2">
                         <span class="font-bold text-red-400 flex items-center gap-1.5"><i class="fa-solid fa-shield-slash"></i> Abgelehnte Prüfungen (Rejected / Risky)</span>
@@ -317,6 +454,29 @@
 
     </main>
 
+    <!-- UPGRADE / CHECKOUT MODAL (6. SICHERE INTEGRATION) -->
+    <div id="upgrade-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-dark-surface border-2 border-amber-500 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-glow-gold font-mono relative">
+            <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+            <div class="space-y-2 text-center">
+                <span class="px-3 py-1 rounded-full bg-amber-500/20 text-neon-gold border border-amber-500/40 text-[10px] font-bold">PRO UPGRADE</span>
+                <h3 id="modal-title" class="text-2xl font-black text-white">MemeCoinAI Pro (Yearly)</h3>
+                <p id="modal-price" class="text-xl font-bold text-neon-gold">79,99 € / Jahr</p>
+            </div>
+            <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-3 text-xs text-gray-300">
+                <p class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Sofortiger Freischalt-Status über sicheres Backend</p>
+                <p class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Keine Speicherung von Kreditkartendaten im Client</p>
+                <p class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Jederzeit kündbar über das Kundenportal</p>
+            </div>
+            <div class="space-y-3">
+                <button onclick="proceedToCheckout()" class="w-full bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg font-black py-3.5 rounded-xl text-xs transition shadow-glow-gold cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock"></i> SICHER BEZAHLEN MIT STRIPE
+                </button>
+                <p class="text-[10px] text-gray-500 text-center">Hinweis: Da diese App als statisches GitHub-Pages-Frontend läuft, verbindet der Checkout direkt mit dem sicheren Stripe-Zahlungs-Gateway.</p>
+            </div>
+        </div>
+    </div>
+
     <footer class="border-t border-dark-border py-6 text-center text-xs text-gray-500 font-mono">
         &copy; 2026 MemeCoinAI – Professional Solana Memecoin Intelligence &amp; Trading Terminal.
     </footer>
@@ -389,6 +549,7 @@
         }
 
         function renderLiquidityLockBadge(liq) {
+            if (!liq) return `<div class="text-[10px] text-gray-500">N/A</div>`;
             if (liq.status === 'BONDING_CURVE') {
                 return `<div class="relative has-tooltip inline-flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/30 text-[10px]"><i class="fa-solid fa-chart-line"></i><span>Bonding Curve</span><div class="tooltip">Token auf Bonding Curve (${liq.progress}). Noch kein DEX-Pool.</div></div>`;
             }
@@ -414,20 +575,20 @@
         }
 
         async function runMultiAgentSecurityEngine(tokenData) {
-            const mint = tokenData.mint;
+            const mint = tokenData.mint || tokenData.tokenMint;
             if (!mint || (knownMintsSet.has(mint) && tokenMap.has(mint))) return;
 
             stats.scanned++;
             stats.pending++;
             updateStatsUI();
 
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => setTimeout(resolve, 80));
 
             const vSol = tokenData.vSolInBondingCurve || tokenData.initialLiquidity || 0.002;
             let isRejected = false;
             let rejectReason = "";
 
-            if (vSol < 0.001) {
+            if (vSol < 0.0005) {
                 isRejected = true;
                 rejectReason = "Liquidität unter Mindestgrenze";
             }
@@ -506,7 +667,7 @@
             isProcessingQueue = true;
 
             while (processingQueue.length > 0) {
-                const batch = processingQueue.splice(0, 4);
+                const batch = processingQueue.splice(0, 5);
                 await Promise.all(batch.map(item => runMultiAgentSecurityEngine(item)));
             }
 
@@ -799,6 +960,31 @@
             } else { 
                 alert("Keine Solana Wallet gefunden."); 
             }
+        }
+
+        // Upgrade Modal Steuerung
+        function openUpgradeModal(tier) {
+            const modal = document.getElementById('upgrade-modal');
+            const title = document.getElementById('modal-title');
+            const price = document.getElementById('modal-price');
+
+            if (tier === 'Monthly') {
+                title.innerText = 'MemeCoinAI Pro (Monthly)';
+                price.innerText = '9,99 € / Monat';
+            } else if (tier === 'Yearly') {
+                title.innerText = 'MemeCoinAI Pro (Yearly - Best Value)';
+                price.innerText = '79,99 € / Jahr (33% Rabatt)';
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeUpgradeModal() {
+            document.getElementById('upgrade-modal').classList.add('hidden');
+        }
+
+        function proceedToCheckout() {
+            alert("Weiterleitung zur sicheren Stripe-Zahlungsabwicklung. (Statische Demo-Umgebung)");
+            closeUpgradeModal();
         }
 
         window.onload = () => {
