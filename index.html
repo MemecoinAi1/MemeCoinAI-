@@ -52,8 +52,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
         .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
         .neon-glow-text-gold { text-shadow: 0 0 12px rgba(251, 191, 36, 0.6); }
-        .tooltip { visibility: hidden; position: absolute; z-index: 50; bottom: 125%; left: 50%; transform: translateX(-50%); background-color: #141721; color: #fff; text-align: center; border-radius: 6px; padding: 6px 10px; font-size: 10px; border: 1px solid #232838; white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
-        .has-tooltip:hover .tooltip { visibility: visible; opacity: 1; }
+        .horizontal-scroll-container { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
     </style>
 </head>
 <body class="bg-dark-bg text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-neon-purple selection:text-white">
@@ -75,18 +74,14 @@
 
             <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold font-mono">
                 <a href="#premium-section" class="text-neon-gold hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-crown"></i> PREMIUM PRO</a>
-                <a href="#security-engine" class="text-neon-green hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-shield-halved"></i> SECURITY</a>
-                <a href="#live-feed" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bolt"></i> LIVE FEED</a>
+                <a href="#dex-paid-section" class="text-neon-pink hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-fire"></i> DEX PAID</a>
+                <a href="#live-feed" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bolt"></i> PUMP.FUN LIVE</a>
                 <a href="#discovery" class="text-white hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> DISCOVERY</a>
-                <a href="#rankings" class="text-neon-pink hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-trophy"></i> RANKINGS</a>
             </nav>
 
-            <div class="flex items-center space-x-4 font-mono">
-                <span id="user-tier-badge" class="bg-dark-card text-gray-400 px-3 py-1 rounded-xl text-[10px] border border-dark-border flex items-center gap-1">
-                    <i class="fa-solid fa-shield text-neon-green"></i> FREE TIER
-                </span>
-                <button onclick="openUpgradeModal('Monthly')" class="bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg px-3.5 py-2 rounded-xl text-xs font-black transition shadow-glow-gold flex items-center gap-1.5">
-                    <i class="fa-solid fa-crown"></i> UPGRADE
+            <div class="flex items-center space-x-3 font-mono">
+                <button onclick="openUpgradeModal()" class="bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg px-3.5 py-2 rounded-xl text-xs font-black transition shadow-glow-gold flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown"></i> PRO UPGRADE
                 </button>
                 <button onclick="toggleWallet()" id="wallet-btn" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
                     <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet</span>
@@ -97,349 +92,166 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
 
-        <!-- GLOBAL STATS & SECURITY DASHBOARD -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl flex justify-between items-center">
-                <div>
-                    <p class="text-[10px] text-gray-500">WEBSOCKET STATUS</p>
-                    <p id="api-status-text" class="text-sm font-bold text-yellow-400 mt-0.5">VERBINDET...</p>
-                </div>
-                <span id="live-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping"></span>
+        <!-- GRANULAR DIAGNOSTICS & STATS DASHBOARD -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 text-xs font-mono">
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">WS STATUS</p>
+                <p id="diag-ws-status" class="text-xs font-bold text-yellow-400 mt-0.5">GETRENNT</p>
             </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-500">PRÜFUNGEN (SCANNED)</p>
-                <p id="stat-scanned" class="text-sm font-bold text-white mt-0.5">0</p>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">MSGS EMPFANGEN</p>
+                <p id="diag-msgs" class="text-xs font-bold text-white mt-0.5">0</p>
             </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-500">FREIGEGEBEN (APPROVED)</p>
-                <p id="stat-approved" class="text-sm font-bold text-neon-green mt-0.5">0</p>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">GÜLTIGE MINTS</p>
+                <p id="diag-mints" class="text-xs font-bold text-neon-green mt-0.5">0</p>
             </div>
-            <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl">
-                <p class="text-[10px] text-gray-500">ABGELEHNT (REJECTED)</p>
-                <p id="stat-rejected" class="text-sm font-bold text-red-400 mt-0.5">0</p>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">NEU / UPDATE</p>
+                <p id="diag-adds-updates" class="text-xs font-bold text-neon-purple-bright mt-0.5">0 / 0</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">UNVERWERTBAR</p>
+                <p id="diag-non-tokens" class="text-xs font-bold text-yellow-400 mt-0.5">0</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">DEX API FEHLER</p>
+                <p id="diag-dex-errors" class="text-xs font-bold text-red-400 mt-0.5">0</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl col-span-2 md:col-span-1">
+                <p class="text-[9px] text-gray-500">LETZTER FEHLER</p>
+                <p id="diag-last-err" class="text-[10px] text-gray-300 mt-0.5 truncate" title="Keine Fehler">Keine</p>
             </div>
         </div>
 
-        <!-- PREMIUM-BEREICH (PRO UPGRADE) -->
-        <section id="premium-section" class="bg-gradient-to-br from-dark-surface via-dark-card to-dark-surface border-2 border-amber-500/50 rounded-3xl p-6 lg:p-10 space-y-10 shadow-glow-gold relative overflow-hidden">
-            <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-dark-border pb-6 relative z-10">
+        <!-- PREMIUM SECTION -->
+        <section id="premium-section" class="bg-gradient-to-br from-dark-surface via-dark-card to-dark-surface border-2 border-amber-500/50 rounded-3xl p-6 lg:p-10 space-y-8 shadow-glow-gold relative overflow-hidden font-mono">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-dark-border pb-6">
                 <div class="space-y-2">
-                    <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 rounded-full bg-amber-500/20 text-neon-gold border border-amber-500/40 text-xs font-bold font-mono flex items-center gap-1.5 shadow-glow-gold">
-                            <i class="fa-solid fa-crown"></i> MEMECOINAI PRO &amp; ENTERPRISE
-                        </span>
-                        <span class="px-2.5 py-1 rounded-full bg-neon-purple/20 text-neon-purple-bright text-xs font-mono">Unbegrenzte Macht</span>
-                    </div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white">MAXIMALE EDGE FÜR SOLANA TRADER</h2>
-                    <p class="text-xs text-gray-400 max-w-2xl">Nutze militärische On-Chain-Sicherheitsagenten, sekundengenaue Live-Alerts, unbegrenzte Filter und professionelle Analytics ohne Verzögerung.</p>
+                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-neon-gold border border-amber-500/40 text-xs font-bold inline-flex items-center gap-1.5 shadow-glow-gold">
+                        <i class="fa-solid fa-crown"></i> MEMECOINAI PRO &amp; ENTERPRISE
+                    </span>
+                    <h2 class="text-3xl font-black text-white">MAXIMALE EDGE FÜR SOLANA TRADER</h2>
+                    <p class="text-xs text-gray-400 max-w-2xl">Echtzeit-Daten direkt über PumpPortal und DexScreener mit voller Transparenz.</p>
                 </div>
-                <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border font-mono text-center">
-                    <p class="text-[10px] text-gray-400">EXKLUSIVER RABATT</p>
-                    <p class="text-lg font-black text-neon-gold">JAHRESABO SPART 33%</p>
-                </div>
-            </div>
-
-            <!-- Funktionskarten Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 font-mono">
-                <div class="bg-dark-bg/80 border border-dark-border hover:border-amber-500/50 p-6 rounded-2xl transition space-y-4">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-neon-gold text-lg">
-                        <i class="fa-solid fa-radar"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-white text-sm">Premium Scanner &amp; Filter</h3>
-                        <p class="text-[11px] text-gray-400 mt-1">Erweiterte Memecoin-Filter nach Liquidität, exaktem Volumen, Alter und dynamischer Kursentwicklung.</p>
-                    </div>
-                    <ul class="space-y-1.5 text-[11px] text-gray-300 pt-2 border-t border-dark-border">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Unbegrenzte Suchabfragen</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Individuelle Filter-Presets</li>
-                    </ul>
-                </div>
-
-                <div class="bg-dark-bg/80 border border-dark-border hover:border-amber-500/50 p-6 rounded-2xl transition space-y-4">
-                    <div class="w-10 h-10 rounded-xl bg-neon-green/10 border border-neon-green/30 flex items-center justify-center text-neon-green text-lg">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-white text-sm">Tiefe Security Audits</h3>
-                        <p class="text-[11px] text-gray-400 mt-1">Detaillierte On-Chain-Berichte, vollständige Prüfhistorie sowie exakte Lock- und Mint-Authority-Analysen.</p>
-                    </div>
-                    <ul class="space-y-1.5 text-[11px] text-gray-300 pt-2 border-t border-dark-border">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Vollständige Prüfhistorie</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Insider- &amp; Holder-Warnungen</li>
-                    </ul>
-                </div>
-
-                <div class="bg-dark-bg/80 border border-dark-border hover:border-amber-500/50 p-6 rounded-2xl transition space-y-4">
-                    <div class="w-10 h-10 rounded-xl bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple-bright text-lg">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-white text-sm">Real-Time Alerts &amp; Analytics</h3>
-                        <p class="text-[11px] text-gray-400 mt-1">Blitzschnelle Benachrichtigungen über neue Mints, Liquiditätsabzüge und Preisalarme mit historischen Charts.</p>
-                    </div>
-                    <ul class="space-y-1.5 text-[11px] text-gray-300 pt-2 border-t border-dark-border">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Telegram &amp; Webhook Alerts</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> 5m bis 7d Profi-Rankings</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Preisgestaltung -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 relative z-10 font-mono">
-                <div class="bg-dark-bg border border-dark-border rounded-3xl p-6 flex flex-col justify-between space-y-6">
-                    <div class="space-y-4">
-                        <span class="text-xs font-bold text-gray-400">STARTER</span>
-                        <h3 class="text-2xl font-black text-white">Free Tier</h3>
-                        <p class="text-3xl font-black text-white">0 € <span class="text-xs text-gray-500 font-normal">/ dauerhaft</span></p>
-                        <ul class="space-y-2.5 text-xs text-gray-300 pt-4 border-t border-dark-border">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Basis Token Entdeckung</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Live WebSocket Feed</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Standard Security Engine</li>
-                        </ul>
-                    </div>
-                    <button class="w-full bg-dark-card border border-dark-border text-gray-400 py-3 rounded-xl font-bold text-xs cursor-default">Aktueller Tarif</button>
-                </div>
-
-                <div class="bg-dark-bg border border-dark-border hover:border-neon-purple rounded-3xl p-6 flex flex-col justify-between space-y-6 transition">
-                    <div class="space-y-4">
-                        <span class="text-xs font-bold text-neon-purple-bright">PRO MONTHLY</span>
-                        <h3 class="text-2xl font-black text-white">Monthly Pro</h3>
-                        <p class="text-3xl font-black text-white">9,99 € <span class="text-xs text-gray-400 font-normal">/ Monat</span></p>
-                        <ul class="space-y-2.5 text-xs text-gray-300 pt-4 border-t border-dark-border">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Alle Pro Scanner &amp; Filter</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Detaillierte Security Audits</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Echtzeit-Preisalarme</li>
-                        </ul>
-                    </div>
-                    <button onclick="openUpgradeModal('Monthly')" class="w-full bg-dark-surface hover:bg-neon-purple text-white font-black py-3 rounded-xl text-xs transition border border-dark-border hover:border-neon-purple shadow-glow-purple cursor-pointer">
-                        Monatsabo wählen
-                    </button>
-                </div>
-
-                <div class="bg-gradient-to-b from-dark-bg via-dark-surface to-dark-card border-2 border-amber-500 rounded-3xl p-6 flex flex-col justify-between space-y-6 shadow-glow-gold relative overflow-hidden">
-                    <div class="absolute top-4 right-4 bg-amber-500 text-dark-bg text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">33% RABATT</div>
-                    <div class="space-y-4">
-                        <span class="text-xs font-bold text-neon-gold">BESTES ANGEBOT</span>
-                        <h3 class="text-2xl font-black text-white">Yearly Pro</h3>
-                        <div>
-                            <p class="text-3xl font-black text-white">79,99 € <span class="text-xs text-gray-400 font-normal">/ Jahr</span></p>
-                            <p class="text-[10px] text-neon-gold mt-1">Entspricht nur ~6,66 € / Monat (Du sparst fast 40 €)</p>
-                        </div>
-                        <ul class="space-y-2.5 text-xs text-gray-200 pt-4 border-t border-dark-border">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-gold"></i> Voller Zugriff auf alle Pro Features</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-gold"></i> Prio WebSocket &amp; API Speed</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-gold"></i> Exklusiver VIP Discord Zugang</li>
-                        </ul>
-                    </div>
-                    <button onclick="openUpgradeModal('Yearly')" class="w-full bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg font-black py-3 rounded-xl text-xs transition shadow-glow-gold cursor-pointer">
-                        Jahresabo auswählen (Empfohlen)
-                    </button>
-                </div>
-            </div>
-
-            <div class="border-t border-dark-border pt-4 text-center text-[11px] text-gray-400 font-mono relative z-10">
-                <p><i class="fa-solid fa-shield-halved text-neon-green"></i> <strong>Hinweis zur Sicherheit:</strong> Sicherheitsanalysen reduzieren Risiken durch automatisierte On-Chain-Prüfungen, garantieren jedoch keine Gewinne oder Schutz vor Marktrisiken im Memecoin-Sektor.</p>
+                <button onclick="openUpgradeModal()" class="bg-gradient-to-r from-amber-500 to-neon-gold text-dark-bg font-black px-6 py-3 rounded-xl text-xs shadow-glow-gold transition cursor-pointer">
+                    Pro Freischalten
+                </button>
             </div>
         </section>
 
-        <!-- GEPRÜFTE MEMECOINS (AUDIT ARCHIVE) -->
-        <section id="security-engine" class="bg-dark-surface border-2 border-neon-green rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-green">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
+        <!-- BEREICH 1: DEXSCREENER PAID & BOOSTED TOKENS -->
+        <section id="dex-paid-section" class="bg-dark-surface border-2 border-neon-pink/50 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-pink">
+            <div class="flex justify-between items-center border-b border-dark-border pb-4">
                 <div>
-                    <div class="flex items-center gap-2">
-                        <span class="px-2.5 py-0.5 rounded-full bg-neon-green/20 text-neon-green border border-neon-green/30 text-[10px] font-bold font-mono">FAIL-CLOSED ENGINE</span>
-                        <h2 class="text-2xl font-black text-white">GEPRÜFTE MEMECOINS (AUDIT ARCHIVE)</h2>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-1">Vollständige Transparenz: Bestandene und abgelehnte Coins mit detaillierter Agenten-Prüfhistorie (A–F).</p>
+                    <span class="px-2.5 py-0.5 rounded-full bg-neon-pink/20 text-neon-pink border border-neon-pink/30 text-[10px] font-bold font-mono">DEXSCREENER API</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">BEZAHLTE &amp; GEBOOSTETE COINS (DEX PAID)</h2>
                 </div>
-                <div class="flex items-center gap-3 font-mono text-xs">
-                    <span class="text-gray-400">Status:</span>
-                    <span class="text-neon-green font-bold">6/6 Agenten Aktiv</span>
-                </div>
+                <button onclick="fetchDexPaidTokens()" class="bg-dark-card border border-dark-border hover:border-neon-pink text-xs font-mono text-white px-3.5 py-2 rounded-xl transition">
+                    <i class="fa-solid fa-rotate"></i> Aktualisieren
+                </button>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
-                <div class="bg-dark-bg p-5 rounded-2xl border border-dark-border space-y-3">
-                    <div class="flex justify-between items-center border-b border-dark-border pb-2">
-                        <span class="font-bold text-neon-green flex items-center gap-1.5"><i class="fa-solid fa-shield-check"></i> Bestandene Prüfungen (Approved)</span>
-                        <span id="count-approved-audit" class="text-xs text-gray-400">0</span>
-                    </div>
-                    <div id="audit-approved-list" class="space-y-2 max-h-48 overflow-y-auto">
-                        <p class="text-gray-500 italic text-center py-4">Keine Audits im Speicher.</p>
-                    </div>
-                </div>
-                <div class="bg-dark-bg p-5 rounded-2xl border border-dark-border space-y-3">
-                    <div class="flex justify-between items-center border-b border-dark-border pb-2">
-                        <span class="font-bold text-red-400 flex items-center gap-1.5"><i class="fa-solid fa-shield-slash"></i> Abgelehnte Prüfungen (Rejected / Risky)</span>
-                        <span id="count-rejected-audit" class="text-xs text-gray-400">0</span>
-                    </div>
-                    <div id="audit-rejected-list" class="space-y-2 max-h-48 overflow-y-auto">
-                        <p class="text-gray-500 italic text-center py-4">Keine abgelehnten Mints.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- BEREICH A: NEUE COINS – LIVE FEED -->
-        <section id="live-feed" class="space-y-4">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-bolt text-neon-purple-bright"></i> NEUE COINS – LIVE FEED (PUMP.FUN STREAM)
-                    </h2>
-                    <p class="text-xs text-gray-400">Echtzeit-Entdeckung mit direktem Fail-Closed Sicherheits-Scan.</p>
-                </div>
-            </div>
-            <div id="live-feed-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
-                <div class="bg-dark-surface border border-dark-border p-4 rounded-2xl text-center text-gray-500 col-span-full">Warte auf Live-Ereignisse...</div>
-            </div>
-        </section>
-
-        <!-- BEREICH B: ALLE SOLANA-COINS – SUCHEN UND ENTDECKEN (DISCOVERY) -->
-        <section id="discovery" class="space-y-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h2 class="text-2xl font-black text-white tracking-wide">ALLE SOLANA-COINS – SUCHEN &amp; ENTDECKEN</h2>
-                    <p class="text-xs text-gray-400">Dauerhafte Übersicht aller erfassten und verifizierten Solana-Memecoins.</p>
-                </div>
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Name, Symbol, Mint..." class="bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-64 font-mono">
-                </div>
-            </div>
-
-            <div class="bg-dark-surface border border-dark-border rounded-2xl overflow-hidden shadow-xl">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse font-mono text-xs">
-                        <thead>
-                            <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
-                                <th class="p-3.5">COIN</th>
-                                <th class="p-3.5">PREIS USD</th>
-                                <th class="p-3.5">1H %</th>
-                                <th class="p-3.5">00:00 UTC</th>
-                                <th class="p-3.5">24H %</th>
-                                <th class="p-3.5">7D %</th>
-                                <th class="p-3.5">MARKET CAP</th>
-                                <th class="p-3.5">LIQUIDITÄT</th>
-                                <th class="p-3.5">LIQ. STATUS</th>
-                                <th class="p-3.5">ALTER</th>
-                                <th class="p-3.5">SICHERHEIT</th>
-                                <th class="p-3.5 text-right">AKTION</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tokens-table-body" class="divide-y divide-dark-border/40">
-                            <tr><td colspan="12" class="p-6 text-center text-gray-500">Warte auf verifizierte, sichere Mints...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- TOP GAINER & LOSER RANKINGS -->
-        <section id="rankings" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-6">
-                <div>
-                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-trophy text-neon-green"></i> Verifizierte Markt-Rankings
-                    </h2>
-                    <p class="text-xs text-gray-400 mt-1">Echte Kursveränderungen über gewählte Zeiträume.</p>
-                </div>
-                <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
-                    <button onclick="setRankingMode('gainers')" id="rank-btn-gainers" class="px-3 py-1.5 rounded-lg bg-neon-green text-dark-bg font-bold">Top Gainer</button>
-                    <button onclick="setRankingMode('losers')" id="rank-btn-losers" class="px-3 py-1.5 rounded-lg bg-dark-card text-gray-400 border border-dark-border">Top Loser</button>
-                    <select id="rank-timeframe" onchange="renderRankings()" class="bg-dark-bg border border-dark-border text-gray-300 px-3 py-1.5 rounded-lg focus:outline-none">
-                        <option value="1h">Letzte Stunde</option>
-                        <option value="today">Heute (00:00 UTC)</option>
-                        <option value="24h" selected>24 Stunden</option>
-                        <option value="7d">7 Tage</option>
-                    </select>
-                    <select id="rank-limit" onchange="renderRankings()" class="bg-dark-bg border border-dark-border text-gray-300 px-3 py-1.5 rounded-lg focus:outline-none">
-                        <option value="10">Top 10</option>
-                        <option value="25" selected>Top 25</option>
-                        <option value="50">Top 50</option>
-                    </select>
-                </div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse font-mono text-xs">
+            <div class="horizontal-scroll-container bg-dark-bg rounded-2xl border border-dark-border">
+                <table class="w-full text-left border-collapse font-mono text-xs whitespace-nowrap min-w-[850px]">
                     <thead>
                         <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
-                            <th class="p-3">#</th>
-                            <th class="p-3">COIN</th>
-                            <th class="p-3">PREIS USD</th>
-                            <th class="p-3">VERÄNDERUNG</th>
-                            <th class="p-3">LIQUIDITÄT</th>
-                            <th class="p-3">LIQ. STATUS</th>
-                            <th class="p-3">ALTER</th>
-                            <th class="p-3 text-right">AKTION</th>
+                            <th class="p-3.5">COIN</th>
+                            <th class="p-3.5">CHAIN</th>
+                            <th class="p-3.5">MINT / ADDRESS</th>
+                            <th class="p-3.5">AKTIVE BOOSTS</th>
+                            <th class="p-3.5 text-right">DEXSCREENER LINK</th>
                         </tr>
                     </thead>
-                    <tbody id="rankings-table-body" class="divide-y divide-dark-border/40">
-                        <tr><td colspan="8" class="p-6 text-center text-gray-500">Keine Daten verfügbar.</td></tr>
+                    <tbody id="dex-paid-table-body" class="divide-y divide-dark-border/40">
+                        <tr><td colspan="5" class="p-6 text-center text-gray-500">Lade DexScreener Paid Tokens...</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- DEX TERMINAL & TRANSAKTIONSSICHERHEIT -->
-        <section id="terminal" class="space-y-6">
-            <h2 class="text-2xl font-black text-white">DEX TERMINAL &amp; SICHERE AUSFÜHRUNG</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center justify-between border-b border-dark-border pb-4">
-                        <div class="flex items-center gap-3">
-                            <img id="selected-token-icon" src="" class="w-12 h-12 rounded-xl bg-dark-bg border border-dark-border object-contain p-1" alt="Token">
-                            <div>
-                                <h3 id="selected-token-title" class="font-bold text-white text-base">Kein Coin gewählt</h3>
-                                <p id="selected-token-mint" class="text-[10px] text-gray-400 font-mono truncate max-w-xs">-</p>
-                            </div>
-                        </div>
-                        <a id="selected-token-link" href="#" target="_blank" class="text-xs bg-neon-pink/20 text-neon-pink border border-neon-pink/40 px-3 py-1.5 rounded-xl font-mono hover:bg-neon-pink hover:text-white transition hidden">Pump.fun ↗</a>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3 font-mono text-xs">
-                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
-                            <p class="text-[10px] text-gray-400">PREIS</p>
-                            <p id="selected-token-price" class="text-sm font-bold text-neon-green mt-0.5">—</p>
-                        </div>
-                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
-                            <p class="text-[10px] text-gray-400">LIQUIDITÄTS-STATUS</p>
-                            <p id="selected-token-lock-status" class="text-sm font-bold text-neon-green mt-0.5">—</p>
-                        </div>
-                        <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
-                            <p class="text-[10px] text-gray-400">LETZTE PRÜFUNG</p>
-                            <p id="selected-token-check" class="text-sm font-bold text-neon-purple-bright mt-0.5">—</p>
-                        </div>
-                    </div>
-                    <div class="bg-dark-bg p-4 rounded-xl border border-dark-border space-y-2">
-                        <p class="text-xs font-bold text-white flex items-center gap-2"><i class="fa-solid fa-file-contract text-neon-purple"></i> Liquiditäts- und Pool-Details</p>
-                        <div id="selected-token-pool-details" class="text-[11px] text-gray-400 space-y-1 font-mono">
-                            Wähle einen Coin aus der Tabelle, um On-Chain-Liquiditätsdaten einzusehen.
-                        </div>
-                    </div>
-                    <div class="relative h-48 w-full bg-dark-bg rounded-xl border border-dark-border p-2">
-                        <canvas id="dexChart"></canvas>
-                    </div>
+        <!-- BEREICH 2: PUMP.FUN LIVE STREAM -->
+        <section id="live-feed" class="bg-dark-surface border-2 border-neon-purple/50 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
+            <div class="flex justify-between items-center border-b border-dark-border pb-4">
+                <div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-neon-purple/20 text-neon-purple-bright border border-neon-purple/30 text-[10px] font-bold font-mono">PUMPPORTAL WEBSOCKET</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">PUMP.FUN LIVE STREAM (NUR NEUE EREIGNISSE)</h2>
                 </div>
+                <div id="stream-diag-badge" class="text-xs font-mono text-yellow-400">Verbindung aufbauen...</div>
+            </div>
+            <div class="horizontal-scroll-container bg-dark-bg rounded-2xl border border-dark-border">
+                <table class="w-full text-left border-collapse font-mono text-xs whitespace-nowrap min-w-[950px]">
+                    <thead>
+                        <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
+                            <th class="p-3.5">COIN</th>
+                            <th class="p-3.5">PREIS USD</th>
+                            <th class="p-3.5">MARKET CAP / FDV</th>
+                            <th class="p-3.5">LIQUIDITÄT</th>
+                            <th class="p-3.5">SICHERHEITSSTATUS</th>
+                            <th class="p-3.5">ALTER</th>
+                            <th class="p-3.5 text-right">AKTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-feed-table-body" class="divide-y divide-dark-border/40">
+                        <tr><td colspan="7" class="p-6 text-center text-gray-500">Warte auf Live-Ereignisse...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-                <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 flex flex-col justify-between space-y-4">
+        <!-- BEREICH 3: DISCOVERY (LOCAL STORAGE) -->
+        <section id="discovery" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY &amp; LOKALER SPEICHER</h2>
+                    <p class="text-xs text-gray-400">Dauerhaft gespeicherte Solana-Mints (ohne Live-Ereignis-Zwang).</p>
+                </div>
+                <div class="w-full md:w-auto">
+                    <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Name, Symbol, Mint..." class="bg-dark-bg border border-dark-border px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-64 font-mono">
+                </div>
+            </div>
+            <div class="horizontal-scroll-container bg-dark-bg rounded-2xl border border-dark-border">
+                <table class="w-full text-left border-collapse font-mono text-xs whitespace-nowrap min-w-[950px]">
+                    <thead>
+                        <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
+                            <th class="p-3.5">COIN</th>
+                            <th class="p-3.5">PREIS USD</th>
+                            <th class="p-3.5">MARKET CAP / FDV</th>
+                            <th class="p-3.5">LIQUIDITÄT</th>
+                            <th class="p-3.5">SICHERHEITSSTATUS</th>
+                            <th class="p-3.5">ALTER</th>
+                            <th class="p-3.5 text-right">TERMINAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tokens-table-body" class="divide-y divide-dark-border/40">
+                        <tr><td colspan="7" class="p-6 text-center text-gray-500">Keine gespeicherten Coins vorhanden.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- DEX TERMINAL -->
+        <section id="terminal" class="space-y-6 font-mono">
+            <h2 class="text-2xl font-black text-white">DEX TERMINAL</h2>
+            <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-dark-border pb-4">
                     <div>
-                        <h3 class="font-bold text-white text-sm border-b border-dark-border pb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-neon-green"></i> Transaktionssicherheit
-                        </h3>
-                        <p class="text-[11px] text-gray-400 mt-2">Käufe erfordern einen aktuellen Approved-Status und echte Wallet-Signatur.</p>
+                        <h3 id="selected-token-title" class="font-bold text-white text-base">Kein Coin gewählt</h3>
+                        <p id="selected-token-mint" class="text-[10px] text-gray-400 truncate max-w-xs">-</p>
                     </div>
-                    <div class="space-y-4 font-mono text-xs">
-                        <div class="space-y-1.5">
-                            <label class="text-gray-400 text-[10px]">BETRAG (SOL)</label>
-                            <input type="number" id="trade-sol-amount" value="0.01" step="0.001" min="0.001" class="w-full bg-dark-bg border border-dark-border px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-neon-green">
-                        </div>
-                        <button onclick="executeVerifiedBuy()" class="w-full bg-neon-green hover:bg-neon-green-bright text-dark-bg font-black py-3 rounded-xl transition shadow-glow-green cursor-pointer">
-                            <i class="fa-solid fa-rocket mr-1"></i> SICHER KAUFEN
-                        </button>
+                    <a id="selected-token-link" href="#" target="_blank" class="text-xs bg-neon-pink/20 text-neon-pink border border-neon-pink/40 px-3 py-1.5 rounded-xl hidden">DexScreener ↗</a>
+                </div>
+                <div class="grid grid-cols-3 gap-3 text-xs">
+                    <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
+                        <p class="text-[10px] text-gray-400">PREIS USD</p>
+                        <p id="selected-token-price" class="text-sm font-bold text-neon-green mt-0.5">N/A</p>
                     </div>
-                    <div id="trade-status-msg" class="text-[10px] font-mono text-gray-400 text-center bg-dark-bg p-2.5 rounded-xl border border-dark-border">
-                        Bereit. Keine Simulation.
+                    <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
+                        <p class="text-[10px] text-gray-400">MARKET CAP / FDV</p>
+                        <p id="selected-token-mcap" class="text-sm font-bold text-white mt-0.5">N/A</p>
+                    </div>
+                    <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
+                        <p class="text-[10px] text-gray-400">SICHERHEITSSTATUS</p>
+                        <p id="selected-token-security" class="text-sm font-bold text-yellow-400 mt-0.5">UNGEPRÜFT</p>
                     </div>
                 </div>
             </div>
@@ -447,55 +259,90 @@
 
     </main>
 
-    <!-- UPGRADE / CHECKOUT MODAL -->
+    <!-- UPGRADE MODAL -->
     <div id="upgrade-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-dark-surface border-2 border-amber-500 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-glow-gold font-mono relative">
-            <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
-            <div class="space-y-2 text-center">
-                <span class="px-3 py-1 rounded-full bg-amber-500/20 text-neon-gold border border-amber-500/40 text-[10px] font-bold">PRO UPGRADE</span>
-                <h3 id="modal-title" class="text-2xl font-black text-white">MemeCoinAI Pro (Yearly)</h3>
-                <p id="modal-price" class="text-xl font-bold text-neon-gold">79,99 € / Jahr</p>
-            </div>
-            <div class="bg-dark-bg p-4 rounded-2xl border border-dark-border space-y-3 text-xs text-gray-300">
-                <p class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Sofortiger Freischalt-Status über sicheres Backend</p>
-                <p class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Keine Speicherung von Kreditkartendaten im Client</p>
-                <p class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Jederzeit kündbar über das Kundenportal</p>
-            </div>
-            <div class="space-y-3">
-                <button onclick="proceedToCheckout()" class="w-full bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg font-black py-3.5 rounded-xl text-xs transition shadow-glow-gold cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-lock"></i> SICHER BEZAHLEN MIT STRIPE
-                </button>
-                <p class="text-[10px] text-gray-500 text-center">Hinweis: Da diese App als statisches GitHub-Pages-Frontend läuft, verbindet der Checkout direkt mit dem sicheren Stripe-Zahlungs-Gateway.</p>
-            </div>
+            <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-black text-white">MemeCoinAI Pro</h3>
+            <p class="text-xs text-gray-300">Echte Live-Daten und unbegrenzte Streams. Backend-Anbindung erforderlich.</p>
+            <button onclick="closeUpgradeModal()" class="w-full bg-amber-500 text-dark-bg font-black py-3 rounded-xl text-xs cursor-pointer">Schließen</button>
         </div>
     </div>
 
-    <footer class="border-t border-dark-border py-6 text-center text-xs text-gray-500 font-mono">
-        &copy; 2026 MemeCoinAI – Professional Solana Memecoin Intelligence &amp; Trading Terminal.
-    </footer>
-
-    <!-- ROBUST DATASTREAM, PERSISTENCE & PRICE DISPLAY SCRIPT -->
+    <!-- ROBUST SCRIPT LOGIC -->
     <script>
         const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
-        const STORAGE_KEY = "memecoinai_stored_tokens_v1";
+        const DEX_PAID_API = "https://api.dexscreener.com/token-boosts/latest/v1";
+        const STORAGE_KEY = "memecoinai_stored_tokens_v5";
 
         let socket = null;
-        let approvedTokens = [];
-        let liveFeedTokens = [];
-        let auditArchives = { approved: [], rejected: [] };
+        let reconnectAttempts = 0;
+        const maxReconnectDelay = 30000;
+        let isConnecting = false;
+
+        let approvedTokens = []; // Für Discovery (LocalStorage)
+        let liveFeedTokens = []; // Nur für echte frische Live-WebSocket-Ereignisse
+        let dexPaidTokens = [];
         
         const tokenMap = new Map();
         const knownMintsSet = new Set();
-        const checkingMintsSet = new Set();
-        const processingQueue = [];
-        let isProcessingQueue = false;
-
         let currentToken = null;
-        let dexChartInstance = null;
-        let userWalletAddress = null;
-        let rankingMode = 'gainers';
-        let stats = { scanned: 0, approved: 0, rejected: 0, pending: 0, blocked: 0 };
+        
+        let stats = {
+            messages: 0,
+            validMints: 0,
+            newAdds: 0,
+            updates: 0,
+            nonTokenMessages: 0,
+            dexErrors: 0,
+            lastError: "Keine"
+        };
         let renderScheduled = false;
+
+        // Rate Limited API Queue for DexScreener Requests
+        const apiQueue = [];
+        let activeRequests = 0;
+        const maxConcurrentRequests = 2;
+        const requestDelayMs = 350;
+
+        function setLastError(errStr) {
+            stats.lastError = errStr;
+            const el = document.getElementById('diag-last-err');
+            if (el) {
+                el.innerText = errStr;
+                el.title = errStr;
+            }
+            updateDiagUI();
+        }
+
+        function updateDiagUI() {
+            document.getElementById('diag-msgs').innerText = stats.messages;
+            document.getElementById('diag-mints').innerText = stats.validMints;
+            document.getElementById('diag-adds-updates').innerText = `${stats.newAdds} / ${stats.updates}`;
+            document.getElementById('diag-non-tokens').innerText = stats.nonTokenMessages;
+            document.getElementById('diag-dex-errors').innerText = stats.dexErrors;
+        }
+
+        // Rigorose Solana Public Key (Base58) Validierung ohne externe Bibliotheken
+        function isValidSolanaMint(mint) {
+            if (!mint || typeof mint !== 'string') return false;
+            // Base58 Zeichenvorrat (ohne 0, O, I, l) und Länge zwischen 32 und 44 Zeichen
+            const base58Regex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+            return base58Regex.test(mint);
+        }
+
+        // Sichere URL-Prüfung gegen XSS / JavaScript-Injection
+        function sanitizeUrl(url, isImage = false) {
+            if (!url || typeof url !== 'string') return isImage ? getSVGFallback('UNK') : '#';
+            const trimmed = url.trim();
+            if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
+                return trimmed;
+            }
+            if (isImage && trimmed.startsWith('data:image/svg+xml;')) {
+                return trimmed;
+            }
+            return isImage ? getSVGFallback('UNK') : '#';
+        }
 
         function loadStoredTokens() {
             try {
@@ -504,37 +351,40 @@
                     const parsed = JSON.parse(raw);
                     if (Array.isArray(parsed)) {
                         parsed.forEach(t => {
-                            if (t && t.mint && !tokenMap.has(t.mint)) {
-                                tokenMap.set(t.mint, t);
+                            if (t && isValidSolanaMint(t.mint) && !tokenMap.has(t.mint)) {
+                                const sanitized = {
+                                    name: String(t.name || "Unbekannt").slice(0, 40),
+                                    symbol: String(t.symbol || "UNK").slice(0, 10),
+                                    mint: t.mint,
+                                    priceUsd: typeof t.priceUsd === 'number' ? t.priceUsd : null,
+                                    marketCapUsd: typeof t.marketCapUsd === 'number' ? t.marketCapUsd : null,
+                                    liquidityUsd: typeof t.liquidityUsd === 'number' ? t.liquidityUsd : null,
+                                    observedTime: typeof t.observedTime === 'number' ? t.observedTime : Date.now(),
+                                    securityStatus: "UNGEPRÜFT",
+                                    imageUrl: sanitizeUrl(t.imageUrl, true)
+                                };
+                                tokenMap.set(t.mint, sanitized);
                                 knownMintsSet.add(t.mint);
-                                approvedTokens.push(t);
+                                approvedTokens.push(sanitized);
                             }
                         });
-                        stats.approved = approvedTokens.length;
-                        stats.scanned = approvedTokens.length + auditArchives.rejected.length;
+                        stats.newAdds = approvedTokens.length;
+                        updateDiagUI();
                     }
                 }
             } catch (e) {
-                console.error("Storage Load Error", e);
+                stats.dexErrors++;
+                setLastError("Storage Load Fehler");
             }
         }
 
         function saveStoredTokens() {
             try {
-                const arr = Array.from(tokenMap.values()).slice(0, 50);
+                const arr = Array.from(tokenMap.values()).slice(0, 60);
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
             } catch (e) {
-                console.error("Storage Save Error", e);
+                setLastError("Storage Save Fehler");
             }
-        }
-
-        function updateStatsUI() {
-            document.getElementById('stat-scanned').innerText = stats.scanned;
-            document.getElementById('stat-approved').innerText = stats.approved;
-            document.getElementById('stat-rejected').innerText = stats.rejected;
-            document.getElementById('stat-pending').innerText = stats.pending;
-            document.getElementById('count-approved-audit').innerText = auditArchives.approved.length;
-            document.getElementById('count-rejected-audit').innerText = auditArchives.rejected.length;
         }
 
         function formatPrice(p) {
@@ -552,13 +402,6 @@
             return '$' + val.toFixed(2);
         }
 
-        function getTrendBadge(val) {
-            if (val === undefined || val === null || isNaN(val)) return '<span class="text-gray-500">N/A</span>';
-            if (val > 0) return `<span class="text-neon-green font-bold">▲ +${val.toFixed(2)}%</span>`;
-            if (val < 0) return `<span class="text-red-400 font-bold">▼ ${val.toFixed(2)}%</span>`;
-            return `<span class="text-gray-500">0.00%</span>`;
-        }
-
         function formatTokenAge(observedTime) {
             const diffSec = Math.floor((Date.now() - observedTime) / 1000);
             if (diffSec < 60) return `${diffSec}s`;
@@ -569,243 +412,345 @@
 
         function getSVGFallback(symbol) {
             const letter = symbol ? symbol.charAt(0).toUpperCase() : 'P';
-            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='26' fill='none' stroke='%2314f195' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
-        }
-
-        function renderLiquidityLockBadge(liq) {
-            if (!liq) return `<div class="text-[10px] text-gray-500">N/A</div>`;
-            if (liq.status === 'BONDING_CURVE') {
-                return `<div class="relative has-tooltip inline-flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/30 text-[10px]"><i class="fa-solid fa-chart-line"></i><span>Bonding Curve</span><div class="tooltip">Token auf Bonding Curve (${liq.progress}). Noch kein DEX-Pool.</div></div>`;
-            }
-            if (liq.status === 'LOCKED') {
-                return `<div class="relative has-tooltip inline-flex items-center gap-1 px-2 py-0.5 rounded bg-neon-green/10 text-neon-green border border-neon-green/30 text-[10px]"><i class="fa-solid fa-lock"></i><span>Locked</span><div class="tooltip">Lock verifiziert (${liq.provider}, ${liq.percentage}% gesperrt).</div></div>`;
-            }
-            if (liq.status === 'UNLOCKED') {
-                return `<div class="relative has-tooltip inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/30 text-[10px]"><i class="fa-solid fa-lock-open"></i><span>Unlocked</span><div class="tooltip">Keine aktive Sperre nachgewiesen.</div></div>`;
-            }
-            return `<div class="relative has-tooltip inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[10px]"><i class="fa-solid fa-triangle-exclamation"></i><span>Unknown</span><div class="tooltip">Lock nicht verifiziert.</div></div>`;
+            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
         }
 
         function scheduleUiRender() {
             if (renderScheduled) return;
             renderScheduled = true;
             requestAnimationFrame(() => {
-                renderLiveFeed();
+                renderLiveFeedTable();
                 renderDiscoveryTable();
-                renderRankings();
-                renderAuditArchives();
+                renderDexPaidTable();
                 renderScheduled = false;
             });
         }
 
-        async function runMultiAgentSecurityEngine(tokenData) {
-            const mint = tokenData.mint || tokenData.tokenMint;
-            if (!mint || (knownMintsSet.has(mint) && tokenMap.has(mint))) return;
-
-            stats.scanned++;
-            stats.pending++;
-            updateStatsUI();
-
-            await new Promise(resolve => setTimeout(resolve, 80));
-
-            const vSol = tokenData.vSolInBondingCurve || tokenData.initialLiquidity || 0.002;
-            let isRejected = false;
-            let rejectReason = "";
-
-            if (vSol < 0.0005) {
-                isRejected = true;
-                rejectReason = "Liquidität unter Mindestgrenze";
-            }
-
-            stats.pending--;
-            checkingMintsSet.delete(mint);
-            knownMintsSet.add(mint);
-
-            const auditRecord = {
-                mint: mint,
-                name: tokenData.name || "Unknown",
-                symbol: tokenData.symbol || "UNK",
-                timestamp: Date.now(),
-                reason: rejectReason || "Agenten erfolgreich",
-                agents: "6/6"
-            };
-
-            if (isRejected) {
-                stats.rejected++;
-                auditArchives.rejected.unshift(auditRecord);
-                updateStatsUI();
-                return;
-            }
-
-            stats.approved++;
-            auditArchives.approved.unshift(auditRecord);
-            updateStatsUI();
-
-            const isCompleted = vSol >= 85;
-            let liqStatus = !isCompleted ? {
-                status: 'BONDING_CURVE',
-                progress: Math.min(100, Math.floor((vSol / 85) * 100)) + '%',
-                provider: 'Pump.fun AMM',
-                percentage: '0'
-            } : {
-                status: 'LOCKED',
-                provider: 'StakePoint Locker',
-                percentage: '100'
-            };
-
-            const securityReport = {
-                status: "APPROVED",
-                riskLevel: vSol > 0.01 ? "LOW" : "MEDIUM",
-                lastCheck: Date.now(),
-                liquidity: liqStatus
-            };
-
-            registerApprovedToken(tokenData, securityReport);
-        }
-
-        function enqueueTokenEvent(data) {
-            const mint = data.mint || data.tokenMint;
-            if (!mint) return;
-
-            if (knownMintsSet.has(mint)) {
-                if (tokenMap.has(mint) && (data.price || data.vSolInBondingCurve)) {
-                    const existing = tokenMap.get(mint);
-                    const vSol = data.vSolInBondingCurve || data.initialLiquidity || (existing.liquidityUsd / 180);
-                    existing.priceUsd = data.price || (vSol * 0.00005);
-                    existing.liquidityUsd = vSol * 180;
-                    existing.marketCapUsd = vSol * 180 * 200;
-                    saveStoredTokens();
-                    scheduleUiRender();
-                }
-                return;
-            }
-
-            if (checkingMintsSet.has(mint)) return;
-
-            checkingMintsSet.add(mint);
-            processingQueue.push(data);
-            processQueue();
-        }
-
-        async function processQueue() {
-            if (isProcessingQueue || processingQueue.length === 0) return;
-            isProcessingQueue = true;
-
-            while (processingQueue.length > 0) {
-                const batch = processingQueue.splice(0, 5);
-                await Promise.all(batch.map(item => runMultiAgentSecurityEngine(item)));
-            }
-
-            isProcessingQueue = false;
-        }
-
+        // --- 1. WEBSOCKET SUBSCRIPTION & PROTOCOL ---
         function initPumpPortalWebSocket() {
+            if (isConnecting || (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING))) {
+                return;
+            }
+
+            isConnecting = true;
             try {
                 socket = new WebSocket(PUMP_WS_URL);
 
                 socket.onopen = () => {
-                    document.getElementById('api-status-text').innerText = "LIVE (Secured Stream)";
-                    document.getElementById('api-status-text').className = "text-sm font-bold text-neon-green mt-0.5";
-                    document.getElementById('live-indicator-dot').className = "w-2.5 h-2.5 rounded-full bg-neon-green animate-pulse";
+                    isConnecting = false;
+                    reconnectAttempts = 0;
+                    document.getElementById('diag-ws-status').innerText = "VERBUNDEN";
+                    document.getElementById('diag-ws-status').className = "text-xs font-bold text-neon-green mt-0.5";
+                    document.getElementById('stream-diag-badge').innerText = "Abonniert (subscribeNewToken)";
+                    
+                    // Offizielles PumpPortal Subskriptions-Payload
                     socket.send(JSON.stringify({ method: "subscribeNewToken" }));
                 };
 
-                socket.onmessage = (event) => {
+                socket.onmessage = async (event) => {
+                    stats.messages++;
+                    updateDiagUI();
+                    
                     try {
-                        const data = JSON.parse(event.data);
-                        if (data.mint || data.tokenMint) {
-                            enqueueTokenEvent(data);
-                        }
+                        const rawData = JSON.parse(event.data);
+                        await processIncomingMessage(rawData);
                     } catch (err) {
-                        console.error("Stream Parse Error", err);
+                        stats.dexErrors++;
+                        setLastError("JSON Parse Fehler");
                     }
                 };
 
+                socket.onerror = () => {
+                    isConnecting = false;
+                    stats.dexErrors++;
+                    setLastError("WebSocket Netzwerkfehler");
+                };
+
                 socket.onclose = () => {
-                    document.getElementById('api-status-text').innerText = "DISCONNECTED";
-                    document.getElementById('api-status-text').className = "text-sm font-bold text-red-400 mt-0.5";
-                    setTimeout(initPumpPortalWebSocket, 3000);
+                    isConnecting = false;
+                    document.getElementById('diag-ws-status').innerText = "GETRENNT";
+                    document.getElementById('diag-ws-status').className = "text-xs font-bold text-red-400 mt-0.5";
+                    document.getElementById('stream-diag-badge').innerText = "Verbindung unterbrochen";
+                    
+                    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), maxReconnectDelay);
+                    reconnectAttempts++;
+                    setTimeout(initPumpPortalWebSocket, delay);
                 };
             } catch (e) {
-                console.error("WS Init Error", e);
+                isConnecting = false;
+                stats.dexErrors++;
+                setLastError("WebSocket Init Exception");
             }
         }
 
-        function registerApprovedToken(data, securityReport) {
+        // --- 2. RATE LIMITED QUEUE FOR DEXSCREENER API ---
+        function enqueueDexScreenerFetch(mint, callback) {
+            apiQueue.push({ mint, callback });
+            processApiQueue();
+        }
+
+        function processApiQueue() {
+            if (activeRequests >= maxConcurrentRequests || apiQueue.length === 0) return;
+
+            const { mint, callback } = apiQueue.shift();
+            activeRequests++;
+
+            fetchDexScreenerData(mint).then(result => {
+                callback(result);
+                setTimeout(() => {
+                    activeRequests--;
+                    processApiQueue();
+                }, requestDelayMs);
+            }).catch(() => {
+                callback(null);
+                setTimeout(() => {
+                    activeRequests--;
+                    processApiQueue();
+                }, requestDelayMs);
+            });
+        }
+
+        async function fetchDexScreenerData(mint) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 4500);
+                
+                const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                
+                if (!res.ok) {
+                    if (res.status === 429) stats.dexErrors++;
+                    return null;
+                }
+                const data = await res.json();
+                
+                if (data && Array.isArray(data.pairs) && data.pairs.length > 0) {
+                    // Streng nach Solana-Kette filtern und am besten liquides Paar wählen
+                    const solPairs = data.pairs.filter(p => p.chainId === 'solana');
+                    const targetPairs = solPairs.length > 0 ? solPairs : data.pairs;
+                    
+                    // Wähle Paar mit höchster Liquidität USD
+                    targetPairs.sort((a, b) => {
+                        const liqA = a.liquidity && a.liquidity.usd ? a.liquidity.usd : 0;
+                        const liqB = b.liquidity && b.liquidity.usd ? b.liquidity.usd : 0;
+                        return liqB - liqA;
+                    });
+
+                    const bestPair = targetPairs[0];
+                    return {
+                        priceUsd: bestPair.priceUsd ? parseFloat(bestPair.priceUsd) : null,
+                        marketCap: bestPair.marketCap ? parseFloat(bestPair.marketCap) : null,
+                        fdv: bestPair.fdv ? parseFloat(bestPair.fdv) : null,
+                        liquidity: bestPair.liquidity && bestPair.liquidity.usd ? parseFloat(bestPair.liquidity.usd) : null
+                    };
+                }
+            } catch (e) {
+                stats.dexErrors++;
+            }
+            return null;
+        }
+
+        async function processIncomingMessage(data) {
+            if (!data || typeof data !== 'object') {
+                stats.nonTokenMessages++;
+                updateDiagUI();
+                return;
+            }
+            
             const mint = data.mint || data.tokenMint;
-            if (tokenMap.has(mint)) return;
+            if (!isValidSolanaMint(mint)) {
+                stats.nonTokenMessages++;
+                updateDiagUI();
+                return; // Keine verwertbare Mint-Adresse
+            }
 
-            const vSol = data.vSolInBondingCurve || data.initialLiquidity || 0.002;
-            const price = data.price || (vSol * 0.00005);
-            const approxMcap = vSol * 180 * 200;
+            stats.validMints++;
+            updateDiagUI();
 
-            const token = {
-                name: data.name || "Approved Token",
-                symbol: data.symbol || "SAFE",
+            const sanitizedName = String(data.name || "Unbekannter Token").slice(0, 40);
+            const sanitizedSymbol = String(data.symbol || "UNK").slice(0, 10);
+            const sanitizedImage = sanitizeUrl(data.image || data.uri, true);
+
+            if (tokenMap.has(mint)) {
+                // Bereits bekannter Token: Aktualisiere Metadaten und triggere API-Aktualisierung
+                const existing = tokenMap.get(mint);
+                existing.name = sanitizedName;
+                existing.symbol = sanitizedSymbol;
+                stats.updates++;
+                updateDiagUI();
+                
+                // Aktualisiere Marktdaten via DexScreener Warteschlange
+                enqueueDexScreenerFetch(mint, (marketData) => {
+                    if (marketData && tokenMap.has(mint)) {
+                        const t = tokenMap.get(mint);
+                        if (marketData.priceUsd) t.priceUsd = marketData.priceUsd;
+                        if (marketData.marketCap) t.marketCapUsd = marketData.marketCap;
+                        else if (marketData.fdv) t.marketCapUsd = marketData.fdv;
+                        if (marketData.liquidity) t.liquidityUsd = marketData.liquidity;
+                        saveStoredTokens();
+                        scheduleUiRender();
+                    }
+                });
+
+                scheduleUiRender();
+                return;
+            }
+
+            // Neues Token registrieren
+            stats.newAdds++;
+            updateDiagUI();
+
+            const newToken = {
+                name: sanitizedName,
+                symbol: sanitizedSymbol,
                 mint: mint,
-                uri: data.uri || "",
-                priceUsd: price,
-                marketCapUsd: approxMcap,
-                volumeUsd: data.initialBuy || 250,
-                liquidityUsd: vSol * 180,
-                change1h: 0.0,
-                changeToday: 0.0,
-                change24h: 0.0,
-                change7d: 0.0,
+                priceUsd: data.price ? parseFloat(data.price) : null,
+                marketCapUsd: null,
+                liquidityUsd: null,
                 observedTime: Date.now(),
-                security: securityReport,
-                imageUrl: data.image || data.uri || getSVGFallback(data.symbol || "SAFE")
+                securityStatus: "UNGEPRÜFT",
+                imageUrl: sanitizedImage
             };
 
-            approvedTokens.unshift(token);
-            liveFeedTokens.unshift(token);
-            tokenMap.set(mint, token);
+            tokenMap.set(mint, newToken);
+            knownMintsSet.add(mint);
+            approvedTokens.unshift(newToken);
+            liveFeedTokens.unshift(newToken); // Nur echte Live-WebSocket-Ereignisse
 
-            if (liveFeedTokens.length > 8) liveFeedTokens.pop();
-            if (approvedTokens.length > 50) {
-                const removed = approvedTokens.pop();
-                if (removed) tokenMap.delete(removed.mint);
-            }
+            if (liveFeedTokens.length > 20) liveFeedTokens.pop();
+            if (approvedTokens.length > 100) approvedTokens.pop();
 
             saveStoredTokens();
             scheduleUiRender();
+
+            // DexScreener Abfrage über Rate-Limited Queue
+            enqueueDexScreenerFetch(mint, (marketData) => {
+                if (marketData && tokenMap.has(mint)) {
+                    const t = tokenMap.get(mint);
+                    if (marketData.priceUsd) t.priceUsd = marketData.priceUsd;
+                    if (marketData.marketCap) t.marketCapUsd = marketData.marketCap;
+                    else if (marketData.fdv) t.marketCapUsd = marketData.fdv;
+                    if (marketData.liquidity) t.liquidityUsd = marketData.liquidity;
+                    saveStoredTokens();
+                    scheduleUiRender();
+                }
+            });
         }
 
-        function renderLiveFeed() {
-            const container = document.getElementById('live-feed-cards');
-            if (!container) return;
-
-            if (liveFeedTokens.length === 0) {
-                if (approvedTokens.length > 0) {
-                    liveFeedTokens = approvedTokens.slice(0, 4);
-                } else {
-                    container.innerHTML = `<div class="bg-dark-surface border border-dark-border p-4 rounded-2xl text-center text-gray-500 col-span-full">Warte auf Live-Ereignisse...</div>`;
-                    return;
+        // --- 3. DEXSCREENER PAID API ---
+        async function fetchDexPaidTokens() {
+            try {
+                const res = await fetch(DEX_PAID_API);
+                if (!res.ok) throw new Error("Netzwerkfehler");
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    dexPaidTokens = data.slice(0, 15).map(item => ({
+                        chainId: item.chainId || 'solana',
+                        tokenAddress: item.tokenAddress || '',
+                        url: sanitizeUrl(item.url),
+                        amount: item.amount || 0,
+                        icon: sanitizeUrl(item.icon, true),
+                        name: item.description ? String(item.description).slice(0, 20) : 'Paid Token',
+                        symbol: item.tokenAddress ? String(item.tokenAddress).slice(0, 6) + '...' : 'PAID'
+                    }));
+                    renderDexPaidTable();
+                }
+            } catch (err) {
+                stats.dexErrors++;
+                const tbody = document.getElementById('dex-paid-table-body');
+                if (tbody && dexPaidTokens.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">DexScreener Paid Daten nicht verfügbar.</td></tr>`;
                 }
             }
+        }
 
-            container.innerHTML = liveFeedTokens.map(t => `
-                <div onclick="selectTokenForTerminalByMint('${t.mint}')" class="bg-dark-surface border border-dark-border hover:border-neon-purple p-4 rounded-2xl cursor-pointer transition space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2.5">
-                            <img src="${t.imageUrl}" class="w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1" onerror="this.src='${getSVGFallback(t.symbol)}'">
-                            <div>
-                                <h4 class="font-bold text-white text-xs truncate max-w-[120px]">${t.name}</h4>
-                                <span class="text-[10px] text-gray-400">${t.symbol}</span>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-bold text-neon-green bg-neon-green/10 px-2 py-0.5 rounded border border-neon-green/20">APPROVED</span>
-                    </div>
-                    <div class="flex justify-between items-center text-[11px]">
-                        <span class="text-gray-400">Preis:</span>
-                        <span class="font-bold text-neon-green">${formatPrice(t.priceUsd)}</span>
-                    </div>
-                    <div class="flex justify-between items-center text-[11px]">
-                        <span class="text-gray-400">Liq. Status:</span>
-                        ${renderLiquidityLockBadge(t.security.liquidity)}
-                    </div>
-                </div>
-            `).join('');
+        // --- 4. SAFE RENDERING (XSS-PRÄVENTION VIA TEXTCONTENT) ---
+        function populateRowCells(tr, t) {
+            tr.innerHTML = '';
+            tr.className = "hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40";
+            tr.onclick = () => selectTokenForTerminal(t.mint);
+
+            // Spalte 1: Coin
+            const tdCoin = document.createElement('td');
+            tdCoin.className = "p-3.5 flex items-center gap-3";
+            const img = document.createElement('img');
+            img.src = t.imageUrl;
+            img.className = "w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1";
+            img.onerror = () => { img.src = getSVGFallback(t.symbol); };
+            
+            const divInfo = document.createElement('div');
+            const divName = document.createElement('div');
+            divName.className = "font-bold text-white";
+            divName.textContent = t.name;
+            const divSymbol = document.createElement('div');
+            divSymbol.className = "text-[10px] text-gray-400";
+            divSymbol.textContent = t.symbol;
+
+            divInfo.appendChild(divName);
+            divInfo.appendChild(divSymbol);
+            tdCoin.appendChild(img);
+            tdCoin.appendChild(divInfo);
+
+            // Spalte 2: Preis USD
+            const tdPrice = document.createElement('td');
+            tdPrice.className = "p-3.5 font-bold text-neon-green";
+            tdPrice.textContent = formatPrice(t.priceUsd);
+
+            // Spalte 3: Market Cap / FDV
+            const tdMcap = document.createElement('td');
+            tdMcap.className = "p-3.5 text-gray-300";
+            tdMcap.textContent = formatCompact(t.marketCapUsd);
+
+            // Spalte 4: Liquidität
+            const tdLiq = document.createElement('td');
+            tdLiq.className = "p-3.5 text-gray-300";
+            tdLiq.textContent = formatCompact(t.liquidityUsd);
+
+            // Spalte 5: Sicherheitsstatus
+            const tdSec = document.createElement('td');
+            tdSec.className = "p-3.5";
+            const spanSec = document.createElement('span');
+            spanSec.className = "px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[10px]";
+            spanSec.textContent = t.securityStatus;
+            tdSec.appendChild(spanSec);
+
+            // Spalte 6: Alter
+            const tdAge = document.createElement('td');
+            tdAge.className = "p-3.5 text-gray-400";
+            tdAge.textContent = formatTokenAge(t.observedTime);
+
+            // Spalte 7: Aktion
+            const tdAction = document.createElement('td');
+            tdAction.className = "p-3.5 text-right";
+            const btn = document.createElement('button');
+            btn.className = "bg-dark-card hover:bg-neon-purple text-gray-200 px-3 py-1.5 rounded-lg text-xs transition border border-dark-border";
+            btn.textContent = "Terminal";
+            tdAction.appendChild(btn);
+
+            tr.appendChild(tdCoin);
+            tr.appendChild(tdPrice);
+            tr.appendChild(tdMcap);
+            tr.appendChild(tdLiq);
+            tr.appendChild(tdSec);
+            tr.appendChild(tdAge);
+            tr.appendChild(tdAction);
+        }
+
+        function renderLiveFeedTable() {
+            const tbody = document.getElementById('live-feed-table-body');
+            if (!tbody) return;
+
+            if (liveFeedTokens.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-gray-500">Warte auf echte Live-Ereignisse im Stream...</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            liveFeedTokens.forEach(t => {
+                const tr = document.createElement('tr');
+                populateRowCells(tr, t);
+                tbody.appendChild(tr);
+            });
         }
 
         function renderDiscoveryTable() {
@@ -813,100 +758,57 @@
             if (!tbody) return;
 
             if (approvedTokens.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="12" class="p-6 text-center text-gray-500">Warte auf verifizierte, sichere Mints...</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-gray-500">Keine gespeicherten Tokens im lokalen Speicher.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = approvedTokens.map(t => `
-                <tr onclick="selectTokenForTerminalByMint('${t.mint}')" class="hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40">
-                    <td class="p-3.5 flex items-center gap-3">
-                        <img src="${t.imageUrl}" class="w-9 h-9 rounded-xl object-contain bg-dark-bg border border-dark-border p-1" alt="${t.symbol}" onerror="this.src='${getSVGFallback(t.symbol)}'">
-                        <div>
-                            <div class="font-bold text-white">${t.name}</div>
-                            <div class="text-[10px] text-gray-400">${t.symbol}</div>
-                        </div>
-                    </td>
-                    <td class="p-3.5 font-bold text-neon-green">${formatPrice(t.priceUsd)}</td>
-                    <td class="p-3.5">${getTrendBadge(t.change1h)}</td>
-                    <td class="p-3.5">${getTrendBadge(t.changeToday)}</td>
-                    <td class="p-3.5">${getTrendBadge(t.change24h)}</td>
-                    <td class="p-3.5">${getTrendBadge(t.change7d)}</td>
-                    <td class="p-3.5 text-gray-300">${formatCompact(t.marketCapUsd)}</td>
-                    <td class="p-3.5 text-gray-300">${formatCompact(t.liquidityUsd)}</td>
-                    <td class="p-3.5">${renderLiquidityLockBadge(t.security.liquidity)}</td>
-                    <td class="p-3.5 text-gray-400">${formatTokenAge(t.observedTime)}</td>
-                    <td class="p-3.5"><span class="bg-neon-green/20 text-neon-green px-2 py-0.5 rounded text-[10px] font-bold">APPROVED</span></td>
-                    <td class="p-3.5 text-right">
-                        <button class="bg-dark-card hover:bg-neon-purple text-gray-200 px-3 py-1.5 rounded-lg text-xs transition border border-dark-border">Terminal</button>
-                    </td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = '';
+            approvedTokens.forEach(t => {
+                const tr = document.createElement('tr');
+                populateRowCells(tr, t);
+                tbody.appendChild(tr);
+            });
         }
 
-        function renderAuditArchives() {
-            const approvedList = document.getElementById('audit-approved-list');
-            const rejectedList = document.getElementById('audit-rejected-list');
-
-            if (approvedList) {
-                approvedList.innerHTML = auditArchives.approved.length === 0 ? '<p class="text-gray-500 italic text-center py-2">Keine Audits.</p>' :
-                    auditArchives.approved.slice(0, 5).map(a => `<div class="p-2 bg-dark-surface rounded border border-dark-border flex justify-between items-center text-[11px]"><span>${a.name} (${a.symbol})</span><span class="text-neon-green">PASS (${a.agents})</span></div>`).join('');
-            }
-            if (rejectedList) {
-                rejectedList.innerHTML = auditArchives.rejected.length === 0 ? '<p class="text-gray-500 italic text-center py-2">Keine abgelehnten Mints.</p>' :
-                    auditArchives.rejected.slice(0, 5).map(a => `<div class="p-2 bg-dark-surface rounded border border-dark-border flex justify-between items-center text-[11px]"><span>${a.name} (${a.symbol})</span><span class="text-red-400">${a.reason}</span></div>`).join('');
-            }
-        }
-
-        function setRankingMode(mode) {
-            rankingMode = mode;
-            document.getElementById('rank-btn-gainers').className = mode === 'gainers' ? "px-3 py-1.5 rounded-lg bg-neon-green text-dark-bg font-bold" : "px-3 py-1.5 rounded-lg bg-dark-card text-gray-400 border border-dark-border";
-            document.getElementById('rank-btn-losers').className = mode === 'losers' ? "px-3 py-1.5 rounded-lg bg-red-500 text-white font-bold" : "px-3 py-1.5 rounded-lg bg-dark-card text-gray-400 border border-dark-border";
-            renderRankings();
-        }
-
-        function renderRankings() {
-            const tbody = document.getElementById('rankings-table-body');
+        function renderDexPaidTable() {
+            const tbody = document.getElementById('dex-paid-table-body');
             if (!tbody) return;
 
-            const timeframe = document.getElementById('rank-timeframe').value;
-            const limit = parseInt(document.getElementById('rank-limit').value);
-
-            let sorted = [...approvedTokens].sort((a, b) => {
-                let valA = a.change24h, valB = b.change24h;
-                if (timeframe === '1h') { valA = a.change1h; valB = b.change1h; }
-                if (timeframe === 'today') { valA = a.changeToday; valB = b.changeToday; }
-                if (timeframe === '7d') { valA = a.change7d; valB = b.change7d; }
-
-                return rankingMode === 'gainers' ? valB - valA : valA - valB;
-            });
-
-            const sliced = sorted.slice(0, limit);
-
-            if (sliced.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-500">Keine freigegebenen Coins für Rankings.</td></tr>`;
+            if (dexPaidTokens.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">Lade DexScreener Paid Tokens...</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = sliced.map((t, idx) => `
-                <tr onclick="selectTokenForTerminalByMint('${t.mint}')" class="hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40">
-                    <td class="p-3 font-bold text-gray-400">#${idx + 1}</td>
-                    <td class="p-3 flex items-center gap-3">
-                        <img src="${t.imageUrl}" class="w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1" alt="${t.symbol}" onerror="this.src='${getSVGFallback(t.symbol)}'">
-                        <div>
-                            <div class="font-bold text-white">${t.name}</div>
-                            <div class="text-[10px] text-gray-400">${t.symbol}</div>
-                        </div>
-                    </td>
-                    <td class="p-3 font-bold text-neon-green">${formatPrice(t.priceUsd)}</td>
-                    <td class="p-3">${getTrendBadge(t.change24h)}</td>
-                    <td class="p-3 text-gray-300">${formatCompact(t.liquidityUsd)}</td>
-                    <td class="p-3">${renderLiquidityLockBadge(t.security.liquidity)}</td>
-                    <td class="p-3 text-gray-400">${formatTokenAge(t.observedTime)}</td>
-                    <td class="p-3 text-right">
-                        <a href="https://pump.fun/coin/${t.mint}" target="_blank" class="text-neon-purple-bright hover:underline">pump.fun ↗</a>
-                    </td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = '';
+            dexPaidTokens.forEach(t => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40";
+                
+                const td1 = document.createElement('td');
+                td1.className = "p-3.5 flex items-center gap-3";
+                const img = document.createElement('img');
+                img.src = t.icon;
+                img.className = "w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1";
+                const info = document.createElement('div');
+                const n = document.createElement('div'); n.className = "font-bold text-white"; n.textContent = t.name;
+                const s = document.createElement('div'); s.className = "text-[10px] text-neon-pink"; s.textContent = "Paid Ad";
+                info.appendChild(n); info.appendChild(s);
+                td1.appendChild(img); td1.appendChild(info);
+
+                const td2 = document.createElement('td'); td2.className = "p-3.5 uppercase text-gray-300"; td2.textContent = t.chainId;
+                const td3 = document.createElement('td'); td3.className = "p-3.5 text-gray-400 font-mono text-[11px]"; td3.textContent = t.tokenAddress;
+                const td4 = document.createElement('td'); td4.className = "p-3.5 text-neon-gold font-bold"; td4.textContent = `🔥 ${t.amount} Boosts`;
+                
+                const td5 = document.createElement('td'); td5.className = "p-3.5 text-right";
+                const a = document.createElement('a');
+                a.href = t.url; a.target = "_blank";
+                a.className = "bg-neon-pink/20 hover:bg-neon-pink text-neon-pink hover:text-white px-3 py-1.5 rounded-lg text-xs transition border border-neon-pink/40";
+                a.textContent = "DexScreener ↗";
+                td5.appendChild(a);
+
+                tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5);
+                tbody.appendChild(tr);
+            });
         }
 
         function filterTokensLocal() {
@@ -918,108 +820,48 @@
             });
         }
 
-        function selectTokenForTerminalByMint(mint) {
+        function selectTokenForTerminal(mint) {
             const token = tokenMap.get(mint);
             if (!token) return;
 
             currentToken = token;
-            document.getElementById('selected-token-title').innerText = `${token.name} (${token.symbol})`;
-            document.getElementById('selected-token-mint').innerText = token.mint;
-            document.getElementById('selected-token-price').innerText = formatPrice(token.priceUsd);
-            document.getElementById('selected-token-lock-status').innerText = token.security.liquidity.status;
-            document.getElementById('selected-token-check').innerText = "vor wenigen Sekunden";
-            
-            const iconEl = document.getElementById('selected-token-icon');
-            iconEl.src = token.imageUrl;
+            document.getElementById('selected-token-titletextContent'] = `${token.name} (${token.symbol})`;
+            document.getElementById('selected-token-title').textContent = `${token.name} (${token.symbol})`;
+            document.getElementById('selected-token-mint').textContent = token.mint;
+            document.getElementById('selected-token-price').textContent = formatPrice(token.priceUsd);
+            document.getElementById('selected-token-mcap').textContent = formatCompact(token.marketCapUsd);
+            document.getElementById('selected-token-security').textContent = token.securityStatus;
 
             const linkEl = document.getElementById('selected-token-link');
-            linkEl.href = `https://pump.fun/coin/${token.mint}`;
+            linkEl.href = `https://dexscreener.com/solana/${token.mint}`;
             linkEl.classList.remove('hidden');
 
-            const detailsBox = document.getElementById('selected-token-pool-details');
-            const liq = token.security.liquidity;
-            detailsBox.innerHTML = `
-                <div><strong>Pool-Status:</strong> ${liq.status}</div>
-                <div><strong>Verifizierter Anbieter:</strong> ${liq.provider || 'N/A'}</div>
-                <div><strong>Gesperrter Anteil:</strong> ${liq.percentage || '0'}%</div>
-                <div><strong>Mint-Adresse:</strong> ${token.mint}</div>
-            `;
-
-            updateChart(token);
             document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function updateChart(token) {
-            const ctx = document.getElementById('dexChart').getContext('2d');
-            if (dexChartInstance) dexChartInstance.destroy();
-
-            dexChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Start', 'Jetzt'],
-                    datasets: [{
-                        label: token.symbol,
-                        data: [token.priceUsd * 0.9, token.priceUsd],
-                        borderColor: '#14f195',
-                        backgroundColor: 'rgba(20, 241, 149, 0.1)',
-                        fill: true
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-        }
-
-        async function executeVerifiedBuy() {
-            if (!currentToken) {
-                alert("Bitte wähle zuerst einen verifizierten Coin aus.");
-                return;
-            }
-            if (!window.solana || !window.solana.isConnected) {
-                alert("Bitte verbinde zuerst deine Phantom Wallet.");
-                return;
-            }
-            alert("Sicherheitsprüfung vor Order-Ausführung erfolgreich. Bitte in Phantom signieren.");
         }
 
         function toggleWallet() {
             if ("solana" in window) {
                 window.solana.connect().then(res => {
-                    userWalletAddress = res.publicKey.toString();
-                    document.getElementById('wallet-text').innerText = userWalletAddress.slice(0, 4) + '...' + userWalletAddress.slice(-4);
+                    const addr = res.publicKey.toString();
+                    document.getElementById('wallet-text').innerText = addr.slice(0, 4) + '...' + addr.slice(-4);
                 }).catch(() => {});
-            } else { 
-                alert("Keine Solana Wallet gefunden."); 
+            } else {
+                alert("Keine Phantom Wallet gefunden.");
             }
         }
 
-        function openUpgradeModal(tier) {
-            const modal = document.getElementById('upgrade-modal');
-            const title = document.getElementById('modal-title');
-            const price = document.getElementById('modal-price');
-
-            if (tier === 'Monthly') {
-                title.innerText = 'MemeCoinAI Pro (Monthly)';
-                price.innerText = '9,99 € / Monat';
-            } else if (tier === 'Yearly') {
-                title.innerText = 'MemeCoinAI Pro (Yearly - Best Value)';
-                price.innerText = '79,99 € / Jahr (33% Rabatt)';
-            }
-            modal.classList.remove('hidden');
+        function openUpgradeModal() {
+            document.getElementById('upgrade-modal').classList.remove('hidden');
         }
 
         function closeUpgradeModal() {
             document.getElementById('upgrade-modal').classList.add('hidden');
         }
 
-        function proceedToCheckout() {
-            alert("Zahlungsintegration erfordert ein aktives Backend (z.B. Stripe Webhooks). In dieser reinen Frontend-Umgebung ist dieser Service noch nicht vollständig angebunden.");
-            closeUpgradeModal();
-        }
-
         window.onload = () => {
             loadStoredTokens();
-            updateStatsUI();
-            scheduleUiRender();
+            updateDiagUI();
+            fetchDexPaidTokens();
             initPumpPortalWebSocket();
         };
     </script>
