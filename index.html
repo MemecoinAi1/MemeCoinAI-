@@ -93,34 +93,47 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
 
         <!-- GRANULAR DIAGNOSTICS & STATS DASHBOARD -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 text-xs font-mono">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 text-xs font-mono">
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
                 <p class="text-[9px] text-gray-500">WS STATUS</p>
                 <p id="diag-ws-status" class="text-xs font-bold text-yellow-400 mt-0.5">GETRENNT</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">MSGS EMPFANGEN</p>
+                <p class="text-[9px] text-gray-500">PUMP MSGS</p>
                 <p id="diag-msgs" class="text-xs font-bold text-white mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">GÜLTIGE MINTS</p>
+                <p class="text-[9px] text-gray-500">SOL MINTS</p>
                 <p id="diag-mints" class="text-xs font-bold text-neon-green mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">NEU / UPDATE</p>
-                <p id="diag-adds-updates" class="text-xs font-bold text-neon-purple-bright mt-0.5">0 / 0</p>
+                <p class="text-[9px] text-gray-500">QUEUE</p>
+                <p id="diag-queue" class="text-xs font-bold text-neon-purple-bright mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">UNVERWERTBAR</p>
-                <p id="diag-non-tokens" class="text-xs font-bold text-yellow-400 mt-0.5">0</p>
+                <p class="text-[9px] text-gray-500">APPROVED</p>
+                <p id="diag-approved" class="text-xs font-bold text-neon-green mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">DEX API FEHLER</p>
-                <p id="diag-dex-errors" class="text-xs font-bold text-red-400 mt-0.5">0</p>
+                <p class="text-[9px] text-gray-500">REVIEW / REJECT</p>
+                <p id="diag-review-reject" class="text-xs font-bold text-yellow-400 mt-0.5">0 / 0</p>
+            </div>
+            <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
+                <p class="text-[9px] text-gray-500">API FEHLER</p>
+                <p id="diag-api-errors" class="text-xs font-bold text-red-400 mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl col-span-2 md:col-span-1">
-                <p class="text-[9px] text-gray-500">LETZTER FEHLER</p>
-                <p id="diag-last-err" class="text-[10px] text-gray-300 mt-0.5 truncate" title="Keine Fehler">Keine</p>
+                <p class="text-[9px] text-gray-500">SECURITY ARCHITEKTUR</p>
+                <p id="diag-last-err" class="text-[10px] text-gray-300 mt-0.5 truncate" title="Client-Side Zero-Trust">Client-Side Zero-Trust</p>
+            </div>
+        </div>
+
+        <!-- SECURITY ARCHITECTURE NOTICE -->
+        <div class="bg-dark-surface border border-amber-500/30 p-4 rounded-2xl text-xs font-mono text-amber-200/90 flex items-start gap-3">
+            <i class="fa-solid fa-shield-halved text-amber-400 text-lg mt-0.5"></i>
+            <div class="space-y-1">
+                <strong class="text-amber-300">Sicherheitsarchitektur (Client-Side Audit & Zero-Trust):</strong>
+                <p>Alle Token starten streng im Status <span class="text-yellow-400 font-bold">REVIEW</span>. Gespeicherte Freigaben verfallen bei Neustart. Diese GitHub-Pages-Implementierung führt clientseitige On-Chain-Prüfungen (RugCheck & DexScreener) aus. Keine Garantie oder Risikofreiheit.</p>
             </div>
         </div>
 
@@ -132,7 +145,7 @@
                         <i class="fa-solid fa-crown"></i> MEMECOINAI PRO &amp; ENTERPRISE
                     </span>
                     <h2 class="text-3xl font-black text-white">MAXIMALE EDGE FÜR SOLANA TRADER</h2>
-                    <p class="text-xs text-gray-400 max-w-2xl">Echtzeit-Daten direkt über PumpPortal und DexScreener mit voller Transparenz.</p>
+                    <p class="text-xs text-gray-400 max-w-2xl">Echtzeit-Daten über PumpPortal, DexScreener und strikte RugCheck Zero-Trust-Validierung.</p>
                 </div>
                 <button onclick="openUpgradeModal()" class="bg-gradient-to-r from-amber-500 to-neon-gold text-dark-bg font-black px-6 py-3 rounded-xl text-xs shadow-glow-gold transition cursor-pointer">
                     Pro Freischalten
@@ -144,8 +157,8 @@
         <section id="dex-paid-section" class="bg-dark-surface border-2 border-neon-pink/50 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-pink">
             <div class="flex justify-between items-center border-b border-dark-border pb-4">
                 <div>
-                    <span class="px-2.5 py-0.5 rounded-full bg-neon-pink/20 text-neon-pink border border-neon-pink/30 text-[10px] font-bold font-mono">DEXSCREENER API</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-white">BEZAHLTE &amp; GEBOOSTETE COINS (DEX PAID)</h2>
+                    <span class="px-2.5 py-0.5 rounded-full bg-neon-pink/20 text-neon-pink border border-neon-pink/30 text-[10px] font-bold font-mono">DEXSCREENER API + SECURITY GUARD</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">BEZAHLTE &amp; GEBOOSTETE COINS (NUR APPROVED)</h2>
                 </div>
                 <button onclick="fetchDexPaidTokens()" class="bg-dark-card border border-dark-border hover:border-neon-pink text-xs font-mono text-white px-3.5 py-2 rounded-xl transition">
                     <i class="fa-solid fa-rotate"></i> Aktualisieren
@@ -159,11 +172,12 @@
                             <th class="p-3.5">CHAIN</th>
                             <th class="p-3.5">MINT / ADDRESS</th>
                             <th class="p-3.5">AKTIVE BOOSTS</th>
+                            <th class="p-3.5">STATUS</th>
                             <th class="p-3.5 text-right">DEXSCREENER LINK</th>
                         </tr>
                     </thead>
                     <tbody id="dex-paid-table-body" class="divide-y divide-dark-border/40">
-                        <tr><td colspan="5" class="p-6 text-center text-gray-500">Lade DexScreener Paid Tokens...</td></tr>
+                        <tr><td colspan="6" class="p-6 text-center text-gray-400">Lade und prüfe Paid Tokens...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -174,7 +188,7 @@
             <div class="flex justify-between items-center border-b border-dark-border pb-4">
                 <div>
                     <span class="px-2.5 py-0.5 rounded-full bg-neon-purple/20 text-neon-purple-bright border border-neon-purple/30 text-[10px] font-bold font-mono">PUMPPORTAL WEBSOCKET</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-white">PUMP.FUN LIVE STREAM (NUR NEUE EREIGNISSE)</h2>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">PUMP.FUN LIVE STREAM (NUR APPROVED)</h2>
                 </div>
                 <div id="stream-diag-badge" class="text-xs font-mono text-yellow-400">Verbindung aufbauen...</div>
             </div>
@@ -184,29 +198,33 @@
                         <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
                             <th class="p-3.5">COIN</th>
                             <th class="p-3.5">PREIS USD</th>
-                            <th class="p-3.5">MARKET CAP / FDV</th>
+                            <th class="p-3.5">MARKET CAP</th>
+                            <th class="p-3.5">FDV</th>
                             <th class="p-3.5">LIQUIDITÄT</th>
-                            <th class="p-3.5">SICHERHEITSSTATUS</th>
+                            <th class="p-3.5">STATUS</th>
                             <th class="p-3.5">ALTER</th>
                             <th class="p-3.5 text-right">AKTION</th>
                         </tr>
                     </thead>
                     <tbody id="live-feed-table-body" class="divide-y divide-dark-border/40">
-                        <tr><td colspan="7" class="p-6 text-center text-gray-500">Warte auf Live-Ereignisse...</td></tr>
+                        <tr><td colspan="8" class="p-6 text-center text-gray-400">Warte auf verifizierte Live-Ereignisse... (Prüfung im Hintergrund aktiv)</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- BEREICH 3: DISCOVERY (LOCAL STORAGE) -->
+        <!-- BEREICH 3: DISCOVERY -->
         <section id="discovery" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-4">
                 <div>
-                    <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY &amp; LOKALER SPEICHER</h2>
-                    <p class="text-xs text-gray-400">Dauerhaft gespeicherte Solana-Mints (ohne Live-Ereignis-Zwang).</p>
+                    <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY (SOLANA COINS)</h2>
+                    <p class="text-xs text-gray-400">Unabhängige DexScreener-Versorgung. Nur vollständig geprüfte Coins sichtbar.</p>
                 </div>
-                <div class="w-full md:w-auto">
-                    <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Name, Symbol, Mint..." class="bg-dark-bg border border-dark-border px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-64 font-mono">
+                <div class="w-full md:w-auto flex items-center gap-3">
+                    <button onclick="triggerDiscoveryScan()" class="bg-dark-card border border-dark-border hover:border-neon-green text-xs font-mono text-white px-3 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-radar text-neon-green"></i> Discovery Scan
+                    </button>
+                    <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Name, Symbol, Mint..." class="bg-dark-bg border border-dark-border px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-56 font-mono">
                 </div>
             </div>
             <div class="horizontal-scroll-container bg-dark-bg rounded-2xl border border-dark-border">
@@ -215,15 +233,16 @@
                         <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
                             <th class="p-3.5">COIN</th>
                             <th class="p-3.5">PREIS USD</th>
-                            <th class="p-3.5">MARKET CAP / FDV</th>
+                            <th class="p-3.5">MARKET CAP</th>
+                            <th class="p-3.5">FDV</th>
                             <th class="p-3.5">LIQUIDITÄT</th>
-                            <th class="p-3.5">SICHERHEITSSTATUS</th>
+                            <th class="p-3.5">STATUS</th>
                             <th class="p-3.5">ALTER</th>
                             <th class="p-3.5 text-right">TERMINAL</th>
                         </tr>
                     </thead>
                     <tbody id="tokens-table-body" class="divide-y divide-dark-border/40">
-                        <tr><td colspan="7" class="p-6 text-center text-gray-500">Keine gespeicherten Coins vorhanden.</td></tr>
+                        <tr><td colspan="8" class="p-6 text-center text-gray-400">Lade Discovery-Mints...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -231,7 +250,7 @@
 
         <!-- DEX TERMINAL -->
         <section id="terminal" class="space-y-6 font-mono">
-            <h2 class="text-2xl font-black text-white">DEX TERMINAL</h2>
+            <h2 class="text-2xl font-black text-white">DEX TERMINAL &amp; SECURITY AUDIT</h2>
             <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
                 <div class="flex items-center justify-between border-b border-dark-border pb-4">
                     <div>
@@ -240,19 +259,27 @@
                     </div>
                     <a id="selected-token-link" href="#" target="_blank" class="text-xs bg-neon-pink/20 text-neon-pink border border-neon-pink/40 px-3 py-1.5 rounded-xl hidden">DexScreener ↗</a>
                 </div>
-                <div class="grid grid-cols-3 gap-3 text-xs">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
                     <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
                         <p class="text-[10px] text-gray-400">PREIS USD</p>
                         <p id="selected-token-price" class="text-sm font-bold text-neon-green mt-0.5">N/A</p>
                     </div>
                     <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
-                        <p class="text-[10px] text-gray-400">MARKET CAP / FDV</p>
+                        <p class="text-[10px] text-gray-400">MARKET CAP</p>
                         <p id="selected-token-mcap" class="text-sm font-bold text-white mt-0.5">N/A</p>
                     </div>
                     <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
-                        <p class="text-[10px] text-gray-400">SICHERHEITSSTATUS</p>
-                        <p id="selected-token-security" class="text-sm font-bold text-yellow-400 mt-0.5">UNGEPRÜFT</p>
+                        <p class="text-[10px] text-gray-400">FDV</p>
+                        <p id="selected-token-fdv" class="text-sm font-bold text-gray-300 mt-0.5">N/A</p>
                     </div>
+                    <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
+                        <p class="text-[10px] text-gray-400">SICHERHEITSSTATUS</p>
+                        <p id="selected-token-security" class="text-sm font-bold text-yellow-400 mt-0.5">REVIEW</p>
+                    </div>
+                </div>
+                <div class="bg-dark-bg p-4 rounded-xl border border-dark-border space-y-1">
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">RUGCHECK NORMALISIERTER AUDIT &amp; BEGRÜNDUNG</p>
+                    <p id="selected-token-audit-reason" class="text-xs text-gray-300 font-sans">Wähle einen Coin aus, um die detaillierte Sicherheitsbegründung einzusehen.</p>
                 </div>
             </div>
         </section>
@@ -269,69 +296,74 @@
         </div>
     </div>
 
-    <!-- ROBUST SCRIPT LOGIC -->
+    <!-- ROBUST SCRIPT LOGIC WITH ZERO-TRUST ENGINE -->
     <script>
         const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
         const DEX_PAID_API = "https://api.dexscreener.com/token-boosts/latest/v1";
-        const STORAGE_KEY = "memecoinai_stored_tokens_v5";
+        const DEX_PROFILES_API = "https://api.dexscreener.com/token-profiles/latest/v1";
+        const RUGCHECK_API_BASE = "https://api.rugcheck.xyz/v1/tokens";
+        const STORAGE_KEY = "memecoinai_stored_tokens_v9";
 
         let socket = null;
         let reconnectAttempts = 0;
         const maxReconnectDelay = 30000;
         let isConnecting = false;
 
-        let approvedTokens = []; // Für Discovery (LocalStorage)
-        let liveFeedTokens = []; // Nur für echte frische Live-WebSocket-Ereignisse
-        let dexPaidTokens = [];
-        
         const tokenMap = new Map();
         const knownMintsSet = new Set();
-        let currentToken = null;
-        
+        const securityQueue = [];
+        const inFlightMints = new Set();
+        let isSecurityWorkerRunning = false;
+
+        let approvedTokens = [];
+        let liveFeedTokens = [];
+        let dexPaidTokens = [];
+
         let stats = {
             messages: 0,
             validMints: 0,
-            newAdds: 0,
-            updates: 0,
-            nonTokenMessages: 0,
-            dexErrors: 0,
-            lastError: "Keine"
+            approvedCount: 0,
+            reviewCount: 0,
+            rejectedCount: 0,
+            apiErrors: 0,
+            lastStatus: "Zero-Trust Guard Aktiv"
         };
         let renderScheduled = false;
 
-        // Rate Limited API Queue for DexScreener Requests
         const apiQueue = [];
         let activeRequests = 0;
         const maxConcurrentRequests = 2;
         const requestDelayMs = 350;
 
-        function setLastError(errStr) {
-            stats.lastError = errStr;
+        function setLastStatus(msg) {
+            stats.lastStatus = msg;
             const el = document.getElementById('diag-last-err');
             if (el) {
-                el.innerText = errStr;
-                el.title = errStr;
+                el.innerText = msg;
+                el.title = msg;
             }
             updateDiagUI();
         }
 
         function updateDiagUI() {
-            document.getElementById('diag-msgs').innerText = stats.messages;
-            document.getElementById('diag-mints').innerText = stats.validMints;
-            document.getElementById('diag-adds-updates').innerText = `${stats.newAdds} / ${stats.updates}`;
-            document.getElementById('diag-non-tokens').innerText = stats.nonTokenMessages;
-            document.getElementById('diag-dex-errors').innerText = stats.dexErrors;
+            try {
+                document.getElementById('diag-msgs').innerText = stats.messages;
+                document.getElementById('diag-mints').innerText = stats.validMints;
+                document.getElementById('diag-queue').innerText = securityQueue.length;
+                document.getElementById('diag-approved').innerText = stats.approvedCount;
+                document.getElementById('diag-review-reject').innerText = `${stats.reviewCount} / ${stats.rejectedCount}`;
+                document.getElementById('diag-api-errors').innerText = stats.apiErrors;
+            } catch (e) {
+                console.error("UI update error:", e);
+            }
         }
 
-        // Rigorose Solana Public Key (Base58) Validierung ohne externe Bibliotheken
         function isValidSolanaMint(mint) {
             if (!mint || typeof mint !== 'string') return false;
-            // Base58 Zeichenvorrat (ohne 0, O, I, l) und Länge zwischen 32 und 44 Zeichen
             const base58Regex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
             return base58Regex.test(mint);
         }
 
-        // Sichere URL-Prüfung gegen XSS / JavaScript-Injection
         function sanitizeUrl(url, isImage = false) {
             if (!url || typeof url !== 'string') return isImage ? getSVGFallback('UNK') : '#';
             const trimmed = url.trim();
@@ -352,38 +384,42 @@
                     if (Array.isArray(parsed)) {
                         parsed.forEach(t => {
                             if (t && isValidSolanaMint(t.mint) && !tokenMap.has(t.mint)) {
-                                const sanitized = {
+                                const token = {
                                     name: String(t.name || "Unbekannt").slice(0, 40),
                                     symbol: String(t.symbol || "UNK").slice(0, 10),
                                     mint: t.mint,
                                     priceUsd: typeof t.priceUsd === 'number' ? t.priceUsd : null,
                                     marketCapUsd: typeof t.marketCapUsd === 'number' ? t.marketCapUsd : null,
+                                    fdvUsd: typeof t.fdvUsd === 'number' ? t.fdvUsd : null,
                                     liquidityUsd: typeof t.liquidityUsd === 'number' ? t.liquidityUsd : null,
                                     observedTime: typeof t.observedTime === 'number' ? t.observedTime : Date.now(),
-                                    securityStatus: "UNGEPRÜFT",
+                                    securityStatus: "REVIEW",
+                                    securityDetails: { raw: null, status: "REVIEW", reason: "Aus Speicher geladen – Re-Audit erforderlich" },
                                     imageUrl: sanitizeUrl(t.imageUrl, true)
                                 };
-                                tokenMap.set(t.mint, sanitized);
+                                tokenMap.set(t.mint, token);
                                 knownMintsSet.add(t.mint);
-                                approvedTokens.push(sanitized);
+                                stats.reviewCount++;
+                                enqueueSecurityCheck(t.mint);
                             }
                         });
-                        stats.newAdds = approvedTokens.length;
                         updateDiagUI();
                     }
                 }
             } catch (e) {
-                stats.dexErrors++;
-                setLastError("Storage Load Fehler");
+                stats.apiErrors++;
+                setLastStatus("Storage Load Fehler");
             }
         }
 
-        function saveStoredTokens() {
+        function saveApprovedTokens() {
             try {
-                const arr = Array.from(tokenMap.values()).slice(0, 60);
+                const arr = Array.from(tokenMap.values())
+                    .filter(t => t.securityStatus === "APPROVED")
+                    .slice(0, 50);
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
             } catch (e) {
-                setLastError("Storage Save Fehler");
+                setLastStatus("Storage Save Fehler");
             }
         }
 
@@ -395,7 +431,7 @@
         }
 
         function formatCompact(val) {
-            if (!val || isNaN(val) || val === 0) return "N/A";
+            if (val === undefined || val === null || isNaN(val) || val === 0) return "N/A";
             if (val >= 1e9) return '$' + (val / 1e9).toFixed(2) + 'B';
             if (val >= 1e6) return '$' + (val / 1e6).toFixed(2) + 'M';
             if (val >= 1e3) return '$' + (val / 1e3).toFixed(2) + 'K';
@@ -419,14 +455,319 @@
             if (renderScheduled) return;
             renderScheduled = true;
             requestAnimationFrame(() => {
-                renderLiveFeedTable();
-                renderDiscoveryTable();
-                renderDexPaidTable();
+                try {
+                    renderLiveFeedTable();
+                    renderDiscoveryTable();
+                    renderDexPaidTable();
+                } catch (e) {
+                    console.error("Render error:", e);
+                }
                 renderScheduled = false;
             });
         }
 
-        // --- 1. WEBSOCKET SUBSCRIPTION & PROTOCOL ---
+        async function fetchRugCheckReport(mint) {
+            let controller = null;
+            let timeoutId = null;
+            try {
+                controller = new AbortController();
+                timeoutId = setTimeout(() => controller.abort(), 5500);
+
+                const res = await fetch(`${RUGCHECK_API_BASE}/${mint}/report/summary`, { signal: controller.signal });
+                if (!res.ok) {
+                    if (res.status === 429) {
+                        stats.apiErrors++;
+                        return { status: "REVIEW", raw: null, reason: "RugCheck Rate Limit (HTTP 429) – Review" };
+                    }
+                    const res2 = await fetch(`${RUGCHECK_API_BASE}/${mint}/report`, { signal: controller.signal });
+                    if (!res2.ok) {
+                        stats.apiErrors++;
+                        return { status: "REVIEW", raw: null, reason: `RugCheck API HTTP Fehler (${res2.status})` };
+                    }
+                    const rawData2 = await res2.json();
+                    return normalizeRugCheckReport(rawData2);
+                }
+
+                const rawData = await res.json();
+                return normalizeRugCheckReport(rawData);
+
+            } catch (err) {
+                stats.apiErrors++;
+                return { status: "REVIEW", raw: null, reason: "RugCheck API Timeout oder Netzwerkfehler" };
+            } finally {
+                if (timeoutId) clearTimeout(timeoutId);
+            }
+        }
+
+        function normalizeRugCheckReport(data) {
+            if (!data || typeof data !== 'object') {
+                return { status: "REVIEW", raw: data, reason: "Ungültiges oder leeres JSON-Antwortformat" };
+            }
+
+            const score = typeof data.score === 'number' ? data.score : 
+                         (typeof data.riskScore === 'number' ? data.riskScore : null);
+            const risks = Array.isArray(data.risks) ? data.risks : [];
+            const tokenInfo = data.token || {};
+            const mintAuthority = data.mintAuthority !== undefined ? data.mintAuthority : tokenInfo.mintAuthority;
+            const freezeAuthority = data.freezeAuthority !== undefined ? data.freezeAuthority : tokenInfo.freezeAuthority;
+            const rugged = data.rugged === true || data.isRugged === true;
+
+            if (score === null && mintAuthority === undefined && freezeAuthority === undefined) {
+                return { status: "REVIEW", raw: data, reason: "Erforderliche Pflichtfelder (Score/Authorities) fehlen im Schema" };
+            }
+
+            return evaluateSecurityRules({
+                score: score !== null ? score : 999,
+                risks,
+                mintAuthority,
+                freezeAuthority,
+                rugged
+            }, data);
+        }
+
+        function evaluateSecurityRules(parsed, rawData) {
+            const hasActiveMintAuth = parsed.mintAuthority !== null && parsed.mintAuthority !== undefined;
+            const hasActiveFreezeAuth = parsed.freezeAuthority !== null && parsed.freezeAuthority !== undefined;
+            const hasCriticalRisk = parsed.risks.some(r => 
+                (r.level === 'danger' || r.level === 'critical') ||
+                (r.name && (r.name.toLowerCase().includes('mint') || r.name.toLowerCase().includes('freeze') || r.name.toLowerCase().includes('honeypot')))
+            );
+
+            if (parsed.rugged || parsed.score > 1200 || hasActiveMintAuth || hasActiveFreezeAuth || hasCriticalRisk) {
+                return {
+                    status: "REJECTED",
+                    raw: rawData,
+                    score: parsed.score,
+                    reason: parsed.rugged ? "Token als Rugged markiert" :
+                            hasActiveMintAuth ? "Aktive Mint Authority erkannt" :
+                            hasActiveFreezeAuth ? "Aktive Freeze Authority erkannt" : "Kritisches Risikoflag in Audit-Risks"
+                };
+            }
+
+            if (parsed.mintAuthority === null && parsed.freezeAuthority === null && parsed.score <= 500 && !hasCriticalRisk) {
+                return {
+                    status: "APPROVED",
+                    raw: rawData,
+                    score: parsed.score,
+                    reason: "Verified: Mint & Freeze Authority widerrufen, niedriger Risikoscore"
+                };
+            }
+
+            return {
+                status: "REVIEW",
+                raw: rawData,
+                score: parsed.score,
+                reason: "Daten unklar oder Score über Toleranzgrenze (Review)"
+            };
+        }
+
+        function enqueueSecurityCheck(mint) {
+            if (inFlightMints.has(mint)) return;
+            if (!securityQueue.includes(mint)) {
+                securityQueue.push(mint);
+                updateDiagUI();
+                processSecurityQueue();
+            }
+        }
+
+        async function processSecurityQueue() {
+            if (isSecurityWorkerRunning || securityQueue.length === 0) return;
+            isSecurityWorkerRunning = true;
+
+            const mint = securityQueue.shift();
+            inFlightMints.add(mint);
+            updateDiagUI();
+
+            const token = tokenMap.get(mint);
+            if (token) {
+                try {
+                    const auditResult = await fetchRugCheckReport(mint);
+                    
+                    if (token.securityStatus === "APPROVED") stats.approvedCount--;
+                    if (token.securityStatus === "REVIEW") stats.reviewCount--;
+                    if (token.securityStatus === "REJECTED") stats.rejectedCount--;
+
+                    token.securityStatus = auditResult.status;
+                    token.securityDetails = auditResult;
+
+                    if (auditResult.status === "APPROVED") {
+                        stats.approvedCount++;
+                        if (!approvedTokens.some(t => t.mint === mint)) {
+                            approvedTokens.unshift(token);
+                        }
+                        if (!liveFeedTokens.some(t => t.mint === mint)) {
+                            liveFeedTokens.unshift(token);
+                            if (liveFeedTokens.length > 20) liveFeedTokens.pop();
+                        }
+                        saveApprovedTokens();
+                        setLastStatus(`APPROVED: ${token.symbol}`);
+                    } else if (auditResult.status === "REJECTED") {
+                        stats.rejectedCount++;
+                        approvedTokens = approvedTokens.filter(t => t.mint !== mint);
+                        liveFeedTokens = liveFeedTokens.filter(t => t.mint !== mint);
+                        setLastStatus(`REJECTED: ${token.symbol}`);
+                    } else {
+                        stats.reviewCount++;
+                        approvedTokens = approvedTokens.filter(t => t.mint !== mint);
+                        liveFeedTokens = liveFeedTokens.filter(t => t.mint !== mint);
+                        setLastStatus(`REVIEW: ${token.symbol}`);
+                    }
+                    scheduleUiRender();
+                } catch (e) {
+                    stats.apiErrors++;
+                    token.securityStatus = "REVIEW";
+                    stats.reviewCount++;
+                } finally {
+                    inFlightMints.delete(mint);
+                }
+            }
+
+            isSecurityWorkerRunning = false;
+            updateDiagUI();
+
+            if (securityQueue.length > 0) {
+                setTimeout(processSecurityQueue, 450);
+            }
+        }
+
+        async function fetchDexDiscoveryTokens() {
+            try {
+                setLastStatus("Lade DexScreener Profile & Boosts...");
+                const [resProfiles, resBoosts] = await Promise.allSettled([
+                    fetch(DEX_PROFILES_API),
+                    fetch(DEX_PAID_API)
+                ]);
+
+                let collectedItems = [];
+
+                if (resProfiles.status === 'fulfilled' && resProfiles.value.ok) {
+                    const profiles = await resProfiles.value.json();
+                    if (Array.isArray(profiles)) {
+                        profiles.forEach(item => {
+                            if (item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress)) {
+                                collectedItems.push({
+                                    mint: item.tokenAddress,
+                                    name: item.description ? String(item.description).slice(0, 30) : 'Solana Token',
+                                    symbol: item.tokenAddress.slice(0, 4).toUpperCase(),
+                                    image: item.icon
+                                });
+                            }
+                        });
+                    }
+                }
+
+                if (resBoosts.status === 'fulfilled' && resBoosts.value.ok) {
+                    const boosts = await resBoosts.value.json();
+                    if (Array.isArray(boosts)) {
+                        boosts.forEach(item => {
+                            if (item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress)) {
+                                collectedItems.push({
+                                    mint: item.tokenAddress,
+                                    name: item.description ? String(item.description).slice(0, 30) : 'Boosted SOL',
+                                    symbol: item.tokenAddress.slice(0, 4).toUpperCase(),
+                                    image: item.icon
+                                });
+                            }
+                        });
+                    }
+                }
+
+                let newCount = 0;
+                collectedItems.forEach(item => {
+                    if (!tokenMap.has(item.mint)) {
+                        stats.validMints++;
+                        newCount++;
+                        const newToken = {
+                            name: item.name,
+                            symbol: item.symbol,
+                            mint: item.mint,
+                            priceUsd: null,
+                            marketCapUsd: null,
+                            fdvUsd: null,
+                            liquidityUsd: null,
+                            observedTime: Date.now(),
+                            securityStatus: "REVIEW",
+                            securityDetails: { status: "REVIEW", reason: "Aus Discovery-Versorgung – Re-Audit aktiv" },
+                            imageUrl: sanitizeUrl(item.image, true)
+                        };
+                        tokenMap.set(item.mint, newToken);
+                        knownMintsSet.add(item.mint);
+                        stats.reviewCount++;
+                        enqueueSecurityCheck(item.mint);
+                    }
+                });
+
+                updateDiagUI();
+                if (newCount > 0) {
+                    setLastStatus(`${newCount} neue Mints in Security Queue`);
+                }
+            } catch (err) {
+                stats.apiErrors++;
+                setLastStatus("Discovery API Fehler");
+            }
+        }
+
+        function triggerDiscoveryScan() {
+            fetchDexDiscoveryTokens();
+        }
+
+        function enqueueDexScreenerFetch(mint, callback) {
+            apiQueue.push({ mint, callback });
+            processApiQueue();
+        }
+
+        function processApiQueue() {
+            if (activeRequests >= maxConcurrentRequests || apiQueue.length === 0) return;
+
+            const { mint, callback } = apiQueue.shift();
+            activeRequests++;
+
+            fetchDexScreenerData(mint).then(result => {
+                callback(result);
+            }).catch(() => {
+                callback(null);
+            }).finally(() => {
+                activeRequests--;
+                setTimeout(processApiQueue, requestDelayMs);
+            });
+        }
+
+        async function fetchDexScreenerData(mint) {
+            let controller = null;
+            let timeoutId = null;
+            try {
+                controller = new AbortController();
+                timeoutId = setTimeout(() => controller.abort(), 4500);
+
+                const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`, { signal: controller.signal });
+                if (!res.ok) {
+                    if (res.status === 429) stats.apiErrors++;
+                    return null;
+                }
+                const data = await res.json();
+
+                if (data && Array.isArray(data.pairs) && data.pairs.length > 0) {
+                    const solPairs = data.pairs.filter(p => p.chainId === 'solana');
+                    if (solPairs.length === 0) return null;
+
+                    solPairs.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0));
+                    const bestPair = solPairs[0];
+
+                    return {
+                        priceUsd: bestPair.priceUsd ? parseFloat(bestPair.priceUsd) : null,
+                        marketCap: bestPair.marketCap ? parseFloat(bestPair.marketCap) : null,
+                        fdv: bestPair.fdv ? parseFloat(bestPair.fdv) : null,
+                        liquidity: bestPair.liquidity?.usd ? parseFloat(bestPair.liquidity.usd) : null
+                    };
+                }
+            } catch (e) {
+                stats.apiErrors++;
+            } finally {
+                if (timeoutId) clearTimeout(timeoutId);
+            }
+            return null;
+        }
+
         function initPumpPortalWebSocket() {
             if (isConnecting || (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING))) {
                 return;
@@ -441,29 +782,27 @@
                     reconnectAttempts = 0;
                     document.getElementById('diag-ws-status').innerText = "VERBUNDEN";
                     document.getElementById('diag-ws-status').className = "text-xs font-bold text-neon-green mt-0.5";
-                    document.getElementById('stream-diag-badge').innerText = "Abonniert (subscribeNewToken)";
-                    
-                    // Offizielles PumpPortal Subskriptions-Payload
+                    document.getElementById('stream-diag-badge').innerText = "Stream Aktiv (Zero-Trust Guard)";
                     socket.send(JSON.stringify({ method: "subscribeNewToken" }));
                 };
 
                 socket.onmessage = async (event) => {
                     stats.messages++;
                     updateDiagUI();
-                    
+
                     try {
                         const rawData = JSON.parse(event.data);
                         await processIncomingMessage(rawData);
                     } catch (err) {
-                        stats.dexErrors++;
-                        setLastError("JSON Parse Fehler");
+                        stats.apiErrors++;
+                        setLastStatus("WS JSON Parse Fehler");
                     }
                 };
 
                 socket.onerror = () => {
                     isConnecting = false;
-                    stats.dexErrors++;
-                    setLastError("WebSocket Netzwerkfehler");
+                    stats.apiErrors++;
+                    setLastStatus("WebSocket Netzwerkfehler");
                 };
 
                 socket.onclose = () => {
@@ -471,98 +810,23 @@
                     document.getElementById('diag-ws-status').innerText = "GETRENNT";
                     document.getElementById('diag-ws-status').className = "text-xs font-bold text-red-400 mt-0.5";
                     document.getElementById('stream-diag-badge').innerText = "Verbindung unterbrochen";
-                    
+
                     const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), maxReconnectDelay);
                     reconnectAttempts++;
                     setTimeout(initPumpPortalWebSocket, delay);
                 };
             } catch (e) {
                 isConnecting = false;
-                stats.dexErrors++;
-                setLastError("WebSocket Init Exception");
+                stats.apiErrors++;
+                setLastStatus("WebSocket Init Exception");
             }
-        }
-
-        // --- 2. RATE LIMITED QUEUE FOR DEXSCREENER API ---
-        function enqueueDexScreenerFetch(mint, callback) {
-            apiQueue.push({ mint, callback });
-            processApiQueue();
-        }
-
-        function processApiQueue() {
-            if (activeRequests >= maxConcurrentRequests || apiQueue.length === 0) return;
-
-            const { mint, callback } = apiQueue.shift();
-            activeRequests++;
-
-            fetchDexScreenerData(mint).then(result => {
-                callback(result);
-                setTimeout(() => {
-                    activeRequests--;
-                    processApiQueue();
-                }, requestDelayMs);
-            }).catch(() => {
-                callback(null);
-                setTimeout(() => {
-                    activeRequests--;
-                    processApiQueue();
-                }, requestDelayMs);
-            });
-        }
-
-        async function fetchDexScreenerData(mint) {
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 4500);
-                
-                const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                
-                if (!res.ok) {
-                    if (res.status === 429) stats.dexErrors++;
-                    return null;
-                }
-                const data = await res.json();
-                
-                if (data && Array.isArray(data.pairs) && data.pairs.length > 0) {
-                    // Streng nach Solana-Kette filtern und am besten liquides Paar wählen
-                    const solPairs = data.pairs.filter(p => p.chainId === 'solana');
-                    const targetPairs = solPairs.length > 0 ? solPairs : data.pairs;
-                    
-                    // Wähle Paar mit höchster Liquidität USD
-                    targetPairs.sort((a, b) => {
-                        const liqA = a.liquidity && a.liquidity.usd ? a.liquidity.usd : 0;
-                        const liqB = b.liquidity && b.liquidity.usd ? b.liquidity.usd : 0;
-                        return liqB - liqA;
-                    });
-
-                    const bestPair = targetPairs[0];
-                    return {
-                        priceUsd: bestPair.priceUsd ? parseFloat(bestPair.priceUsd) : null,
-                        marketCap: bestPair.marketCap ? parseFloat(bestPair.marketCap) : null,
-                        fdv: bestPair.fdv ? parseFloat(bestPair.fdv) : null,
-                        liquidity: bestPair.liquidity && bestPair.liquidity.usd ? parseFloat(bestPair.liquidity.usd) : null
-                    };
-                }
-            } catch (e) {
-                stats.dexErrors++;
-            }
-            return null;
         }
 
         async function processIncomingMessage(data) {
-            if (!data || typeof data !== 'object') {
-                stats.nonTokenMessages++;
-                updateDiagUI();
-                return;
-            }
-            
+            if (!data || typeof data !== 'object') return;
+
             const mint = data.mint || data.tokenMint;
-            if (!isValidSolanaMint(mint)) {
-                stats.nonTokenMessages++;
-                updateDiagUI();
-                return; // Keine verwertbare Mint-Adresse
-            }
+            if (!isValidSolanaMint(mint)) return;
 
             stats.validMints++;
             updateDiagUI();
@@ -572,33 +836,11 @@
             const sanitizedImage = sanitizeUrl(data.image || data.uri, true);
 
             if (tokenMap.has(mint)) {
-                // Bereits bekannter Token: Aktualisiere Metadaten und triggere API-Aktualisierung
                 const existing = tokenMap.get(mint);
                 existing.name = sanitizedName;
                 existing.symbol = sanitizedSymbol;
-                stats.updates++;
-                updateDiagUI();
-                
-                // Aktualisiere Marktdaten via DexScreener Warteschlange
-                enqueueDexScreenerFetch(mint, (marketData) => {
-                    if (marketData && tokenMap.has(mint)) {
-                        const t = tokenMap.get(mint);
-                        if (marketData.priceUsd) t.priceUsd = marketData.priceUsd;
-                        if (marketData.marketCap) t.marketCapUsd = marketData.marketCap;
-                        else if (marketData.fdv) t.marketCapUsd = marketData.fdv;
-                        if (marketData.liquidity) t.liquidityUsd = marketData.liquidity;
-                        saveStoredTokens();
-                        scheduleUiRender();
-                    }
-                });
-
-                scheduleUiRender();
                 return;
             }
-
-            // Neues Token registrieren
-            stats.newAdds++;
-            updateDiagUI();
 
             const newToken = {
                 name: sanitizedName,
@@ -606,71 +848,87 @@
                 mint: mint,
                 priceUsd: data.price ? parseFloat(data.price) : null,
                 marketCapUsd: null,
+                fdvUsd: null,
                 liquidityUsd: null,
                 observedTime: Date.now(),
-                securityStatus: "UNGEPRÜFT",
+                securityStatus: "REVIEW",
+                securityDetails: { status: "REVIEW", reason: "Live Stream Event – Re-Audit aktiv" },
                 imageUrl: sanitizedImage
             };
 
             tokenMap.set(mint, newToken);
             knownMintsSet.add(mint);
-            approvedTokens.unshift(newToken);
-            liveFeedTokens.unshift(newToken); // Nur echte Live-WebSocket-Ereignisse
+            stats.reviewCount++;
+            updateDiagUI();
 
-            if (liveFeedTokens.length > 20) liveFeedTokens.pop();
-            if (approvedTokens.length > 100) approvedTokens.pop();
+            enqueueSecurityCheck(mint);
 
-            saveStoredTokens();
-            scheduleUiRender();
-
-            // DexScreener Abfrage über Rate-Limited Queue
             enqueueDexScreenerFetch(mint, (marketData) => {
                 if (marketData && tokenMap.has(mint)) {
                     const t = tokenMap.get(mint);
                     if (marketData.priceUsd) t.priceUsd = marketData.priceUsd;
                     if (marketData.marketCap) t.marketCapUsd = marketData.marketCap;
-                    else if (marketData.fdv) t.marketCapUsd = marketData.fdv;
+                    if (marketData.fdv) t.fdvUsd = marketData.fdv;
                     if (marketData.liquidity) t.liquidityUsd = marketData.liquidity;
-                    saveStoredTokens();
-                    scheduleUiRender();
+                    if (t.securityStatus === "APPROVED") {
+                        saveApprovedTokens();
+                        scheduleUiRender();
+                    }
                 }
             });
         }
 
-        // --- 3. DEXSCREENER PAID API ---
         async function fetchDexPaidTokens() {
             try {
                 const res = await fetch(DEX_PAID_API);
                 if (!res.ok) throw new Error("Netzwerkfehler");
                 const data = await res.json();
                 if (Array.isArray(data)) {
-                    dexPaidTokens = data.slice(0, 15).map(item => ({
-                        chainId: item.chainId || 'solana',
-                        tokenAddress: item.tokenAddress || '',
-                        url: sanitizeUrl(item.url),
-                        amount: item.amount || 0,
-                        icon: sanitizeUrl(item.icon, true),
-                        name: item.description ? String(item.description).slice(0, 20) : 'Paid Token',
-                        symbol: item.tokenAddress ? String(item.tokenAddress).slice(0, 6) + '...' : 'PAID'
-                    }));
+                    dexPaidTokens = [];
+                    data.filter(item => item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress))
+                        .slice(0, 15)
+                        .forEach(item => {
+                            const mint = item.tokenAddress;
+                            if (!tokenMap.has(mint)) {
+                                const newToken = {
+                                    name: item.description ? String(item.description).slice(0, 20) : 'Paid Token',
+                                    symbol: mint.slice(0, 4).toUpperCase(),
+                                    mint: mint,
+                                    priceUsd: null,
+                                    marketCapUsd: null,
+                                    fdvUsd: null,
+                                    liquidityUsd: null,
+                                    observedTime: Date.now(),
+                                    securityStatus: "REVIEW",
+                                    securityDetails: { status: "REVIEW", reason: "DEX Paid Ad – Audit aktiv" },
+                                    imageUrl: sanitizeUrl(item.icon, true),
+                                    url: sanitizeUrl(item.url),
+                                    amount: item.amount || 0
+                                };
+                                tokenMap.set(mint, newToken);
+                                knownMintsSet.add(mint);
+                                stats.reviewCount++;
+                                enqueueSecurityCheck(mint);
+                            }
+                            const current = tokenMap.get(mint);
+                            if (current && current.securityStatus === "APPROVED") {
+                                if (!dexPaidTokens.some(d => d.mint === mint)) {
+                                    dexPaidTokens.push(current);
+                                }
+                            }
+                        });
                     renderDexPaidTable();
                 }
             } catch (err) {
-                stats.dexErrors++;
-                const tbody = document.getElementById('dex-paid-table-body');
-                if (tbody && dexPaidTokens.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">DexScreener Paid Daten nicht verfügbar.</td></tr>`;
-                }
+                stats.apiErrors++;
             }
         }
 
-        // --- 4. SAFE RENDERING (XSS-PRÄVENTION VIA TEXTCONTENT) ---
-        function populateRowCells(tr, t) {
+        function populateRowCells(tr, t, isPaid = false, paidData = null) {
             tr.innerHTML = '';
             tr.className = "hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40";
             tr.onclick = () => selectTokenForTerminal(t.mint);
 
-            // Spalte 1: Coin
             const tdCoin = document.createElement('td');
             tdCoin.className = "p-3.5 flex items-center gap-3";
             const img = document.createElement('img');
@@ -691,35 +949,71 @@
             tdCoin.appendChild(img);
             tdCoin.appendChild(divInfo);
 
-            // Spalte 2: Preis USD
+            if (isPaid) {
+                const tdChain = document.createElement('td');
+                tdChain.className = "p-3.5 uppercase text-gray-300";
+                tdChain.textContent = "solana";
+
+                const tdMint = document.createElement('td');
+                tdMint.className = "p-3.5 text-gray-400 font-mono text-[11px]";
+                tdMint.textContent = t.mint;
+
+                const tdBoosts = document.createElement('td');
+                tdBoosts.className = "p-3.5 text-neon-gold font-bold";
+                tdBoosts.textContent = `🔥 ${paidData?.amount || 1} Boosts`;
+
+                const tdSec = document.createElement('td');
+                tdSec.className = "p-3.5";
+                const spanSec = document.createElement('span');
+                spanSec.className = "px-2 py-0.5 rounded bg-neon-green/10 text-neon-green border border-neon-green/30 text-[10px] font-bold";
+                spanSec.textContent = "APPROVED";
+                tdSec.appendChild(spanSec);
+
+                const tdAction = document.createElement('td');
+                tdAction.className = "p-3.5 text-right";
+                const a = document.createElement('a');
+                a.href = paidData?.url || `https://dexscreener.com/solana/${t.mint}`;
+                a.target = "_blank";
+                a.className = "bg-neon-pink/20 hover:bg-neon-pink text-neon-pink hover:text-white px-3 py-1.5 rounded-lg text-xs transition border border-neon-pink/40";
+                a.textContent = "DexScreener ↗";
+                tdAction.appendChild(a);
+
+                tr.appendChild(tdCoin);
+                tr.appendChild(tdChain);
+                tr.appendChild(tdMint);
+                tr.appendChild(tdBoosts);
+                tr.appendChild(tdSec);
+                tr.appendChild(tdAction);
+                return;
+            }
+
             const tdPrice = document.createElement('td');
             tdPrice.className = "p-3.5 font-bold text-neon-green";
             tdPrice.textContent = formatPrice(t.priceUsd);
 
-            // Spalte 3: Market Cap / FDV
             const tdMcap = document.createElement('td');
             tdMcap.className = "p-3.5 text-gray-300";
             tdMcap.textContent = formatCompact(t.marketCapUsd);
 
-            // Spalte 4: Liquidität
+            const tdFdv = document.createElement('td');
+            tdFdv.className = "p-3.5 text-gray-400";
+            tdFdv.textContent = formatCompact(t.fdvUsd);
+
             const tdLiq = document.createElement('td');
             tdLiq.className = "p-3.5 text-gray-300";
             tdLiq.textContent = formatCompact(t.liquidityUsd);
 
-            // Spalte 5: Sicherheitsstatus
             const tdSec = document.createElement('td');
             tdSec.className = "p-3.5";
             const spanSec = document.createElement('span');
-            spanSec.className = "px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[10px]";
-            spanSec.textContent = t.securityStatus;
+            spanSec.className = "px-2 py-0.5 rounded bg-neon-green/10 text-neon-green border border-neon-green/30 text-[10px] font-bold";
+            spanSec.textContent = "APPROVED";
             tdSec.appendChild(spanSec);
 
-            // Spalte 6: Alter
             const tdAge = document.createElement('td');
             tdAge.className = "p-3.5 text-gray-400";
             tdAge.textContent = formatTokenAge(t.observedTime);
 
-            // Spalte 7: Aktion
             const tdAction = document.createElement('td');
             tdAction.className = "p-3.5 text-right";
             const btn = document.createElement('button');
@@ -730,6 +1024,7 @@
             tr.appendChild(tdCoin);
             tr.appendChild(tdPrice);
             tr.appendChild(tdMcap);
+            tr.appendChild(tdFdv);
             tr.appendChild(tdLiq);
             tr.appendChild(tdSec);
             tr.appendChild(tdAge);
@@ -740,13 +1035,15 @@
             const tbody = document.getElementById('live-feed-table-body');
             if (!tbody) return;
 
-            if (liveFeedTokens.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-gray-500">Warte auf echte Live-Ereignisse im Stream...</td></tr>`;
+            const approvedLive = liveFeedTokens.filter(t => t.securityStatus === "APPROVED");
+
+            if (approvedLive.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">Warte auf verifizierte Live-Ereignisse... (Ungeprüfte und REVIEW/REJECTED Tokens bleiben ausgeblendet)</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = '';
-            liveFeedTokens.forEach(t => {
+            approvedLive.forEach(t => {
                 const tr = document.createElement('tr');
                 populateRowCells(tr, t);
                 tbody.appendChild(tr);
@@ -757,13 +1054,15 @@
             const tbody = document.getElementById('tokens-table-body');
             if (!tbody) return;
 
-            if (approvedTokens.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-gray-500">Keine gespeicherten Tokens im lokalen Speicher.</td></tr>`;
+            const approvedDiscovery = approvedTokens.filter(t => t.securityStatus === "APPROVED");
+
+            if (approvedDiscovery.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">Keine APPROVED Discovery-Coins gefunden. (Klicken Sie auf 'Discovery Scan')</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = '';
-            approvedTokens.forEach(t => {
+            approvedDiscovery.forEach(t => {
                 const tr = document.createElement('tr');
                 populateRowCells(tr, t);
                 tbody.appendChild(tr);
@@ -774,39 +1073,17 @@
             const tbody = document.getElementById('dex-paid-table-body');
             if (!tbody) return;
 
-            if (dexPaidTokens.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">Lade DexScreener Paid Tokens...</td></tr>`;
+            const approvedPaid = dexPaidTokens.filter(t => t.securityStatus === "APPROVED");
+
+            if (approvedPaid.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">Keine APPROVED Paid Tokens verfügbar (Sicherheitsfilter aktiv).</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = '';
-            dexPaidTokens.forEach(t => {
+            approvedPaid.forEach(t => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40";
-                
-                const td1 = document.createElement('td');
-                td1.className = "p-3.5 flex items-center gap-3";
-                const img = document.createElement('img');
-                img.src = t.icon;
-                img.className = "w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1";
-                const info = document.createElement('div');
-                const n = document.createElement('div'); n.className = "font-bold text-white"; n.textContent = t.name;
-                const s = document.createElement('div'); s.className = "text-[10px] text-neon-pink"; s.textContent = "Paid Ad";
-                info.appendChild(n); info.appendChild(s);
-                td1.appendChild(img); td1.appendChild(info);
-
-                const td2 = document.createElement('td'); td2.className = "p-3.5 uppercase text-gray-300"; td2.textContent = t.chainId;
-                const td3 = document.createElement('td'); td3.className = "p-3.5 text-gray-400 font-mono text-[11px]"; td3.textContent = t.tokenAddress;
-                const td4 = document.createElement('td'); td4.className = "p-3.5 text-neon-gold font-bold"; td4.textContent = `🔥 ${t.amount} Boosts`;
-                
-                const td5 = document.createElement('td'); td5.className = "p-3.5 text-right";
-                const a = document.createElement('a');
-                a.href = t.url; a.target = "_blank";
-                a.className = "bg-neon-pink/20 hover:bg-neon-pink text-neon-pink hover:text-white px-3 py-1.5 rounded-lg text-xs transition border border-neon-pink/40";
-                a.textContent = "DexScreener ↗";
-                td5.appendChild(a);
-
-                tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5);
+                populateRowCells(tr, t, true, t);
                 tbody.appendChild(tr);
             });
         }
@@ -824,13 +1101,19 @@
             const token = tokenMap.get(mint);
             if (!token) return;
 
-            currentToken = token;
-            document.getElementById('selected-token-titletextContent'] = `${token.name} (${token.symbol})`;
             document.getElementById('selected-token-title').textContent = `${token.name} (${token.symbol})`;
             document.getElementById('selected-token-mint').textContent = token.mint;
             document.getElementById('selected-token-price').textContent = formatPrice(token.priceUsd);
             document.getElementById('selected-token-mcap').textContent = formatCompact(token.marketCapUsd);
+            document.getElementById('selected-token-fdv').textContent = formatCompact(token.fdvUsd);
             document.getElementById('selected-token-security').textContent = token.securityStatus;
+
+            const auditReasonEl = document.getElementById('selected-token-audit-reason');
+            if (token.securityDetails) {
+                auditReasonEl.textContent = `[Status: ${token.securityStatus}] Score: ${token.securityDetails.score ?? 'N/A'}. Begründung: ${token.securityDetails.reason || 'Keine Details'}.`;
+            } else {
+                auditReasonEl.textContent = "Sicherheitsprüfung läuft...";
+            }
 
             const linkEl = document.getElementById('selected-token-link');
             linkEl.href = `https://dexscreener.com/solana/${token.mint}`;
@@ -859,10 +1142,17 @@
         }
 
         window.onload = () => {
-            loadStoredTokens();
-            updateDiagUI();
-            fetchDexPaidTokens();
-            initPumpPortalWebSocket();
+            try {
+                loadStoredTokens();
+                updateDiagUI();
+                fetchDexPaidTokens();
+                fetchDexDiscoveryTokens();
+                initPumpPortalWebSocket();
+                scheduleUiRender();
+            } catch (e) {
+                console.error("Initialization error:", e);
+                setLastStatus("Init Fehler: " + e.message);
+            }
         };
     </script>
 </body>
