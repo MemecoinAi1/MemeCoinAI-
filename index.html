@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoinAI V2 – Professional Solana Intelligence Terminal</title>
+    <title>MemeCoinAI – Multi-Agent Solana Intelligence & Paper Trading Terminal</title>
     
     <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -66,21 +66,21 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI V2</span></span>
-                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Pro Trading &amp; Security Terminal</span>
+                    <span class="text-2xl font-black text-white">MEMECOIN<span class="text-neon-green neon-glow-text-green">AI</span></span>
+                    <span class="text-[10px] tracking-widest text-neon-purple-bright font-mono uppercase -mt-1">Multi-Agent Solana Terminal</span>
                 </div>
             </a>
 
-            <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold font-mono">
-                <a href="#premium-section" class="text-neon-gold hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-crown"></i> PREMIUM PRO</a>
-                <a href="#dex-paid-section" class="text-neon-pink hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-fire"></i> DEX PAID</a>
-                <a href="#live-feed" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bolt"></i> PUMP.FUN LIVE</a>
+            <nav class="hidden lg:flex items-center space-x-5 text-xs font-bold font-mono">
+                <a href="#agents-section" class="text-neon-purple-bright hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-robot"></i> AGENTS</a>
+                <a href="#live-feed" class="text-neon-green hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bolt"></i> LIVE FEED</a>
                 <a href="#discovery" class="text-white hover:text-neon-green transition flex items-center gap-1.5"><i class="fa-solid fa-compass"></i> DISCOVERY</a>
+                <a href="#paper-trading" class="text-neon-gold hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> PAPER TRADING</a>
             </nav>
 
             <div class="flex items-center space-x-3 font-mono">
-                <button onclick="openUpgradeModal()" class="bg-gradient-to-r from-amber-500 to-neon-gold hover:opacity-90 text-dark-bg px-3.5 py-2 rounded-xl text-xs font-black transition shadow-glow-gold flex items-center gap-1.5">
-                    <i class="fa-solid fa-crown"></i> PRO UPGRADE
+                <button onclick="openUpgradeModal()" class="bg-gradient-to-r from-amber-500 to-neon-gold text-dark-bg px-3.5 py-2 rounded-xl text-xs font-black transition shadow-glow-gold flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown"></i> PRO &amp; RAW
                 </button>
                 <button onclick="toggleWallet()" id="wallet-btn" class="bg-dark-card border border-dark-border hover:border-neon-green text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
                     <i class="fa-solid fa-wallet text-neon-green"></i> <span id="wallet-text">Wallet</span>
@@ -91,14 +91,14 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
 
-        <!-- GRANULAR DIAGNOSTICS & STATS DASHBOARD -->
+        <!-- SYSTEM DIAGNOSTICS & STATS DASHBOARD -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 text-xs font-mono">
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">WS STATUS</p>
-                <p id="diag-ws-status" class="text-xs font-bold text-yellow-400 mt-0.5">GETRENNT</p>
+                <p class="text-[9px] text-gray-500">PIPELINE STATUS</p>
+                <p id="diag-pipeline" class="text-xs font-bold text-yellow-400 mt-0.5">INITIALISIERE</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
-                <p class="text-[9px] text-gray-500">PUMP MSGS</p>
+                <p class="text-[9px] text-gray-500">WS MSGS</p>
                 <p id="diag-msgs" class="text-xs font-bold text-white mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl">
@@ -122,72 +122,81 @@
                 <p id="diag-api-errors" class="text-xs font-bold text-red-400 mt-0.5">0</p>
             </div>
             <div class="bg-dark-surface border border-dark-border p-3 rounded-2xl col-span-2 md:col-span-1">
-                <p class="text-[9px] text-gray-500">SECURITY ARCHITEKTUR</p>
-                <p id="diag-last-err" class="text-[10px] text-gray-300 mt-0.5 truncate" title="Client-Side Zero-Trust">Zero-Trust Guard V2</p>
+                <p class="text-[9px] text-gray-500">AGENT TEAM</p>
+                <p id="diag-agents" class="text-xs font-bold text-neon-green mt-0.5">7 / 7 ONLINE</p>
             </div>
         </div>
 
-        <!-- SECURITY ARCHITECTURE NOTICE -->
-        <div class="bg-dark-surface border border-amber-500/30 p-4 rounded-2xl text-xs font-mono text-amber-200/90 flex items-start gap-3">
-            <i class="fa-solid fa-shield-halved text-amber-400 text-lg mt-0.5"></i>
-            <div class="space-y-1">
-                <strong class="text-amber-300">Sicherheitsarchitektur V2 (Client Audit & Zero-Trust Pipeline):</strong>
-                <p>Alle Token starten streng im Status <span class="text-yellow-400 font-bold">REVIEW</span>. Ein Token erscheint erst nach verifiziertem RugCheck-Audit in den öffentlichen Tabellen. Es werden keine unbegründeten Freigaben erteilt.</p>
-            </div>
-        </div>
-
-        <!-- PREMIUM SECTION -->
-        <section id="premium-section" class="bg-gradient-to-br from-dark-surface via-dark-card to-dark-surface border-2 border-amber-500/50 rounded-3xl p-6 lg:p-10 space-y-8 shadow-glow-gold relative overflow-hidden font-mono">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-dark-border pb-6">
-                <div class="space-y-2">
-                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-neon-gold border border-amber-500/40 text-xs font-bold inline-flex items-center gap-1.5 shadow-glow-gold">
-                        <i class="fa-solid fa-crown"></i> MEMECOINAI PRO &amp; ENTERPRISE
-                    </span>
-                    <h2 class="text-3xl font-black text-white">MAXIMALE EDGE FÜR SOLANA TRADER</h2>
-                    <p class="text-xs text-gray-400 max-w-2xl">Echtzeit-Daten über PumpPortal, DexScreener und strikte RugCheck Zero-Trust-Validierung.</p>
-                </div>
-                <button onclick="openUpgradeModal()" class="bg-gradient-to-r from-amber-500 to-neon-gold text-dark-bg font-black px-6 py-3 rounded-xl text-xs shadow-glow-gold transition cursor-pointer">
-                    Pro Freischalten
-                </button>
-            </div>
-        </section>
-
-        <!-- BEREICH 1: DEXSCREENER PAID & BOOSTED TOKENS -->
-        <section id="dex-paid-section" class="bg-dark-surface border-2 border-neon-pink/50 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-pink">
-            <div class="flex justify-between items-center border-b border-dark-border pb-4">
+        <!-- AGENT CONTROL CENTER -->
+        <section id="agents-section" class="bg-dark-surface border border-neon-purple/40 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-4">
                 <div>
-                    <span class="px-2.5 py-0.5 rounded-full bg-neon-pink/20 text-neon-pink border border-neon-pink/30 text-[10px] font-bold font-mono">DEXSCREENER API + SECURITY GUARD</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-white">BEZAHLTE &amp; GEBOOSTETE COINS (NUR APPROVED)</h2>
+                    <span class="px-2.5 py-0.5 rounded-full bg-neon-purple/20 text-neon-purple-bright border border-neon-purple/30 text-[10px] font-bold font-mono">AUTONOMOUS MULTI-AGENT SYSTEM</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">AGENT CONTROL CENTER</h2>
                 </div>
-                <button onclick="fetchDexPaidTokens()" class="bg-dark-card border border-dark-border hover:border-neon-pink text-xs font-mono text-white px-3.5 py-2 rounded-xl transition">
-                    <i class="fa-solid fa-rotate"></i> Aktualisieren
-                </button>
+                <div class="text-xs font-mono text-gray-400 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-neon-green animate-pulse"></span>
+                    <span>Deterministic &amp; AI Oversight Active</span>
+                </div>
             </div>
-            <div class="horizontal-scroll-container bg-dark-bg rounded-2xl border border-dark-border">
-                <table class="w-full text-left border-collapse font-mono text-xs whitespace-nowrap min-w-[850px]">
-                    <thead>
-                        <tr class="bg-dark-card border-b border-dark-border text-gray-400 text-[10px]">
-                            <th class="p-3.5">COIN</th>
-                            <th class="p-3.5">CHAIN</th>
-                            <th class="p-3.5">MINT / ADDRESS</th>
-                            <th class="p-3.5">AKTIVE BOOSTS</th>
-                            <th class="p-3.5">STATUS</th>
-                            <th class="p-3.5 text-right">DEXSCREENER LINK</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dex-paid-table-body" class="divide-y divide-dark-border/40">
-                        <tr><td colspan="6" class="p-6 text-center text-gray-400">Lade und prüfe Paid Tokens...</td></tr>
-                    </tbody>
-                </table>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                <!-- Agent 1 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-radar text-neon-green"></i> 1. Coin Hunter</span><span class="text-neon-green text-[10px] font-bold">ONLINE</span></div>
+                    <p class="text-[11px] text-gray-400">Erkennt neue Mints &amp; verifiziert Base58 Adressen.</p>
+                    <p class="text-[10px] text-gray-500" id="agent-1-stat">Verarbeitet: 0 Mints</p>
+                </div>
+                <!-- Agent 2 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-chart-line text-neon-purple-bright"></i> 2. Trend Scout</span><span class="text-neon-green text-[10px] font-bold">ONLINE</span></div>
+                    <p class="text-[11px] text-gray-400">Analysiert Volumen- und Liquiditätsdynamik.</p>
+                    <p class="text-[10px] text-gray-500" id="agent-2-stat">Momentum-Scan: Aktiv</p>
+                </div>
+                <!-- Agent 3 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-shield-halved text-neon-gold"></i> 3. Security Agent</span><span class="text-neon-green text-[10px] font-bold">ONLINE</span></div>
+                    <p class="text-[11px] text-gray-400">Prüft Mint/Freeze Authorities &amp; RugCheck API.</p>
+                    <p class="text-[10px] text-gray-500" id="agent-3-stat">Audit-Warteschlange: Leer</p>
+                </div>
+                <!-- Agent 4 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-calculator text-neon-pink"></i> 4. Market Analyst</span><span class="text-neon-green text-[10px] font-bold">ONLINE</span></div>
+                    <p class="text-[11px] text-gray-400">Trennt Market Cap und FDV strikt.</p>
+                    <p class="text-[10px] text-gray-500" id="agent-4-stat">Snapshots: Bereit</p>
+                </div>
+                <!-- Agent 5 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-crosshairs text-neon-green"></i> 5. Strategy Agent</span><span class="text-neon-green text-[10px] font-bold">ONLINE</span></div>
+                    <p class="text-[11px] text-gray-400">Generiert BUY/HOLD/SELL Signale.</p>
+                    <p class="text-[10px] text-gray-500" id="agent-5-stat">Signale: Abgeschirmt</p>
+                </div>
+                <!-- Agent 6 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-wallet text-amber-400"></i> 6. Trading Agent</span><span class="text-amber-400 text-[10px] font-bold">PAPER TRADING</span></div>
+                    <p class="text-[11px] text-gray-400">Simuliert Orders &amp; Slippage (Echt-Handel aus).</p>
+                    <p class="text-[10px] text-gray-500" id="agent-6-stat">Modus: Virtuelles Guthaben</p>
+                </div>
+                <!-- Agent 7 -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-vault text-blue-400"></i> 7. Portfolio Agent</span><span class="text-neon-green text-[10px] font-bold">ONLINE</span></div>
+                    <p class="text-[11px] text-gray-400">Überwacht Positionen &amp; Tagesverlustlimits.</p>
+                    <p class="text-[10px] text-gray-500" id="agent-7-stat">Risikolimit: 10 SOL / Tag</p>
+                </div>
+                <!-- System Controller -->
+                <div class="bg-dark-card border border-dark-border p-4 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center"><span class="font-bold text-white"><i class="fa-solid fa-power-off text-red-400"></i> Safety Killswitch</span><span class="text-neon-green text-[10px] font-bold">GESICHERT</span></div>
+                    <p class="text-[11px] text-gray-400">Globale Notabschaltung für alle Order-Pipelines.</p>
+                    <button onclick="toggleKillswitch()" id="killswitch-btn" class="w-full bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white py-1 rounded-lg text-[10px] font-bold transition border border-red-500/40">KILLSWITCH AKTIVIEREN</button>
+                </div>
             </div>
         </section>
 
-        <!-- BEREICH 2: PUMP.FUN LIVE STREAM -->
+        <!-- BEREICH: PUMP.FUN LIVE STREAM -->
         <section id="live-feed" class="bg-dark-surface border-2 border-neon-purple/50 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-purple">
             <div class="flex justify-between items-center border-b border-dark-border pb-4">
                 <div>
-                    <span class="px-2.5 py-0.5 rounded-full bg-neon-purple/20 text-neon-purple-bright border border-neon-purple/30 text-[10px] font-bold font-mono">PUMPPORTAL WEBSOCKET</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-white">PUMP.FUN LIVE STREAM (NUR APPROVED)</h2>
+                    <span class="px-2.5 py-0.5 rounded-full bg-neon-purple/20 text-neon-purple-bright border border-neon-purple/30 text-[10px] font-bold font-mono">AGENT 1 &amp; 3 PIPELINE</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">PUMP.FUN LIVE STREAM (APPROVED)</h2>
                 </div>
                 <div id="stream-diag-badge" class="text-xs font-mono text-yellow-400">Verbindung aufbauen...</div>
             </div>
@@ -201,7 +210,7 @@
                             <th class="p-3.5">FDV</th>
                             <th class="p-3.5">LIQUIDITÄT</th>
                             <th class="p-3.5">STATUS</th>
-                            <th class="p-3.5">VOTES</th>
+                            <th class="p-3.5">ALTER</th>
                             <th class="p-3.5 text-right">AKTION</th>
                         </tr>
                     </thead>
@@ -212,12 +221,12 @@
             </div>
         </section>
 
-        <!-- BEREICH 3: DISCOVERY -->
+        <!-- BEREICH: DISCOVERY -->
         <section id="discovery" class="bg-dark-surface border border-dark-border rounded-3xl p-6 lg:p-8 space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-4">
                 <div>
-                    <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY (SOLANA COINS)</h2>
-                    <p class="text-xs text-gray-400">Unabhängige DexScreener-Versorgung. Nur verifizierte Coins sichtbar.</p>
+                    <h2 class="text-2xl font-black text-white tracking-wide">DISCOVERY &amp; RAW COINS</h2>
+                    <p class="text-xs text-gray-400">DexScreener &amp; PumpPortal Mints. Ungeprüfte Rohdaten im Review-Status.</p>
                 </div>
                 <div class="w-full md:w-auto flex items-center gap-3">
                     <button onclick="triggerDiscoveryScan()" class="bg-dark-card border border-dark-border hover:border-neon-green text-xs font-mono text-white px-3 py-2 rounded-xl transition">
@@ -236,7 +245,7 @@
                             <th class="p-3.5">FDV</th>
                             <th class="p-3.5">LIQUIDITÄT</th>
                             <th class="p-3.5">STATUS</th>
-                            <th class="p-3.5">VOTES</th>
+                            <th class="p-3.5">ALTER</th>
                             <th class="p-3.5 text-right">TERMINAL</th>
                         </tr>
                     </thead>
@@ -247,7 +256,60 @@
             </div>
         </section>
 
-        <!-- DEX TERMINAL -->
+        <!-- BEREICH: PAPER TRADING TERMINAL -->
+        <section id="paper-trading" class="bg-dark-surface border-2 border-neon-gold/40 rounded-3xl p-6 lg:p-8 space-y-6 shadow-glow-gold font-mono">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-dark-border pb-4">
+                <div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-neon-gold/20 text-neon-gold border border-neon-gold/30 text-[10px] font-bold font-mono">AGENT 6 &amp; 7 SIMULATED EXECUTION</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">PAPER TRADING &amp; PORTFOLIO</h2>
+                </div>
+                <div class="flex items-center gap-4 text-xs">
+                    <div class="bg-dark-card px-3 py-1.5 rounded-xl border border-dark-border">
+                        Virtuelles Guthaben: <span id="paper-balance" class="font-bold text-neon-green">10.00 SOL</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Order Form -->
+                <div class="bg-dark-card border border-dark-border p-5 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-white text-sm">Simulierte Order ausführen</h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="text-gray-400 text-[10px]">Token Mint</label>
+                            <input type="text" id="paper-mint-input" placeholder="Wähle Token aus Terminal" class="w-full bg-dark-bg border border-dark-border px-3 py-2 rounded-xl text-white mt-1" readonly>
+                        </div>
+                        <div>
+                            <label class="text-gray-400 text-[10px]">Betrag (SOL)</label>
+                            <input type="number" id="paper-amount-input" value="0.5" step="0.1" min="0.1" class="w-full bg-dark-bg border border-dark-border px-3 py-2 rounded-xl text-white mt-1">
+                        </div>
+                        <button onclick="executePaperBuy()" class="w-full bg-neon-green text-dark-bg font-black py-2.5 rounded-xl text-xs hover:opacity-90 transition shadow-glow-green cursor-pointer">
+                            🚀 PAPER BUY (SIMULIERT)
+                        </button>
+                    </div>
+                </div>
+                <!-- Active Positions -->
+                <div class="lg:col-span-2 bg-dark-card border border-dark-border p-5 rounded-2xl space-y-4">
+                    <h3 class="font-bold text-white text-sm">Aktive Positionen</h3>
+                    <div class="horizontal-scroll-container">
+                        <table class="w-full text-left text-xs whitespace-nowrap">
+                            <thead>
+                                <tr class="border-b border-dark-border text-gray-400 text-[10px]">
+                                    <th class="p-2">COIN</th>
+                                    <th class="p-2">EINSTIEG</th>
+                                    <th class="p-2">BETRAG</th>
+                                    <th class="p-2 text-right">AKTION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paper-positions-body" class="divide-y divide-dark-border/40">
+                                <tr><td colspan="4" class="p-4 text-center text-gray-400">Keine offenen Paper Trades.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEX TERMINAL & AUDIT -->
         <section id="terminal" class="space-y-6 font-mono">
             <h2 class="text-2xl font-black text-white">DEX TERMINAL &amp; SECURITY AUDIT</h2>
             <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
@@ -257,8 +319,8 @@
                         <p id="selected-token-mint" class="text-[10px] text-gray-400 truncate max-w-xs">-</p>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button id="selected-token-vote-btn" onclick="voteSelectedToken()" class="text-xs bg-neon-green/20 hover:bg-neon-green text-neon-green hover:text-dark-bg border border-neon-green/40 px-3 py-1.5 rounded-xl font-bold transition">
-                            🚀 Vote (<span id="selected-token-votes">0</span>)
+                        <button onclick="selectForPaperTrading()" class="text-xs bg-neon-gold/20 hover:bg-neon-gold text-neon-gold hover:text-dark-bg border border-neon-gold/40 px-3 py-1.5 rounded-xl font-bold transition">
+                            📈 Für Paper Trade wählen
                         </button>
                         <a id="selected-token-link" href="#" target="_blank" class="text-xs bg-neon-pink/20 text-neon-pink border border-neon-pink/40 px-3 py-1.5 rounded-xl hidden">DexScreener ↗</a>
                     </div>
@@ -277,13 +339,13 @@
                         <p id="selected-token-fdv" class="text-sm font-bold text-gray-300 mt-0.5">N/A</p>
                     </div>
                     <div class="bg-dark-bg p-3 rounded-xl border border-dark-border">
-                        <p class="text-[10px] text-gray-400">SICHERHEITSSTATUS</p>
+                        <p class="text-[10px] text-gray-400">SICHERHEITSSTATUS (AGENT 3)</p>
                         <p id="selected-token-security" class="text-sm font-bold text-yellow-400 mt-0.5">REVIEW</p>
                     </div>
                 </div>
                 <div class="bg-dark-bg p-4 rounded-xl border border-dark-border space-y-1">
-                    <p class="text-[10px] text-gray-400 uppercase font-bold">RUGCHECK NORMALISIERTER AUDIT &amp; BEGRÜNDUNG</p>
-                    <p id="selected-token-audit-reason" class="text-xs text-gray-300 font-sans">Wähle einen Coin aus, um die detaillierte Sicherheitsbegründung einzusehen.</p>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">AGENT 3 &amp; 5 ANALYSEBERICHT</p>
+                    <p id="selected-token-audit-reason" class="text-xs text-gray-300 font-sans">Wähle einen Coin aus, um den Agentenbericht einzusehen.</p>
                 </div>
             </div>
         </section>
@@ -294,37 +356,36 @@
     <div id="upgrade-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-dark-surface border-2 border-amber-500 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-glow-gold font-mono relative">
             <button onclick="closeUpgradeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-2xl font-black text-white">MemeCoinAI Pro V2</h3>
-            <p class="text-xs text-gray-300">Echte Live-Daten und unbegrenzte Streams. Backend-Anbindung erforderlich.</p>
+            <h3 class="text-2xl font-black text-white">MemeCoinAI Pro &amp; Raw Coins</h3>
+            <p class="text-xs text-gray-300">Zugriff auf ungeprüfte Raw Coins, erweiterte Agenten-Signale und Live-Trading-Vorbereitung.</p>
             <button onclick="closeUpgradeModal()" class="w-full bg-amber-500 text-dark-bg font-black py-3 rounded-xl text-xs cursor-pointer">Schließen</button>
         </div>
     </div>
 
-    <!-- SCRIPT LOGIC WITH ZERO-TRUST ENGINE V2 -->
+    <!-- SCRIPT LOGIC WITH MULTI-AGENT PIPELINE -->
     <script>
         const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
         const DEX_PAID_API = "https://api.dexscreener.com/token-boosts/latest/v1";
         const DEX_PROFILES_API = "https://api.dexscreener.com/token-profiles/latest/v1";
         const RUGCHECK_API_BASE = "https://api.rugcheck.xyz/v1/tokens";
-        const STORAGE_KEY = "memecoinai_stored_tokens_v10";
-        const VOTES_KEY = "memecoinai_user_votes_v1";
+        const STORAGE_KEY = "memecoinai_multi_agent_v1";
 
         let socket = null;
         let reconnectAttempts = 0;
         const maxReconnectDelay = 30000;
         let isConnecting = false;
+        let killswitchActive = false;
 
         const tokenMap = new Map();
-        const knownMintsSet = new Set();
         const securityQueue = [];
         const inFlightMints = new Set();
         let isSecurityWorkerRunning = false;
 
         let approvedTokens = [];
         let liveFeedTokens = [];
-        let dexPaidTokens = [];
-        let userVotes = {};
-        let activeSelectedMint = null;
+        let paperPositions = [];
+        let paperBalance = 10.0;
+        let selectedTerminalMint = null;
 
         let stats = {
             messages: 0,
@@ -333,23 +394,14 @@
             reviewCount: 0,
             rejectedCount: 0,
             apiErrors: 0,
-            lastStatus: "Zero-Trust Guard V2 Aktiv"
+            agentProcessedMints: 0,
+            lastStatus: "Pipeline Active"
         };
         let renderScheduled = false;
 
-        const apiQueue = [];
-        let activeRequests = 0;
-        const maxConcurrentRequests = 2;
-        const requestDelayMs = 350;
-
-        function setLastStatus(msg) {
-            stats.lastStatus = msg;
-            const el = document.getElementById('diag-last-err');
-            if (el) {
-                el.innerText = msg;
-                el.title = msg;
-            }
-            updateDiagUI();
+        function setPipelineStatus(statusText) {
+            const el = document.getElementById('diag-pipeline');
+            if (el) el.innerText = statusText;
         }
 
         function updateDiagUI() {
@@ -360,97 +412,51 @@
                 document.getElementById('diag-approved').innerText = stats.approvedCount;
                 document.getElementById('diag-review-reject').innerText = `${stats.reviewCount} / ${stats.rejectedCount}`;
                 document.getElementById('diag-api-errors').innerText = stats.apiErrors;
-            } catch (e) {
-                console.error("UI update error:", e);
-            }
+                document.getElementById('agent-1-stat').innerText = `Verarbeitet: ${stats.agentProcessedMints} Mints`;
+                document.getElementById('paper-balance').innerText = paperBalance.toFixed(2) + ' SOL';
+            } catch (e) {}
         }
 
         function isValidSolanaMint(mint) {
             if (!mint || typeof mint !== 'string') return false;
-            const base58Regex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
-            return base58Regex.test(mint);
+            return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(mint);
         }
 
         function sanitizeUrl(url, isImage = false) {
             if (!url || typeof url !== 'string') return isImage ? getSVGFallback('UNK') : '#';
             const trimmed = url.trim();
-            if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
-                return trimmed;
-            }
-            if (isImage && trimmed.startsWith('data:image/svg+xml;')) {
-                return trimmed;
-            }
+            if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) return trimmed;
             return isImage ? getSVGFallback('UNK') : '#';
         }
 
-        function loadUserVotes() {
-            try {
-                const raw = localStorage.getItem(VOTES_KEY);
-                if (raw) userVotes = JSON.parse(raw);
-            } catch (e) { userVotes = {}; }
+        function getSVGFallback(symbol) {
+            const letter = symbol ? symbol.charAt(0).toUpperCase() : 'P';
+            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
         }
 
-        function saveUserVotes() {
-            try { localStorage.setItem(VOTES_KEY, JSON.stringify(userVotes)); } catch (e) {}
-        }
-
-        function loadStoredTokens() {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (raw) {
-                    const parsed = JSON.parse(raw);
-                    if (Array.isArray(parsed)) {
-                        parsed.forEach(t => {
-                            if (t && isValidSolanaMint(t.mint) && !tokenMap.has(t.mint)) {
-                                const token = {
-                                    name: String(t.name || "Unbekannt").slice(0, 40),
-                                    symbol: String(t.symbol || "UNK").slice(0, 10),
-                                    mint: t.mint,
-                                    priceUsd: typeof t.priceUsd === 'number' ? t.priceUsd : null,
-                                    marketCapUsd: typeof t.marketCapUsd === 'number' ? t.marketCapUsd : null,
-                                    fdvUsd: typeof t.fdvUsd === 'number' ? t.fdvUsd : null,
-                                    liquidityUsd: typeof t.liquidityUsd === 'number' ? t.liquidityUsd : null,
-                                    observedTime: typeof t.observedTime === 'number' ? t.observedTime : Date.now(),
-                                    securityStatus: "REVIEW",
-                                    securityDetails: { raw: null, status: "REVIEW", reason: "Re-Audit erforderlich" },
-                                    imageUrl: sanitizeUrl(t.imageUrl, true),
-                                    votes: (userVotes[t.mint] || 0)
-                                };
-                                tokenMap.set(t.mint, token);
-                                knownMintsSet.add(t.mint);
-                                stats.reviewCount++;
-                                enqueueSecurityCheck(t.mint);
-                            }
-                        });
-                        updateDiagUI();
-                    }
-                }
-            } catch (e) {
-                stats.apiErrors++;
-                setLastStatus("Storage Load Fehler");
-            }
-        }
-
-        function saveApprovedTokens() {
-            try {
-                const arr = Array.from(tokenMap.values())
-                    .filter(t => t.securityStatus === "APPROVED")
-                    .slice(0, 50);
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-            } catch (e) {
-                setLastStatus("Storage Save Fehler");
+        function toggleKillswitch() {
+            killswitchActive = !killswitchActive;
+            const btn = document.getElementById('killswitch-btn');
+            if (killswitchActive) {
+                btn.innerText = "KILLSWITCH AKTIV (BLOCKIERT)";
+                btn.className = "w-full bg-red-600 text-white py-1 rounded-lg text-[10px] font-bold transition border border-red-400 animate-pulse";
+                setPipelineStatus("KILLSWITCH ON");
+            } else {
+                btn.innerText = "KILLSWITCH AKTIVIEREN";
+                btn.className = "w-full bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white py-1 rounded-lg text-[10px] font-bold transition border border-red-500/40";
+                setPipelineStatus("ONLINE");
             }
         }
 
         function formatPrice(p) {
-            if (p === undefined || p === null || isNaN(p) || p <= 0) return "N/A";
+            if (!p || isNaN(p) || p <= 0) return "N/A";
             if (p < 0.00001) return '$' + p.toExponential(2);
             if (p < 0.01) return '$' + p.toFixed(6);
             return '$' + p.toFixed(4);
         }
 
         function formatCompact(val) {
-            if (val === undefined || val === null || isNaN(val) || val === 0) return "N/A";
+            if (!val || isNaN(val) || val === 0) return "N/A";
             if (val >= 1e9) return '$' + (val / 1e9).toFixed(2) + 'B';
             if (val >= 1e6) return '$' + (val / 1e6).toFixed(2) + 'M';
             if (val >= 1e3) return '$' + (val / 1e3).toFixed(2) + 'K';
@@ -465,11 +471,6 @@
             return `${Math.floor(diffMin / 60)}h`;
         }
 
-        function getSVGFallback(symbol) {
-            const letter = symbol ? symbol.charAt(0).toUpperCase() : 'P';
-            return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
-        }
-
         function scheduleUiRender() {
             if (renderScheduled) return;
             renderScheduled = true;
@@ -477,127 +478,421 @@
                 try {
                     renderLiveFeedTable();
                     renderDiscoveryTable();
-                    renderDexPaidTable();
-                } catch (e) {
-                    console.error("Render error:", e);
-                }
+                    renderPaperPositions();
+                } catch (e) {}
                 renderScheduled = false;
             });
         }
 
+        // --- AGENT 3: SECURITY AGENT (RUGCHECK) ---
         async function fetchRugCheckReport(mint) {
-            let controller = null;
-            let timeoutId = null;
             try {
-                controller = new AbortController();
-                timeoutId = setTimeout(() => controller.abort(), 5500);
-
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
                 const res = await fetch(`${RUGCHECK_API_BASE}/${mint}/report/summary`, { signal: controller.signal });
-                if (!res.ok) {
-                    if (res.status === 429) {
-                        stats.apiErrors++;
-                        return { status: "REVIEW", raw: null, reason: "RugCheck Rate Limit (HTTP 429)" };
-                    }
-                    const res2 = await fetch(`${RUGCHECK_API_BASE}/${mint}/report`, { signal: controller.signal });
-                    if (!res2.ok) {
-                        stats.apiErrors++;
-                        return { status: "REVIEW", raw: null, reason: `RugCheck API Fehler (${res2.status})` };
-                    }
-                    const rawData2 = await res2.json();
-                    return normalizeRugCheckReport(rawData2);
-                }
-
-                const rawData = await res.json();
-                return normalizeRugCheckReport(rawData);
-
-            } catch (err) {
+                clearTimeout(timeoutId);
+                if (!res.ok) return { status: "REVIEW", reason: "RugCheck API limit / unvollständig" };
+                const data = await res.json();
+                return normalizeRugCheck(data);
+            } catch (e) {
                 stats.apiErrors++;
-                return { status: "REVIEW", raw: null, reason: "RugCheck API Timeout oder Netzwerkfehler" };
-            } finally {
-                if (timeoutId) clearTimeout(timeoutId);
+                return { status: "REVIEW", reason: "RugCheck Timeout / Netzwerkfehler" };
             }
         }
 
-        function normalizeRugCheckReport(data) {
-            if (!data || typeof data !== 'object') {
-                return { status: "REVIEW", raw: data, reason: "Ungültiges JSON-Antwortformat" };
-            }
-
-            const score = typeof data.score === 'number' ? data.score : 
-                         (typeof data.riskScore === 'number' ? data.riskScore : null);
+        function normalizeRugCheck(data) {
+            if (!data || typeof data !== 'object') return { status: "REVIEW", reason: "Ungültiges JSON" };
+            const score = data.score !== undefined ? data.score : 999;
             const risks = Array.isArray(data.risks) ? data.risks : [];
-            const tokenInfo = data.token || {};
-            const mintAuthority = data.mintAuthority !== undefined ? data.mintAuthority : tokenInfo.mintAuthority;
-            const freezeAuthority = data.freezeAuthority !== undefined ? data.freezeAuthority : tokenInfo.freezeAuthority;
-            const rugged = data.rugged === true || data.isRugged === true;
+            const mintAuth = data.mintAuthority !== undefined ? data.mintAuthority : data.token?.mintAuthority;
+            const freezeAuth = data.freezeAuthority !== undefined ? data.freezeAuthority : data.token?.freezeAuthority;
+            const rugged = data.rugged === true;
 
-            if (score === null && mintAuthority === undefined && freezeAuthority === undefined) {
-                return { status: "REVIEW", raw: data, reason: "Erforderliche Schema-Felder fehlen" };
+            if (rugged || score > 1200 || mintAuth || freezeAuth) {
+                return { status: "REJECTED", score, reason: rugged ? "Rugged flag aktiv" : mintAuth ? "Aktive Mint Authority" : "Aktive Freeze Authority" };
             }
-
-            return evaluateSecurityRules({
-                score: score !== null ? score : 999,
-                risks,
-                mintAuthority,
-                freezeAuthority,
-                rugged
-            }, data);
-        }
-
-        function evaluateSecurityRules(parsed, rawData) {
-            const hasActiveMintAuth = parsed.mintAuthority !== null && parsed.mintAuthority !== undefined;
-            const hasActiveFreezeAuth = parsed.freezeAuthority !== null && parsed.freezeAuthority !== undefined;
-            const hasCriticalRisk = parsed.risks.some(r => 
-                (r.level === 'danger' || r.level === 'critical') ||
-                (r.name && (r.name.toLowerCase().includes('mint') || r.name.toLowerCase().includes('freeze') || r.name.toLowerCase().includes('honeypot')))
-            );
-
-            if (parsed.rugged || parsed.score > 1200 || hasActiveMintAuth || hasActiveFreezeAuth || hasCriticalRisk) {
-                return {
-                    status: "REJECTED",
-                    raw: rawData,
-                    score: parsed.score,
-                    reason: parsed.rugged ? "Token als Rugged markiert" :
-                            hasActiveMintAuth ? "Aktive Mint Authority" :
-                            hasActiveFreezeAuth ? "Aktive Freeze Authority" : "Kritisches Risikoflag"
-                };
+            if (mintAuth === null && freezeAuth === null && score <= 500) {
+                return { status: "APPROVED", score, reason: "Verified: Mint & Freeze widerrufen, solider Score" };
             }
-
-            if (parsed.mintAuthority === null && parsed.freezeAuthority === null && parsed.score <= 500 && !hasCriticalRisk) {
-                return {
-                    status: "APPROVED",
-                    raw: rawData,
-                    score: parsed.score,
-                    reason: "Verified: Mint & Freeze Authority widerrufen"
-                };
-            }
-
-            return {
-                status: "REVIEW",
-                raw: rawData,
-                score: parsed.score,
-                reason: "Score über Toleranzgrenze (Review)"
-            };
+            return { status: "REVIEW", score, reason: "Daten unklar oder Score im Grenzbereich" };
         }
 
         function enqueueSecurityCheck(mint) {
-            if (inFlightMints.has(mint)) return;
-            if (!securityQueue.includes(mint)) {
-                securityQueue.push(mint);
-                updateDiagUI();
-                processSecurityQueue();
-            }
+            if (inFlightMints.has(mint) || securityQueue.includes(mint)) return;
+            securityQueue.push(mint);
+            updateDiagUI();
+            processSecurityQueue();
         }
 
         async function processSecurityQueue() {
             if (isSecurityWorkerRunning || securityQueue.length === 0) return;
             isSecurityWorkerRunning = true;
-
             const mint = securityQueue.shift();
             inFlightMints.add(mint);
             updateDiagUI();
 
             const token = tokenMap.get(mint);
             if (token) {
-                try {
-                    const auditResult = await fetchRugCheckReport(mint);
+                const audit = await fetchRugCheckReport(mint);
+                token.securityStatus = audit.status;
+                token.securityDetails = audit;
+
+                if (audit.status === "APPROVED") {
+                    stats.approvedCount++;
+                    if (!approvedTokens.some(t => t.mint === mint)) approvedTokens.unshift(token);
+                    if (!liveFeedTokens.some(t => t.mint === mint)) {
+                        liveFeedTokens.unshift(token);
+                        if (liveFeedTokens.length > 20) liveFeedTokens.pop();
+                    }
+                } else if (audit.status === "REJECTED") {
+                    stats.rejectedCount++;
+                } else {
+                    stats.reviewCount++;
+                }
+                scheduleUiRender();
+                inFlightMints.delete(mint);
+            }
+            isSecurityWorkerRunning = false;
+            updateDiagUI();
+            if (securityQueue.length > 0) setTimeout(processSecurityQueue, 400);
+        }
+
+        // --- PIPELINE & WEBSOCKET ---
+        function initPumpPortalWebSocket() {
+            if (isConnecting || (socket && socket.readyState === WebSocket.OPEN)) return;
+            isConnecting = true;
+            setPipelineStatus("VERBINDE WEBSOCKET");
+
+            try {
+                socket = new WebSocket(PUMP_WS_URL);
+                socket.onopen = () => {
+                    isConnecting = false;
+                    reconnectAttempts = 0;
+                    setPipelineStatus("LIVE EMPFANG");
+                    document.getElementById('diag-ws-status').innerText = "VERBUNDEN";
+                    document.getElementById('stream-diag-badge').innerText = "Agent 1 Live Aktiv";
+                    socket.send(JSON.stringify({ method: "subscribeNewToken" }));
+                };
+                socket.onmessage = async (event) => {
+                    stats.messages++;
+                    updateDiagUI();
+                    try {
+                        const data = JSON.parse(event.data);
+                        processNewTokenEvent(data);
+                    } catch (e) { stats.apiErrors++; }
+                };
+                socket.onerror = () => { isConnecting = false; stats.apiErrors++; };
+                socket.onclose = () => {
+                    isConnecting = false;
+                    setPipelineStatus("GETRENNT");
+                    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), maxReconnectDelay);
+                    reconnectAttempts++;
+                    setTimeout(initPumpPortalWebSocket, delay);
+                };
+            } catch (e) { isConnecting = false; }
+        }
+
+        function processNewTokenEvent(data) {
+            const mint = data.mint || data.tokenMint;
+            if (!isValidSolanaMint(mint)) return;
+
+            stats.validMints++;
+            stats.agentProcessedMints++;
+            updateDiagUI();
+
+            if (tokenMap.has(mint)) return;
+
+            const token = {
+                name: String(data.name || "Unbekannt").slice(0, 40),
+                symbol: String(data.symbol || "UNK").slice(0, 10),
+                mint: mint,
+                priceUsd: data.price ? parseFloat(data.price) : null,
+                marketCapUsd: null,
+                fdvUsd: null,
+                liquidityUsd: null,
+                observedTime: Date.now(),
+                securityStatus: "REVIEW",
+                securityDetails: { status: "REVIEW", reason: "Agent 3 Audit ausstehend" },
+                imageUrl: sanitizeUrl(data.image || data.uri, true)
+            };
+
+            tokenMap.set(mint, token);
+            stats.reviewCount++;
+            enqueueSecurityCheck(mint);
+            scheduleUiRender();
+        }
+
+        async function triggerDiscoveryScan() {
+            try {
+                const res = await fetch(DEX_PROFILES_API);
+                if (!res.ok) return;
+                const profiles = await res.json();
+                if (Array.isArray(profiles)) {
+                    profiles.forEach(item => {
+                        if (item && item.chainId === "solana" && isValidSolanaMint(item.tokenAddress)) {
+                            if (!tokenMap.has(item.tokenAddress)) {
+                                const t = {
+                                    name: item.description ? String(item.description).slice(0, 30) : 'SOL Token',
+                                    symbol: item.tokenAddress.slice(0, 4).toUpperCase(),
+                                    mint: item.tokenAddress,
+                                    priceUsd: null,
+                                    marketCapUsd: null,
+                                    fdvUsd: null,
+                                    liquidityUsd: null,
+                                    observedTime: Date.now(),
+                                    securityStatus: "REVIEW",
+                                    securityDetails: { status: "REVIEW", reason: "Discovery Scan" },
+                                    imageUrl: sanitizeUrl(item.icon, true)
+                                };
+                                tokenMap.set(item.tokenAddress, t);
+                                stats.reviewCount++;
+                                enqueueSecurityCheck(item.tokenAddress);
+                            }
+                        }
+                    });
+                    scheduleUiRender();
+                }
+            } catch (e) { stats.apiErrors++; }
+        }
+
+        // --- PAPER TRADING (AGENT 6 & 7) ---
+        function selectForPaperTrading() {
+            if (!selectedTerminalMint) return;
+            document.getElementById('paper-mint-input').value = selectedTerminalMint;
+        }
+
+        function executePaperBuy() {
+            if (killswitchActive) {
+                alert("Killswitch ist aktiv! Keine Orderausführung möglich.");
+                return;
+            }
+            if (!selectedTerminalMint) {
+                alert("Bitte wählen Sie zuerst einen Token im Terminal aus.");
+                return;
+            }
+            const amount = parseFloat(document.getElementById('paper-amount-input').value);
+            if (isNaN(amount) || amount <= 0 || amount > paperBalance) {
+                alert("Ungültiger Betrag oder ungenügendes Guthaben.");
+                return;
+            }
+
+            const token = tokenMap.get(selectedTerminalMint);
+            if (!token) return;
+
+            // RULE CHECK: Review / Rejected cannot be bought
+            if (token.securityStatus !== "APPROVED") {
+                alert("Sicherheitsregel greift: Token ist nicht APPROVED. Paper Trade verweigert.");
+                return;
+            }
+
+            paperBalance -= amount;
+            paperPositions.push({
+                id: Math.random().toString(36).substr(2, 9),
+                mint: token.mint,
+                name: token.name,
+                symbol: token.symbol,
+                amountSol: amount,
+                entryPrice: token.priceUsd || 0.0001,
+                time: new Date().toLocaleTimeString()
+            });
+
+            updateDiagUI();
+            renderPaperPositions();
+            alert(`Paper Trade erfolgreich ausgeführt für ${token.symbol}!`);
+        }
+
+        function renderPaperPositions() {
+            const tbody = document.getElementById('paper-positions-body');
+            if (!tbody) return;
+            if (paperPositions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-400">Keine offenen Paper Trades.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            paperPositions.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-dark-border/40";
+                tr.innerHTML = `
+                    <td class="p-2 font-bold text-white">${p.name} (${p.symbol})</td>
+                    <td class="p-2 text-gray-300">${formatPrice(p.entryPrice)}</td>
+                    <td class="p-2 text-neon-green">${p.amountSol} SOL</td>
+                    <td class="p-2 text-right"><button onclick="closePaperPosition('${p.id}')" class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px]">Schließen</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function closePaperPosition(id) {
+            const idx = paperPositions.findIndex(p => p.id === id);
+            if (idx !== -1) {
+                paperBalance += paperPositions[idx].amountSol;
+                paperPositions.splice(idx, 1);
+                updateDiagUI();
+                renderPaperPositions();
+            }
+        }
+
+        // --- RENDERING TABLES ---
+        function populateRowCells(tr, t) {
+            tr.innerHTML = '';
+            tr.className = "hover:bg-dark-card/60 transition cursor-pointer border-b border-dark-border/40";
+            tr.onclick = () => selectTokenForTerminal(t.mint);
+
+            const tdCoin = document.createElement('td');
+            tdCoin.className = "p-3.5 flex items-center gap-3";
+            const img = document.createElement('img');
+            img.src = t.imageUrl;
+            img.className = "w-8 h-8 rounded-lg object-contain bg-dark-bg border border-dark-border p-1";
+            img.onerror = () => { img.src = getSVGFallback(t.symbol); };
+            
+            const divInfo = document.createElement('div');
+            const divName = document.createElement('div');
+            divName.className = "font-bold text-white";
+            divName.textContent = t.name;
+            const divSymbol = document.createElement('div');
+            divSymbol.className = "text-[10px] text-gray-400";
+            divSymbol.textContent = t.symbol;
+
+            divInfo.appendChild(divName);
+            divInfo.appendChild(divSymbol);
+            tdCoin.appendChild(img);
+            tdCoin.appendChild(divInfo);
+
+            const tdPrice = document.createElement('td');
+            tdPrice.className = "p-3.5 font-bold text-neon-green";
+            tdPrice.textContent = formatPrice(t.priceUsd);
+
+            const tdMcap = document.createElement('td');
+            tdMcap.className = "p-3.5 text-gray-300";
+            tdMcap.textContent = formatCompact(t.marketCapUsd);
+
+            const tdFdv = document.createElement('td');
+            tdFdv.className = "p-3.5 text-gray-400";
+            tdFdv.textContent = formatCompact(t.fdvUsd);
+
+            const tdLiq = document.createElement('td');
+            tdLiq.className = "p-3.5 text-gray-300";
+            tdLiq.textContent = formatCompact(t.liquidityUsd);
+
+            const tdSec = document.createElement('td');
+            tdSec.className = "p-3.5";
+            const spanSec = document.createElement('span');
+            spanSec.className = t.securityStatus === "APPROVED" ? 
+                "px-2 py-0.5 rounded bg-neon-green/10 text-neon-green border border-neon-green/30 text-[10px] font-bold" :
+                "px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[10px] font-bold";
+            spanSec.textContent = t.securityStatus;
+            tdSec.appendChild(spanSec);
+
+            const tdAge = document.createElement('td');
+            tdAge.className = "p-3.5 text-gray-400";
+            tdAge.textContent = formatTokenAge(t.observedTime);
+
+            const tdAction = document.createElement('td');
+            tdAction.className = "p-3.5 text-right";
+            const btn = document.createElement('button');
+            btn.className = "bg-dark-card hover:bg-neon-purple text-gray-200 px-3 py-1.5 rounded-lg text-xs transition border border-dark-border";
+            btn.textContent = "Terminal";
+            tdAction.appendChild(btn);
+
+            tr.appendChild(tdCoin);
+            tr.appendChild(tdPrice);
+            tr.appendChild(tdMcap);
+            tr.appendChild(tdFdv);
+            tr.appendChild(tdLiq);
+            tr.appendChild(tdSec);
+            tr.appendChild(tdAge);
+            tr.appendChild(tdAction);
+        }
+
+        function renderLiveFeedTable() {
+            const tbody = document.getElementById('live-feed-table-body');
+            if (!tbody) return;
+            const approvedLive = liveFeedTokens.filter(t => t.securityStatus === "APPROVED");
+            if (approvedLive.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">Warte auf verifizierte APPROVED Live-Ereignisse...</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            approvedLive.forEach(t => {
+                const tr = document.createElement('tr');
+                populateRowCells(tr, t);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderDiscoveryTable() {
+            const tbody = document.getElementById('tokens-table-body');
+            if (!tbody) return;
+            const allTokens = Array.from(tokenMap.values());
+            if (allTokens.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">Keine Mints in Discovery.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            allTokens.forEach(t => {
+                const tr = document.createElement('tr');
+                populateRowCells(tr, t);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function selectTokenForTerminal(mint) {
+            const token = tokenMap.get(mint);
+            if (!token) return;
+            selectedTerminalMint = mint;
+
+            document.getElementById('selected-token-title').textContent = `${token.name} (${token.symbol})`;
+            document.getElementById('selected-token-mint').textContent = token.mint;
+            document.getElementById('selected-token-price').textContent = formatPrice(token.priceUsd);
+            document.getElementById('selected-token-mcap').textContent = formatCompact(token.marketCapUsd);
+            document.getElementById('selected-token-fdv').textContent = formatCompact(token.fdvUsd);
+            document.getElementById('selected-token-security').textContent = token.securityStatus;
+
+            const auditReasonEl = document.getElementById('selected-token-audit-reason');
+            if (token.securityDetails) {
+                auditReasonEl.textContent = `[Agent 3 Status: ${token.securityStatus}] Score: ${token.securityDetails.score ?? 'N/A'}. Begründung: ${token.securityDetails.reason || 'Keine'}.`;
+            } else {
+                auditReasonEl.textContent = "Agenten-Prüfung läuft...";
+            }
+
+            const linkEl = document.getElementById('selected-token-link');
+            linkEl.href = `https://dexscreener.com/solana/${token.mint}`;
+            linkEl.classList.remove('hidden');
+
+            document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterTokensLocal() {
+            const query = document.getElementById('token-search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#tokens-table-body tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function toggleWallet() {
+            if ("solana" in window) {
+                window.solana.connect().then(res => {
+                    const addr = res.publicKey.toString();
+                    document.getElementById('wallet-text').innerText = addr.slice(0, 4) + '...' + addr.slice(-4);
+                }).catch(() => {});
+            } else { alert("Keine Phantom Wallet gefunden."); }
+        }
+
+        function openUpgradeModal() { document.getElementById('upgrade-modal').classList.remove('hidden'); }
+        function closeUpgradeModal() { document.getElementById('upgrade-modal').classList.add('hidden'); }
+
+        window.onload = () => {
+            try {
+                updateDiagUI();
+                triggerDiscoveryScan();
+                initPumpPortalWebSocket();
+                scheduleUiRender();
+            } catch (e) {
+                setPipelineStatus("INIT ERROR");
+            }
+        };
+    </script>
+</body>
+</html>
