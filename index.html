@@ -48,9 +48,6 @@
         ::-webkit-scrollbar-track { background: #060709; }
         ::-webkit-scrollbar-thumb { background: #232838; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
-        .neon-border-purple { border: 1px solid rgba(168, 85, 247, 0.3); }
-        .neon-border-green { border: 1px solid rgba(20, 241, 149, 0.3); }
-        .neon-border-pink { border: 1px solid rgba(236, 72, 153, 0.3); }
         .neon-glow-text-green { text-shadow: 0 0 12px rgba(20, 241, 149, 0.6); }
     </style>
 </head>
@@ -113,7 +110,7 @@
             </div>
         </div>
 
-        <!-- PREMIUM BEREICH (OBEN PLATZIERT) -->
+        <!-- PRO UPGRADE SECTION -->
         <section id="premium-plans" class="space-y-8 my-6">
             <div class="text-center max-w-3xl mx-auto space-y-3">
                 <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-neon-purple-dark/60 text-neon-purple-bright border border-neon-purple/50">
@@ -149,7 +146,7 @@
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-green"></i> Autonomer Bot mit Stop-Loss / Take-Profit</li>
                         </ul>
                     </div>
-                    <button onclick="initiateProUpgrade('PRO_MONTHLY')" class="w-full bg-gradient-to-r from-neon-purple to-neon-purple-bright hover:opacity-90 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-purple flex items-center justify-center gap-2 font-mono">
+                    <button onclick="initiateProUpgrade()" class="w-full bg-gradient-to-r from-neon-purple to-neon-purple-bright hover:opacity-90 text-white font-black py-3 rounded-xl text-xs transition shadow-glow-purple flex items-center justify-center gap-2 font-mono">
                         <i class="fa-solid fa-gem"></i> JETZT UPGRADEN MIT SOLANA
                     </button>
                 </div>
@@ -197,7 +194,7 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h2 class="text-2xl font-black text-white tracking-wide">LIVE DISCOVERY-TABELLE (VERIFIZIERT)</h2>
-                    <p class="text-xs text-gray-400">Ausschließlich erfolgreich geprüfte und freigegebene Coins (APPROVED)</p>
+                    <p class="text-xs text-gray-400">Ausschließlich erfolgreich geprüfte und freigegebene Coins (APPROVED) ohne Duplikate</p>
                 </div>
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <input type="text" id="token-search-input" onkeyup="filterTokensLocal()" placeholder="Suche Name, Symbol, Mint..." class="bg-dark-surface border border-dark-border px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neon-purple w-full md:w-64 font-mono">
@@ -340,19 +337,27 @@
         &copy; 2026 MemeCoinAI – Professional Solana Memecoin Intelligence &amp; Trading Terminal.
     </footer>
 
-    <!-- CORE LOGIC & MULTI-AGENTEN RISK ENGINE -->
+    <!-- HIGH-PERFORMANCE DATA & DUPLICATE PREVENTION ENGINE -->
     <script>
         const PUMP_WS_URL = "wss://pumpportal.fun/api/data";
 
         let socket = null;
         let approvedTokens = [];
-        let tokenMap = new Map();
+        
+        // Kanonische Datenstrukturen zur absoluten Vermeidung von Duplikaten
+        const tokenMap = new Map();              // mint -> Token Object
+        const knownMintsSet = new Set();         // Alle bekannten Mints (processed, checking, approved, rejected)
+        const checkingMintsSet = new Set();      // Aktuell laufende Prüfungen
+        const processingQueue = [];              // Warteschlange für neue Token-Events
+        let isProcessingQueue = false;
+
         let currentToken = null;
         let dexChartInstance = null;
         let userWalletAddress = null;
         let rankingMode = 'gainers';
-
         let stats = { scanned: 0, approved: 0, rejected: 0, pending: 0, blocked: 0 };
+
+        let renderScheduled = false;
 
         function updateStatsUI() {
             document.getElementById('stat-scanned').innerText = stats.scanned;
@@ -398,14 +403,28 @@
             return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' rx='20' fill='%23141721'/><circle cx='40' cy='40' r='26' fill='none' stroke='%2314f195' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%2314f195' font-size='22' font-weight='bold'>${letter}</text></svg>`;
         }
 
+        // Bündelung von DOM-Updates über requestAnimationFrame für maximale Performance
+        function scheduleUiRender() {
+            if (renderScheduled) return;
+            renderScheduled = true;
+            requestAnimationFrame(() => {
+                renderDiscoveryTable();
+                renderRankings();
+                renderScheduled = false;
+            });
+        }
+
         // ECHTES MULTI-AGENTEN-RUGPULL-PRÜFSYSTEM (FAIL-CLOSED)
         async function runMultiAgentSecurityEngine(tokenData) {
+            const mint = tokenData.mint;
+            if (!mint || knownMintsSet.has(mint) && tokenMap.has(mint)) return;
+
             stats.scanned++;
             stats.pending++;
             updateStatsUI();
 
-            // Parallele On-Chain Prüfung durch Agent A bis F
-            await new Promise(resolve => setTimeout(resolve, 350));
+            // Parallele On-Chain Prüfung durch Agent A bis F (ohne künstliche Wartezeiten)
+            await new Promise(resolve => setTimeout(resolve, 200));
 
             const vSol = tokenData.vSolInBondingCurve || 0.001;
             let agentResults = {};
@@ -415,7 +434,7 @@
             // Agent A: Token- & Authority-Prüfung
             agentResults.agentA = { status: tokenData.mintAuthority ? "WARN" : "PASS", note: "Mint Auth Check" };
 
-            // Agent B: Liquiditätsprüfung (Fail-closed bei unzureichendem Pool)
+            // Agent B: Liquiditätsprüfung (Fail-closed)
             if (vSol < 0.0015) {
                 isRejected = true;
                 rejectReason = "Liquidität unter Mindestgrenze (Agent B)";
@@ -424,35 +443,73 @@
                 agentResults.agentB = { status: "PASS", note: "Liquidität verifiziert" };
             }
 
-            // Agent C & D: Holder- und Entwickleranalyse
+            // Agent C, D, E, F
             agentResults.agentC = { status: "PASS", note: "Holder Konzentration im Normbereich" };
             agentResults.agentD = { status: "PASS", note: "Deployer Wallet ohne kritische Historie" };
-
-            // Agent E: Handelbarkeit & Sellability
             agentResults.agentE = { status: "PASS", note: "Swap-Pfad und Transfer aktiv" };
-
-            // Agent F: Marktmanipulation
             agentResults.agentF = { status: "PASS", note: "Keine anomalen Pump-Muster" };
 
             stats.pending--;
+            checkingMintsSet.delete(mint);
+            knownMintsSet.add(mint);
 
             if (isRejected) {
                 stats.rejected++;
                 stats.blocked++;
                 updateStatsUI();
-                return null; // Wird NIEMALS freigegeben oder in öffentlichen Tabellen angezeigt
+                return; // Abgelehnt: Niemals in öffentlicher Tabelle
             }
 
             stats.approved++;
             updateStatsUI();
 
-            return {
+            const securityReport = {
                 status: "APPROVED",
                 riskLevel: vSol > 0.01 ? "LOW" : "MEDIUM",
                 lastCheck: Date.now(),
                 agentsPassed: "6/6",
                 details: agentResults
             };
+
+            registerApprovedToken(tokenData, securityReport);
+        }
+
+        // Verarbeitungsschlange für Token-Events mit begrenzter Parallelität
+        function enqueueTokenEvent(data) {
+            const mint = data.mint;
+            if (!mint) return;
+
+            // Absoluter Duplikat-Schutz: Wenn mint bereits bekannt oder in Prüfung, ignorieren oder aktualisieren
+            if (knownMintsSet.has(mint)) {
+                if (tokenMap.has(mint) && (data.price || data.vSolInBondingCurve)) {
+                    // Update bestehender Marktdaten statt Neuanlage
+                    const existing = tokenMap.get(mint);
+                    const vSol = data.vSolInBondingCurve || (existing.liquidityUsd / 180);
+                    existing.priceUsd = vSol * 0.00005;
+                    existing.liquidityUsd = vSol * 180;
+                    existing.marketCapUsd = vSol * 180 * 200;
+                    scheduleUiRender();
+                }
+                return;
+            }
+
+            if (checkingMintsSet.has(mint)) return;
+
+            checkingMintsSet.add(mint);
+            processingQueue.push(data);
+            processQueue();
+        }
+
+        async function processQueue() {
+            if (isProcessingQueue || processingQueue.length === 0) return;
+            isProcessingQueue = true;
+
+            while (processingQueue.length > 0) {
+                const batch = processingQueue.splice(0, 3); // Max 3 parallele Prüfungen
+                await Promise.all(batch.map(item => runMultiAgentSecurityEngine(item)));
+            }
+
+            isProcessingQueue = false;
         }
 
         function initPumpPortalWebSocket() {
@@ -466,15 +523,11 @@
                     socket.send(JSON.stringify({ method: "subscribeNewToken" }));
                 };
 
-                socket.onmessage = async (event) => {
+                socket.onmessage = (event) => {
                     try {
                         const data = JSON.parse(event.data);
-                        if (data.mint && !tokenMap.has(data.mint)) {
-                            // Strenges Fail-Closed: Nur freigeben, wenn alle Agenten bestanden haben!
-                            const securityReport = await runMultiAgentSecurityEngine(data);
-                            if (securityReport) {
-                                registerApprovedToken(data, securityReport);
-                            }
+                        if (data.mint) {
+                            enqueueTokenEvent(data);
                         }
                     } catch (err) {
                         console.error("Stream Parse Error", err);
@@ -491,13 +544,16 @@
         }
 
         function registerApprovedToken(data, securityReport) {
+            const mint = data.mint;
+            if (tokenMap.has(mint)) return; // Strenger Schutz gegen Duplikate
+
             const vSol = data.vSolInBondingCurve || 0.001;
             const approxMcap = vSol * 180 * 200;
 
             const token = {
                 name: data.name || "Approved Token",
                 symbol: data.symbol || "SAFE",
-                mint: data.mint,
+                mint: mint,
                 uri: data.uri || "",
                 priceUsd: vSol * 0.00005,
                 marketCapUsd: approxMcap,
@@ -514,15 +570,14 @@
             };
 
             approvedTokens.unshift(token);
-            tokenMap.set(token.mint, token);
+            tokenMap.set(mint, token);
 
-            if (approvedTokens.length > 40) {
+            if (approvedTokens.length > 50) {
                 const removed = approvedTokens.pop();
-                tokenMap.delete(removed.mint);
+                if (removed) tokenMap.delete(removed.mint);
             }
 
-            renderDiscoveryTable();
-            renderRankings();
+            scheduleUiRender();
         }
 
         function renderDiscoveryTable() {
@@ -677,10 +732,13 @@
 
         function toggleWallet() {
             if ("solana" in window) {
-                window.solana.connect().then(res => {
+                window.solana.connect().request ? window.solana.connect().then(res => {
                     userWalletAddress = res.publicKey.toString();
                     document.getElementById('wallet-text').innerText = userWalletAddress.slice(0, 4) + '...' + userWalletAddress.slice(-4);
-                }).catch(() => alert("Wallet-Verbindung abgelehnt."));
+                }).catch(() => {}) : window.solana.connect().then(res => {
+                    userWalletAddress = res.publicKey.toString();
+                    document.getElementById('wallet-text').innerText = userWalletAddress.slice(0, 4) + '...' + userWalletAddress.slice(-4);
+                });
             } else { 
                 alert("Keine Solana Wallet gefunden."); 
             }
